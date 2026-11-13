@@ -1,0 +1,47 @@
+// lib/site-links.ts
+// 🗺️ Site එකේ pages ලැයිස්තුව — footer එකයි /site-map page එකයි දෙකම මේකෙන් (එක තැනකින් වෙනස් කරන්න)
+import type { Translation } from "@/lib/i18n";
+
+export type SiteLink = { href: string; label: string; members?: boolean };
+export type SiteLinkGroup = { title: string; links: SiteLink[] };
+
+export function siteLinkGroups(t: Translation): SiteLinkGroup[] {
+  const F = t.siteFooter;
+  return [
+    {
+      title: F.explore,
+      links: [
+        { href: "/", label: F.home },
+        { href: "/browse", label: F.browse, members: true },
+        { href: "/pricing", label: F.pricing },
+        { href: "/about", label: F.aboutUs },
+      ],
+    },
+    {
+      title: F.account,
+      links: [
+        { href: "/register", label: F.register },
+        { href: "/login", label: F.login },
+        { href: "/profile", label: F.myProfile, members: true },
+        { href: "/interests", label: F.interests, members: true },
+        { href: "/chat", label: F.messages, members: true },
+        { href: "/verify", label: F.verify, members: true },
+        { href: "/preferences", label: t.prefs.navLabel, members: true },
+        { href: "/invite", label: t.invite.navLabel, members: true },
+        { href: "/stories/new", label: t.stories.navLabel, members: true },
+        { href: "/forgot-password", label: F.forgot },
+      ],
+    },
+    {
+      title: F.help,
+      links: [
+        { href: "/help", label: t.help.navLabel },
+        { href: "/safety", label: t.safety.navLabel },
+        { href: "/about#contact", label: F.contact },
+        { href: "/privacy", label: F.privacy },
+        { href: "/terms", label: F.terms },
+        { href: "/site-map", label: F.siteMap },
+      ],
+    },
+  ];
+}

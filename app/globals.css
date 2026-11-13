@@ -1,26 +1,160 @@
+/* app/globals.css */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* 👇 VERY IMPORTANT: "dark:" classes site එකේ theme එකට (html.dark) අනුව වැඩ කරන්න.
+   මේක නැතුව "dark:" classes computer එකේ (OS) dark mode එකට අනුව වැඩ කළා — ඒ නිසා light theme එකේත්
+   සමහර tiles / backgrounds අඳුරු වෙලා පේනවා. */
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Light Theme — cards / popups පිරිසිදු සුදු, page පසුබිම මෘදු රෝස-රතු tint එකක් (cards පැහැදිලිව වෙන් වෙලා පේන්න)
+       👇 update-21: වැඩි contrast + රතු ගතිය වැඩි කළා (primary #EB4A7A → #D61F55; සුදු අකුරු එක්ක 5:1 — WCAG AA)
+          පරණ පාට: muted #F5EDF1, muted-fg #5E5058, border #E8D8E1, page #FAF5F8 */
+    --background: #FFFFFF;
+    --foreground: #1E1A1D;
+    --muted: #F6E3EA;
+    --muted-foreground: #574550;
+    --border: #EBCFD9;
+    --page: #F9EEF2;
+    --primary: #D61F55;
+    --primary-foreground: #FFFFFF;
+  }
+
+  .dark {
+    /* Dark Theme Colors */
+    --background: #1A000C;
+    --foreground: #FFF8FD;
+    --muted: #3A011B;
+    --muted-foreground: #B89A9A;
+    --border: #4A0A22;
+    --primary: #D61F55;
+    --primary-foreground: #FFFFFF;
   }
 }
 
+@theme inline {
+  /* Tailwind Variables Mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+}
+
+/* 👇 මේකෙන් තමයි පේජ් එකක් ලෝඩ් වෙද්දී ස්ක්‍රෝල් බාර් එක එන නිසා ඇතුළේ දේවල් එකපාරටම වමට තල්ලු වෙන එක නවත්තන්නේ */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
-  background: var(--background);
+  background-color: var(--page, var(--background));
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 👇 හැම බටන් එකකට, ලින්ක් එකකට සහ ක්ලික් කරන්න පුළුවන් හැම දෙයකටම Hand Pointer එක දෙනවා */
+@layer base {
+  button, 
+  a, 
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  /* ක්ලික් කරන්න බැරි (Disabled) බටන්ස් වලට තහනම් කරපු ලකුණ දෙනවා */
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* 👇 Light mode: page එකේ පසුබිම මෘදු tint එකක්, cards සුදු — dark mode එක වෙනස් වෙන්නේ නෑ */
+html:not(.dark) main.bg-background {
+  background-color: var(--page);
+}
+.dark {
+  --page: var(--background);
+}
+
+/* 👇 අපේ Filter Sidebar එකට අදාළ Custom Scrollbar එක */
+/* සිහින්, මෘදු scrollbar එකක් — mouse එක උඩින් ගෙනිච්චම විතරක් තද වෙනවා */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 1.25rem;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 999px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--muted-foreground) 35%, transparent);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.custom-scrollbar:hover {
+  scrollbar-color: color-mix(in srgb, var(--muted-foreground) 35%, transparent) transparent;
+}
+
+/* 👇 Modal (Popup) Animations */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalContentIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+.animate-modal-backdrop {
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+.animate-modal-content {
+  animation: modalContentIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ═══════════ 🌐 Browser compatibility (Safari / Firefox) ═══════════ */
+/* Safari එකේ gradient එක පේන්නේ නැති වුණොත් (පරණ versions) — brand buttons වලට solid පාටක් fallback එකක් විදිහට */
+[class*="from-[#D61F55]"],
+[class*="from-[#E3324F]"] {
+  background-color: #D61F55;
+}
+/* iOS Safari එකේ inputs focus කළාම page එක zoom වෙන එක නවත්තන්න (අකුරු 16px) */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea { font-size: max(16px, 1em); }
+}
+/* Firefox / Safari එකේ number inputs වල ඊතල අයින් කරනවා (Chrome වගේම පේන්න) */
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+/* Safari එකේ <details> marker එක අයින් කරනවා (FAQ / help) */
+summary::-webkit-details-marker { display: none; }
+
+/* ✅ Verified badge එකේ shine animation එක (components/VerifiedBadge.tsx) */
+@keyframes verified-shine {
+  0%, 60% { transform: translateX(0) skewX(-20deg); }
+  100% { transform: translateX(450%) skewX(-20deg); }
+}
+
+/* 🎈 පාවෙන chips (components/VerifiedShowcase.tsx) */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }

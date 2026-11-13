@@ -1,0 +1,4 @@
+// app/privacy/page.tsx
+"use client";
+import LegalPage from "@/components/LegalPage";
+export default function PrivacyPage() { return <LegalPage kind="privacy" />; }

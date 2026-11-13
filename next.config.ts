@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // 🖼️ next/image quality අගයන් (CoupleImage එකේ 70 — "unconfigured qualities" warning එක නැති වෙන්න)
+  images: { qualities: [70, 75] },
   turbopack: {
     rules: {
       "*.css": {
