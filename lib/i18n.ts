@@ -727,6 +727,7 @@ export const translations = {
     liveAlerts: {
       interest: "💌 {name} ඔබට කැමැත්තක් එව්වා!",
       interestSub: "Interests වලට ගිහින් බලන්න",
+      accepted: "🎉 {name} ඔබේ කැමැත්ත පිළිගත්තා! දැන් කතා කරන්න පුළුවන්",
       message: "💬 {name}ගෙන් අලුත් පණිවිඩයක්",
       someone: "කෙනෙක්",
     },
@@ -1793,6 +1794,7 @@ export const translations = {
     liveAlerts: {
       interest: "💌 {name} sent you an interest!",
       interestSub: "Open Interests to view",
+      accepted: "🎉 {name} accepted your interest! You can chat now",
       message: "💬 New message from {name}",
       someone: "Someone",
     },
@@ -2865,6 +2867,7 @@ export const translations = {
     liveAlerts: {
       interest: "💌 {name} உங்களுக்கு ஆர்வம் அனுப்பினார்!",
       interestSub: "பார்க்க ஆர்வங்களைத் திறக்கவும்",
+      accepted: "🎉 {name} உங்கள் ஆர்வத்தை ஏற்றார்! இப்போது பேசலாம்",
       message: "💬 {name} இடமிருந்து புதிய செய்தி",
       someone: "ஒருவர்",
     },

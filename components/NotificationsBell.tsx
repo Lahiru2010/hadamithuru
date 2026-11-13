@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Bell, BadgeCheck, AlertCircle, ShieldCheck, Headset, X, Mail, MailOpen, Trash2, Crown, Gift, Heart, Zap, MessageCircle } from "lucide-react";
+import { Bell, BadgeCheck, AlertCircle, ShieldCheck, Headset, X, Mail, MailOpen, Trash2, Crown, Gift, Heart, Zap, MessageCircle, HeartHandshake } from "lucide-react";
 import { FOUNDING_MONTHS } from "@/lib/offer";
 import { useDialog } from "@/components/DialogProvider";
 import { createClient } from "@/lib/client";
@@ -68,7 +68,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
         } else {
           setItems((prev) => [n, ...prev]);
         }
-        if (n.type === "new_interest" || n.type === "new_message") playChime(); // 🔔
+        if (n.type === "new_interest" || n.type === "new_message" || n.type === "interest_accepted") playChime(); // 🔔
       })
       // 💬 එකම කෙනාගෙන් තවත් message එකක් → ඒ notification එක උඩට (අලුත් එකක් නෙවෙයි)
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "notifications", filter: `user_id=eq.${userId}` }, (p) => {
@@ -171,6 +171,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
     : n.type === "verify_reward" ? t.offer.notifVerifyReward.replace("{n}", n.body ?? "1")
     : n.type === "referral_reward" ? t.invite.notifReward.replace("{n}", n.body ?? "1")
     : n.type === "new_interest" ? t.liveAlerts.interest.replace("{name}", n.body ?? "")
+    : n.type === "interest_accepted" ? t.liveAlerts.accepted.replace("{name}", n.body ?? "")
     : n.type === "new_message" ? t.liveAlerts.message.replace("{name}", n.body ?? "")
     : n.type === "story_approved" ? t.stories.notifApproved
     : n.type === "story_confirm" ? t.stories.notifConfirm.replace("{names}", n.body ?? "")
@@ -255,6 +256,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
                     : n.type === "verify_reward" || n.type === "referral_reward" ? <Gift className="h-5 w-5 shrink-0 text-primary" />
                     : n.type === "story_approved" || n.type === "story_confirm" || n.type === "new_interest" ? <Heart className="h-5 w-5 shrink-0 fill-primary text-primary" />
                     : n.type === "new_message" ? <MessageCircle className="h-5 w-5 shrink-0 text-blue-500" />
+                    : n.type === "interest_accepted" ? <HeartHandshake className="h-5 w-5 shrink-0 text-green-600" />
                     : n.type === "boost_active" ? <Zap className="h-5 w-5 shrink-0 fill-amber-400 text-amber-500" />
                     : <AlertCircle className="h-5 w-5 shrink-0 text-amber-500" />}
                   <span className="min-w-0 flex-1">
