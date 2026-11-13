@@ -1,4 +1,4 @@
-// components/StoryGiftBanner.tsx — 💍🎁 "ඔබේ ආදර කතාව බෙදාගෙන Seneha තෑග්ගක් ලබාගන්න" (Interests → ගැලපුණු, story page, home)
+// components/StoryGiftBanner.tsx — 💍🎁 "ඔබේ ආදර කතාව බෙදාගෙන Hadamithuru තෑග්ගක් ලබාගන්න" (Interests → ගැලපුණු, story page, home)
 // ⚠️ තෑග්ග මොකක්ද කියන එක i18n එකේ stories.giftText එකේ — ඔයා දෙන ඇත්ත තෑග්ගට ගැලපෙන්න වෙනස් කරන්න
 "use client";
 

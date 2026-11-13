@@ -25,6 +25,7 @@ import VerifiedBadge from "@/components/VerifiedBadge";
 import FoundingBadge from "@/components/FoundingBadge";
 import MatchPhone from "@/components/MatchPhone";
 import HoroscopeMatch from "@/components/HoroscopeMatch";
+import HoroscopeSummary from "@/components/HoroscopeSummary";
 
 // Send Interest එකේ ප්‍රතිඵලය (popup එක ඇතුළේම පෙන්නන්න)
 export type SendInterestResult = { status: "sent" | "navigated" | "already" | "error"; message?: string };
@@ -287,6 +288,9 @@ export function ProfileModal({
 
           {/* 📞 ගැලපුණු අයට — අංකය එක එක කෙනාට වෙන වෙනම (දෙපැත්තෙන්ම තමන් කැමති නම් විතරයි) */}
           {!isPreview && profile.interestStatus === "accepted" && me && me.id !== profile.id && <MatchPhone userId={profile.id} name={profile.full_name ?? ""} />}
+
+          {/* 🔮 මගේ පැතිකඩ පෙරදසුනේ — කේන්දරය දාලා නම් සාරාංශය (අනිත් අයට පේන්නේ නෑ, ඔබට විතරයි) */}
+          {isPreview && !adminView && <div className="mb-8"><HoroscopeSummary /></div>}
 
           {/* 💞 කේන්දර ගැළපීම — ගැලපුණු අයට ලකුණු · නැත්නම් "කේන්දරයක් දාලා තියෙනවා — accept කළාම පේනවා" විතරයි */}
           {!isPreview && !adminView && me && me.id !== profile.id && <HoroscopeMatch key={`h-${profile.id}-${profile.interestStatus}`} userId={profile.id} name={profile.full_name ?? ""} />}

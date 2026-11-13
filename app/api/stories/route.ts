@@ -50,10 +50,10 @@ export async function POST(req: Request) {
   if (!UUID.test(partnerId)) return NextResponse.json({ error: "Choose your partner" }, { status: 400 });
 
   const admin = createAdminClient();
-  // 💞 සහකරු Seneha හරහාම ගැලපුණු කෙනෙක් වෙන්නම ඕනේ (accept කරපු interest එකක්)
+  // 💞 සහකරු Hadamithuru හරහාම ගැලපුණු කෙනෙක් වෙන්නම ඕනේ (accept කරපු interest එකක්)
   const { count: matched } = await admin.from("interests").select("id", { count: "exact", head: true }).in("status", ["accepted", "removed"])
     .or(`and(sender_id.eq.${me},receiver_id.eq.${partnerId}),and(sender_id.eq.${partnerId},receiver_id.eq.${me})`);
-  if (!matched) return NextResponse.json({ error: "Partner must be someone you matched with on Seneha" }, { status: 403 });
+  if (!matched) return NextResponse.json({ error: "Partner must be someone you matched with on Hadamithuru" }, { status: 403 });
   // 👇 එකවර pending කතා 3කට වඩා එවන්න බෑ (spam නවත්තන්න)
   const { count } = await admin.from("success_stories").select("id", { count: "exact", head: true }).eq("user_id", me).eq("status", "pending");
   if ((count ?? 0) >= 3) return NextResponse.json({ error: "Too many pending stories" }, { status: 429 });

@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Site map",
-  description: "All pages on Seneha – Sri Lanka marriage proposals.",
+  description: "All pages on Hadamithuru – Sri Lanka marriage proposals.",
   alternates: { canonical: "/site-map" },
-  openGraph: { title: "Site map", description: "All pages on Seneha – Sri Lanka marriage proposals.", url: "/site-map" },
+  openGraph: { title: "Site map", description: "All pages on Hadamithuru – Sri Lanka marriage proposals.", url: "/site-map" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

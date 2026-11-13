@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, Sparkles, Star, X } from "lucide-react";
+import { Check, Info, Sparkles, Star, X } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { PORONDAM_8, type FullPorondam } from "@/lib/porondam";
 
@@ -82,8 +82,8 @@ export default function HoroscopeMatch({ userId, name }: { userId: string; name:
           {(() => {
             const bad = R.doshas.filter((x) => !x.ok).length;
             return (
-              <button type="button" onClick={() => setOpen(true)} title={H.doshaNote} className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${bad ? "bg-red-500/10 text-red-600 dark:text-red-400" : "bg-green-500/10 text-green-700 dark:text-green-400"}`}>
-                {H.doshas}: {bad ? <><X className="h-3.5 w-3.5" /> {H.doshaBad.replace("{n}", String(bad))}</> : <><Check className="h-3.5 w-3.5" /> {H.doshaOk}</>}
+              <button type="button" onClick={() => setOpen(true)} title={H.doshaNote} className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${bad ? "bg-amber-500/10 text-amber-700 dark:text-amber-400" : "bg-green-500/10 text-green-700 dark:text-green-400"}`}>
+                {bad ? <><Info className="h-3.5 w-3.5" /> {H.doshaBad}</> : <><Check className="h-3.5 w-3.5" /> {H.doshas}: {H.doshaOk}</>}
               </button>
             );
           })()}
@@ -128,7 +128,7 @@ export default function HoroscopeMatch({ userId, name }: { userId: string; name:
                       <td className="px-4 py-2.5 font-semibold">{H[`d_${d.key}` as keyof typeof H] as string}</td>
                       <td className="px-3 py-2.5">{d.mine ? H.dYes : H.dNo}</td>
                       <td className="px-3 py-2.5">{d.theirs ? H.dYes : H.dNo}</td>
-                      <td className="px-4 py-2.5 text-right">{d.ok ? <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-500/15 text-green-600"><Check className="h-4 w-4" /></span> : <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-red-500/10 text-red-500"><X className="h-4 w-4" /></span>}</td>
+                      <td className="px-4 py-2.5 text-right">{d.ok ? <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-500/15 text-green-600"><Check className="h-4 w-4" /></span> : <span title={H.doshaAdvice} className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/15 text-amber-600"><Info className="h-4 w-4" /></span>}</td>
                     </tr>
                   ))}
                 </tbody>

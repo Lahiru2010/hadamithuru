@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Plans & pricing",
-  description: "Seneha membership plans for finding Sri Lankan marriage proposals. Start free and upgrade when you are ready.",
+  description: "Hadamithuru membership plans for finding Sri Lankan marriage proposals. Start free and upgrade when you are ready.",
   alternates: { canonical: "/pricing" },
-  openGraph: { title: "Plans & pricing", description: "Seneha membership plans for finding Sri Lankan marriage proposals. Start free and upgrade when you are ready.", url: "/pricing" },
+  openGraph: { title: "Plans & pricing", description: "Hadamithuru membership plans for finding Sri Lankan marriage proposals. Start free and upgrade when you are ready.", url: "/pricing" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

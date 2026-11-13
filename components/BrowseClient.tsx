@@ -318,24 +318,16 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   }, [acceptedUserIds, sentIds, receivedUserIds]);
   
   const [sortBy, setSortBy] = useState("latest"); 
-  // 👇 ✅ නිල් ලකුණ banner එක — verify වෙලා නැත්නම් විතරයි, වහලා දින 14කට පේන්නේ නෑ
-  const PROMO_KEY = "seneha_verify_promo_hidden_until";
-  const [promoHidden, setPromoHidden] = useState(true);
-  // 👇 පේළි දෙකකට පස්සේ, page එකට එන හැම පාරම වෙනස් තැනක (8–19 අතර random) — එකම තැන නිතරම නෙවෙයි
+  // 👇 ✅ "ගිණුම තහවුරු කරගන්න" tile එක — verify වෙලා නැති අයට හැම වෙලේම. ✕ කළොත් refresh කරනකම් විතරයි සැඟවෙන්නේ.
+  //    පේළි දෙකකට පස්සේ, page එකට එන හැම පාරම වෙනස් තැනක (8–19 අතර random)
+  const [promoHidden, setPromoHidden] = useState(false);
   const [promoAt, setPromoAt] = useState(10);
   useEffect(() => {
-    const until = Number(localStorage.getItem(PROMO_KEY) ?? 0);
-    const id = setTimeout(() => {
-      setPromoHidden(Date.now() < until);
-      setPromoAt(8 + Math.floor(Math.random() * 12));
-    }, 0);
+    const id = setTimeout(() => setPromoAt(8 + Math.floor(Math.random() * 12)), 0);
     return () => clearTimeout(id);
   }, []);
   const showVerifyPromo = !promoHidden && !!viewerProfile && viewerProfile.id_verified !== "Yes";
-  const dismissVerifyPromo = () => {
-    localStorage.setItem(PROMO_KEY, String(Date.now() + 14 * 86400_000));
-    setPromoHidden(true);
-  };
+  const dismissVerifyPromo = () => setPromoHidden(true);
   // 👇 Default එක: මම පිරිමි නම් "ගැහැණු", ගැහැණු නම් "පිරිමි", නොදන්නවා නම් "ඕනෑම"
   const defaultGender = (() => {
     const g = String(viewerProfile?.gender ?? "").toLowerCase();

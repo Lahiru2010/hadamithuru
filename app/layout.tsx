@@ -12,7 +12,6 @@ import SessionGuard from "@/components/SessionGuard";
 import SupportChat from "@/components/SupportChat";
 import FaviconBadge from "@/components/FaviconBadge";
 import CookieConsent from "@/components/CookieConsent";
-import LiveAlerts from "@/components/LiveAlerts";
 import ReferralCapture from "@/components/ReferralCapture";
 import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
@@ -62,14 +61,14 @@ const SITE_JSON_LD = {
       url: SITE_URL,
       logo: `${SITE_URL}/apple-icon.png`,
       areaServed: { "@type": "Country", name: "Sri Lanka" },
-      email: "support@seneha.lk",
+      email: "support@hadamithuru.lk",
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
       name: SITE_NAME,
-      alternateName: ["Seneha Matrimony", "Seneha Sri Lanka Marriage Proposals", "සෙනෙහ මංගල යෝජනා"],
+      alternateName: ["Hadamithuru Matrimony", "Hadamithuru Sri Lanka Marriage Proposals", "හදමිතුරු මංගල යෝජනා"],
       inLanguage: ["si", "en", "ta"],
       publisher: { "@id": `${SITE_URL}/#organization` },
     },
@@ -100,7 +99,6 @@ export default async function RootLayout({
           <SupportChat />
           <FaviconBadge />
           <CookieConsent />
-          <LiveAlerts />
           <ReferralCapture />
         </Providers>
       </body>

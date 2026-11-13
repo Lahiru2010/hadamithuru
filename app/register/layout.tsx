@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Create your free profile – Sri Lanka marriage proposals",
-  description: "Create a free Seneha profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ පැතිකඩක් සාදන්න.",
+  description: "Create a free Hadamithuru profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ පැතිකඩක් සාදන්න.",
   alternates: { canonical: "/register" },
-  openGraph: { title: "Create your free profile – Sri Lanka marriage proposals", description: "Create a free Seneha profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ පැතිකඩක් සාදන්න.", url: "/register" },
+  openGraph: { title: "Create your free profile – Sri Lanka marriage proposals", description: "Create a free Hadamithuru profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ පැතිකඩක් සාදන්න.", url: "/register" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

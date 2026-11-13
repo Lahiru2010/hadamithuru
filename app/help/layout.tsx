@@ -2,10 +2,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Help & safety – Questions about Seneha",
-  description: "Answers to common questions about creating a profile, privacy, verification, interests and staying safe on Seneha. උදව් සහ ආරක්ෂාව.",
+  title: "Help & safety – Questions about Hadamithuru",
+  description: "Answers to common questions about creating a profile, privacy, verification, interests and staying safe on Hadamithuru. උදව් සහ ආරක්ෂාව.",
   alternates: { canonical: "/help" },
-  openGraph: { title: "Help & safety – Questions about Seneha", description: "Answers to common questions about creating a profile, privacy, verification, interests and staying safe on Seneha. උදව් සහ ආරක්ෂාව.", url: "/help" },
+  openGraph: { title: "Help & safety – Questions about Hadamithuru", description: "Answers to common questions about creating a profile, privacy, verification, interests and staying safe on Hadamithuru. උදව් සහ ආරක්ෂාව.", url: "/help" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

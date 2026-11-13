@@ -117,6 +117,8 @@ function ChatDashboardContent() {
   }, [router]);
 
   const handleUserClick = async (user: any) => {
+    // 🔔 මේ කෙනාගේ "අලුත් message" notification එක කියෙව්වා ලෙස
+    supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("type", "new_message").eq("link", `/chat?userId=${user.id}`).is("read_at", null).then(() => {});
     setActiveUser(user);
     setUnreadCounts(prev => ({ ...prev, [user.id]: 0 }));
 

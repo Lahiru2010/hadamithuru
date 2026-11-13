@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy policy",
-  description: "How Seneha protects your photos, phone number and personal details.",
+  description: "How Hadamithuru protects your photos, phone number and personal details.",
   alternates: { canonical: "/privacy" },
-  openGraph: { title: "Privacy policy", description: "How Seneha protects your photos, phone number and personal details.", url: "/privacy" },
+  openGraph: { title: "Privacy policy", description: "How Hadamithuru protects your photos, phone number and personal details.", url: "/privacy" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

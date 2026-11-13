@@ -1,14 +1,14 @@
 // lib/site.ts
 // 🌐 Site එකේ මූලික විස්තර — SEO (Google), sitemap, Open Graph වලට.
-// ⚠️ Live domain එක Vercel / hosting එකේ NEXT_PUBLIC_SITE_URL විදිහට දාන්න (උදා: https://seneha.lk)
+// ⚠️ Live domain එක Vercel / hosting එකේ NEXT_PUBLIC_SITE_URL විදිහට දාන්න (උදා: https://hadamithuru.lk)
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://seneha.lk").replace(/\/+$/, "");
-export const SITE_NAME = "Seneha";
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://hadamithuru.lk").replace(/\/+$/, "");
+export const SITE_NAME = "Hadamithuru";
 
 // 👇 Google search results වල පේන title / description (English + සිංහල + தமிழ் — ලංකාවේ අය තුන් භාෂාවෙන්ම search කරනවා)
-export const SITE_TITLE = "Seneha – Sri Lanka Marriage Proposals | මංගල යෝජනා | திருமண வரன்கள்";
+export const SITE_TITLE = "Hadamithuru – Sri Lanka Marriage Proposals | මංගල යෝජනා | திருமண வரன்கள்";
 export const SITE_DESCRIPTION =
-  "Seneha is a safe, private matrimony site for Sri Lankan families. Find verified Sinhala, Tamil and Muslim marriage proposals, horoscope matching and family-friendly search. " +
+  "Hadamithuru is a safe, private matrimony site for Sri Lankan families. Find verified Sinhala, Tamil and Muslim marriage proposals, horoscope matching and family-friendly search. " +
   "ශ්‍රී ලාංකික පවුල් සඳහා ආරක්ෂිත මංගල යෝජනා සේවාව — තහවුරු කළ පැතිකඩ, කේන්දර ගැලපීම.";
 
 // 👇 ලංකාවේ අය search කරන වචන (meta keywords එක Google භාවිතා නොකළත් Bing / අනිත් ඒවාට උදව් වෙනවා)
