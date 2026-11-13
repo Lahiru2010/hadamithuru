@@ -3,7 +3,8 @@
 
 import { useLang } from "./providers";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Globe, LogOut, User, Heart, MessageCircle, ChevronDown, ShieldAlert, LifeBuoy, BadgeCheck, HeartHandshake, Gift, Search, Sparkles, Star, Zap } from "lucide-react";
+import { Moon, Sun, Globe, LogOut, User, Heart, MessageCircle, ChevronDown, ShieldAlert, LifeBuoy, BadgeCheck, HeartHandshake, Gift, Search, Sparkles, Star, Zap, Compass } from "lucide-react";
+import { START_TOUR_EVENT } from "@/components/OnboardingTour";
 import BoostProgress from "@/components/BoostProgress";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -303,16 +304,16 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
         <div className="hidden gap-1 md:flex">
           <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navLinkClass("/")}>{t.nav.home}</Link>
           {/* 🔍 Browse — login නැති අයටත් */}
-          <Link href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={navLinkClass("/browse")}>
+          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={navLinkClass("/browse")}>
             <Search className={`h-4 w-4 ${isActive("/browse") ? "stroke-[2.5]" : ""}`} /> {t.nav.browse}
           </Link>
           {user && (
             <>
-              <Link href="/interests" aria-current={isActive("/interests") ? "page" : undefined} className={navLinkClass("/interests")}>
+              <Link data-tour="interests" href="/interests" aria-current={isActive("/interests") ? "page" : undefined} className={navLinkClass("/interests")}>
                 <Heart className={`h-4 w-4 ${isActive("/interests") ? "fill-current" : ""}`} /> {t.nav.interests}
                 {hasUnreadInterests && <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5"><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span></span>}
               </Link>
-              <Link href="/chat" aria-current={isActive("/chat") ? "page" : undefined} className={navLinkClass("/chat")}>
+              <Link data-tour="messages" href="/chat" aria-current={isActive("/chat") ? "page" : undefined} className={navLinkClass("/chat")}>
                 <MessageCircle className={`h-4 w-4 ${isActive("/chat") ? "fill-current" : ""}`} /> {t.nav.messages}
                 {hasUnreadMessages && <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5"><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span></span>}
               </Link>
@@ -323,7 +324,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
         </div>
         <div className="flex items-center gap-2">
           {/* 🔔 දැනුම්දීම් (login වෙලා නම්) */}
-          {user && <NotificationsBell userId={user.id} isAdmin={isAdmin} />}
+          {user && <span data-tour="bell" className="inline-flex"><NotificationsBell userId={user.id} isAdmin={isAdmin} /></span>}
           {/* 👇 Language — site එකට ගැලපෙන dropdown එක, භාෂාවල නම් ඒ ඒ අකුරෙන්ම */}
           <Dropdown
             value={lang}
@@ -340,7 +341,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
             </button>
           )}
           {user ? (
-            <div className="relative ml-2 pl-2 border-l border-border" ref={dropdownRef}>
+            <div data-tour="profile" className="relative ml-2 pl-2 border-l border-border" ref={dropdownRef}>
               <button
                 onClick={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
@@ -366,6 +367,8 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                       <BoostProgress until={myBoost.until} startedAt={myBoost.startedAt} />
                     </Link>
                   )}
+                  {/* 🧭 Site guide එක ආයේ බලන්න */}
+                  <button type="button" onClick={() => { setIsDropdownOpen(false); window.dispatchEvent(new Event(START_TOUR_EVENT)); }} className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-muted transition-colors"><Compass className="h-4 w-4" /> <span>{t.tour.menu}</span></button>
                   {/* 🔮 මගේ කේන්දරය */}
                   <Link href="/horoscope" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/horoscope") ? "text-primary font-semibold bg-primary/5" : ""}`}><Star className="h-4 w-4" /> <span>{t.horo.navLabel}</span></Link>
                   {/* 🎁 යාළුවන්ට ආරාධනා */}

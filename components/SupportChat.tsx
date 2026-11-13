@@ -83,7 +83,7 @@ export default function SupportChat() {
   return (
     // 👇 හැම page එකකම එකම තැන (දකුණු පැත්තේ යට). Messages page එකේ send button එක වහන්නේ නැති වෙන්න
     //    ඉඩ තියලා තියෙන්නේ chat page එකේ message box එකේ (app/chat/page.tsx).
-    <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
+    <div data-tour="support" className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3">
       {open && (
         <div className="flex h-[30rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-2xl animate-in fade-in slide-in-from-bottom-3 duration-200">
           <div className="flex items-center gap-3 bg-gradient-to-r from-[#D61F55] to-[#F0544F] p-4 text-white">

@@ -10,6 +10,7 @@ import SessionGuard from "@/components/SessionGuard";
 import SupportChat from "@/components/SupportChat";
 import FaviconBadge from "@/components/FaviconBadge";
 import CookieConsent from "@/components/CookieConsent";
+import OnboardingTour from "@/components/OnboardingTour";
 import ReferralCapture from "@/components/ReferralCapture";
 import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
@@ -95,6 +96,7 @@ export default function RootLayout({
           <SupportChat />
           <FaviconBadge />
           <CookieConsent />
+          <OnboardingTour />
           <ReferralCapture />
         </Providers>
       </body>

@@ -165,7 +165,8 @@ const ProfileGrid = React.memo(({ profiles, visibleCount, onSelectProfile, handl
   const tr = useTr();
   const shown = profiles.slice(0, visibleCount);
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
+    // 👇 grid-flow-dense — "තහවුරු කරගන්න" tile එක (tiles දෙකක පළල) පේළියක අගට නොගැලපුණොත්, ඊළඟ profiles වලින් හිස් තැන පුරවනවා
+    <div className="grid grid-flow-row-dense grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
       {/* 👇 ✅ "ගිණුම තහවුරු කරගන්න" tile එක — tiles දෙකක් පළලට, ටිකක් scroll කළාට පස්සේ (promoAt=10 වෙනි තැනට). Profiles අඩු නම් අන්තිමට */}
       {shown.length <= promoAt && promo}
       {shown.map((profile: Profile, index: number) => {
@@ -485,6 +486,12 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   const handleSendInterest = useCallback(async (receiverId: string): Promise<SendInterestResult> => {
     if (!currentUser) { askLogin(); return { status: "navigated" }; }
     if (currentUser.id === receiverId) return { status: "error", message: B.thatsYouMsg };
+    // 🔒 තමන්ගේ පැතිකඩ publish කරලා නැත්නම් කැමැත්ත යවන්න බෑ (DB එකෙනුත් නවත්වනවා)
+    if (viewerProfile && viewerProfile.is_published !== true) {
+      const ok = await showConfirm({ title: t.extra.publishFirstTitle, message: t.extra.publishFirstMsg, confirmText: t.extra.publishFirstCta, tone: "default" });
+      if (ok) router.push("/profile");
+      return { status: "navigated" };
+    }
 
     const status = getInterestStatus(receiverId);
     // දැනටමත් connect වෙලා නම් කෙලින්ම chat එකට
@@ -509,7 +516,7 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
     }
     setSentIds((prev) => [...prev, receiverId]);
     return { status: "sent" };
-  }, [currentUser, router, supabase, getInterestStatus, B, askLogin]);
+  }, [currentUser, router, supabase, getInterestStatus, B, askLogin, viewerProfile, showConfirm, t]);
 
   const clearFilters = useCallback(() => {
     setSortBy("latest");
