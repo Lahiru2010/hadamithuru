@@ -31,6 +31,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
 
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<any>(initialUser);
+  const [authChecked, setAuthChecked] = useState(!!initialUser); // 👈 login ද කියලා දැනගන්නකම් skeleton එකක්
   
   const [profile, setProfile] = useState<any>(() => {
     if (initialProfile) return initialProfile;
@@ -155,9 +156,10 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
       ]);
 
       if (profileRes.data) {
-        // Server එකෙන් දැනටමත් මේ user ගේ profile එක ආවා නම් photo එක ආයේ මාරු කරන්නේ නෑ
-        if (serverProfileForRef.current !== userId) setProfile(profileRes.data);
-        localStorage.setItem('cached_profile', JSON.stringify(profileRes.data)); 
+        // 👇 Photo එක /api/avatar/... එකෙන් (ඒක signed link එකකට redirect කරනවා)
+        const p = { full_name: profileRes.data.full_name, avatar_url: profileRes.data.avatar_url ? `/api/avatar/${userId}` : null };
+        if (serverProfileForRef.current !== userId) setProfile(p);
+        localStorage.setItem('cached_profile', JSON.stringify(p)); 
       } else {
         loadedForRef.current = null; // Profile එක තාම නැත්නම් (අලුත් account) පස්සේ ආයේ try කරනවා
       }
@@ -167,9 +169,13 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
     };
 
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      // ⚡ getSession — browser එකේ තියෙන session එක (Supabase server එකට යන්නේ නෑ → ක්ෂණිකයි).
+      //    UI එක පෙන්නන්න විතරයි; දත්ත ආරක්ෂාව server / RLS එකෙන්.
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ?? null;
       setUser(user);
       userRef.current = user;
+      setAuthChecked(true);
 
       if (user) {
         setIsAdmin(isAdminEmail(user.email));
@@ -377,6 +383,9 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                 document.body
               )}
             </div>
+          ) : !authChecked ? (
+            // ⏳ Login ද නැද්ද කියලා බලනකම් (මිලි තත්පර කීපයක්) — buttons පැනලා එන එක නවත්වන්න
+            <div className="ml-2 flex items-center gap-2 pl-2" aria-hidden><div className="h-8 w-8 animate-pulse rounded-lg bg-muted" /><div className="hidden h-4 w-20 animate-pulse rounded bg-muted sm:block" /></div>
           ) : (
             mounted && (
               <div className="flex items-center gap-2 ml-2">

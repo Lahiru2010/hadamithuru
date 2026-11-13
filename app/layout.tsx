@@ -4,8 +4,6 @@ import { Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar"; 
-import { getNavData } from "@/lib/nav-profile";
-import { preload } from "react-dom";
 import SiteFooter from "@/components/SiteFooter";
 import ImageProtection from "@/components/ImageProtection";
 import SessionGuard from "@/components/SessionGuard";
@@ -75,16 +73,14 @@ const SITE_JSON_LD = {
   ],
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // 👇 Navbar එකේ නම සහ photo එක server එකෙන්ම ගන්නවා — page එක open වෙනකොටම පේනවා
-  const { user, profile } = await getNavData();
-
-  // 👇 Browser එකට page එක ලැබෙන ගමන්ම photo එක download කරන්න පටන් ගන්න කියනවා
-  if (profile?.avatar_url) preload(profile.avatar_url, { as: "image", fetchPriority: "high" });
+  // ⚡ update-42: Navbar එකේ user / photo එක server එකෙන් ගන්නේ නෑ (browser එකේදී).
+  //    එතකොට Home, About, Help, Safety වගේ public pages "static" වෙනවා — Vercel CDN එකෙන් ක්ෂණිකව එනවා
+  //    (කලින් හැම page එකකටම server එකෙන් Supabase එකට ගිහින් එනකම් බලන් හිටියා).
 
   return (
     <html lang="si" suppressHydrationWarning>
@@ -93,7 +89,7 @@ export default async function RootLayout({
         <Providers>
           <ImageProtection />
           <SessionGuard />
-          <Navbar initialUser={user} initialProfile={profile} />
+          <Navbar />
           {children}
           <SiteFooter />
           <SupportChat />
