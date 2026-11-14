@@ -135,7 +135,7 @@ export default function SiteFooter() {
       <div className={S.bottomBar}>
         <div className={S.bottomText}>
           <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-            <span>© {new Date().getFullYear()} {t.brand}. {t.footer}</span>
+            <span>© {new Date().getFullYear()} Hadamithuru.lk. {t.footer}</span>
             <Link href="/site-map" className="underline-offset-4 hover:underline">{F.siteMap}</Link>
           </p>
           <p className="flex items-center gap-1">{F.madeIn.replace("❤️", "")} <Heart className={S.heart} /></p>
