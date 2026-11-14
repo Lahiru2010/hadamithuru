@@ -5,7 +5,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, MapPin, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, MapPin, Quote } from "lucide-react";
 import CoupleImage from "@/components/CoupleImage";
 
 export type CoupleStory = { name: string; place: string; quote: string; year: number; img: string };
@@ -94,8 +94,8 @@ export default function CoupleSlider({ stories, marriedLabel, prevLabel, nextLab
                   <span key={index} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-6 pt-20 text-white animate-in fade-in slide-in-from-bottom-2 duration-700">
                     <span className="flex items-center gap-2.5 text-xl font-bold tracking-tight drop-shadow sm:text-2xl">
                       <span>{a}</span>
-                      {/* 💗 update-53: නම් දෙක මැද Hadamithuru logo එකේ හදවත */}
-                      {b && <Image src="/logo-mark.svg" alt="" aria-hidden width={36} height={36} className="h-8 w-8 shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)] sm:h-9 sm:w-9" />}
+                      {/* 💗 update-54: නම් දෙක මැද logo හදවත — සුදු රවුමක් ඇතුළේ (photo එක උඩ පැහැදිලිව පේන්න) */}
+                      {b && <SliderHeart />}
                       {b && <span>{b}</span>}
                     </span>
                     <span className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-white/85 sm:text-sm">
@@ -132,5 +132,23 @@ export default function CoupleSlider({ stories, marriedLabel, prevLabel, nextLab
         <figcaption className="mt-4 text-sm font-semibold text-muted-foreground">{story.name} · {story.place}</figcaption>
       </figure>
     </div>
+  );
+}
+
+// 💗 update-54: Slider එකේ නම් දෙක මැද හදවත — විදිහ මාරු කරන්න මේ එක වචනය වෙනස් කරන්න:
+//   "badge" → සුදු රවුමක් ඇතුළේ logo හදවත (default)
+//   "glass" → වීදුරු වගේ විනිවිද පේන රවුමක් ඇතුළේ logo හදවත
+//   "white" → සරල සුදු හදවතක්
+const SLIDER_HEART: "badge" | "glass" | "white" = "badge";
+
+function SliderHeart() {
+  if (SLIDER_HEART === "white") return <Heart aria-hidden className="h-6 w-6 shrink-0 fill-white text-white drop-shadow sm:h-7 sm:w-7" />;
+  const ring = SLIDER_HEART === "badge"
+    ? "bg-white shadow-lg shadow-black/30 ring-4 ring-white/20"
+    : "bg-white/20 backdrop-blur-md ring-1 ring-white/50 shadow-lg shadow-black/20";
+  return (
+    <span aria-hidden className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10 ${ring}`}>
+      <Image src="/logo-mark.svg" alt="" width={24} height={24} className="h-[22px] w-[22px] sm:h-6 sm:w-6" />
+    </span>
   );
 }
