@@ -1,5 +1,13 @@
 // components/AuthCard.tsx
 // Login / Register / Forgot password pages වලට පොදු card layout එක
+import Link from "next/link";
+import Image from "next/image";
+import BrandLogo from "@/components/BrandLogo";
+
+// 💗 update-51: Card එකේ උඩින් logo එක — "full" = හදවත + "හද මිතුරු" (A), "mark" = හදවත විතරයි (B)
+// 👉 A එකට මාරු කරන්න ඕන නම් පහළ "mark" එක "full" කරන්න — වෙන මුකුත් වෙනස් කරන්න ඕන නෑ.
+const AUTH_LOGO: "full" | "mark" = "mark";
+
 export default function AuthCard({
   title,
   subtitle,
@@ -17,6 +25,15 @@ export default function AuthCard({
       <div className="flex-1 flex items-center justify-center p-4 py-10 relative z-10">
         <div className={`w-full ${wide ? "max-w-lg" : "max-w-md"} rounded-[2rem] border border-border/50 bg-background/60 backdrop-blur-xl p-6 sm:p-8 shadow-2xl shadow-primary/5`}>
           <div className="text-center mb-6">
+            {AUTH_LOGO === "full" ? (
+              <Link href="/" aria-label="Hadamithuru" className="mb-5 inline-flex">
+                <BrandLogo height={44} className="h-11 w-auto" />
+              </Link>
+            ) : (
+              <Link href="/" aria-label="Hadamithuru" className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/15">
+                <Image src="/logo-mark.svg" alt="" width={40} height={40} className="h-10 w-10" />
+              </Link>
+            )}
             <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground">{title}</h1>
             {subtitle && <p className="text-muted-foreground mt-2 text-sm">{subtitle}</p>}
           </div>
