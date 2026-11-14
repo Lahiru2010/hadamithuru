@@ -155,7 +155,11 @@ export default function HoroscopeEditor({ embedded }: { embedded?: { date: strin
               )}
 
               <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 sm:flex-row sm:items-center">
-                <p className="flex items-center gap-2 text-xs text-muted-foreground"><Lock className="h-3.5 w-3.5" /> {H.private}</p>
+                {/* 🔒 update-64: පෞද්ගලිකත්ව සටහන — පැහැදිලිව පේන කොටුවක */}
+                <p className="flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-semibold leading-snug text-emerald-800 dark:text-emerald-300">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm"><Lock className="h-4 w-4" /></span>
+                  {H.private.replace(/^🔒\s*/, "")}
+                </p>
                 <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 disabled:opacity-60">
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {H.save}
                 </button>

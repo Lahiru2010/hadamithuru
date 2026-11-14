@@ -1,5 +1,7 @@
-// components/OnboardingTour.tsx — 🧭 පළමු වතාවට login වුණාම site එකේ කෙටි guide එකක් (spotlight + පියවර)
-// • User කෙනෙකුට එක පාරයි (browser එකේ මතක තියාගන්නවා) · Profile menu එකේ "Site guide" එකෙන් ආයේ බලන්න පුළුවන්
+// components/OnboardingTour.tsx — 🧭 අලුත් ගිණුමකට site එකේ කෙටි guide එකක් (spotlight + පියවර)
+// • update-64: ඉබේම එන්නේ **අලුතින් ගිණුමක් හැදුවම එක පාරක් විතරයි** (ගිණුම හදලා දින 3ක් ඇතුළත, කලින් බලලා නැත්නම්).
+//   "බැලුවා" කියන එක ගිණුමේම (Supabase user_metadata.tour_done) save වෙනවා — වෙන phone / browser එකකින් ආවත් ආයේ එන්නේ නෑ.
+// • Profile menu එකේ "Site guide" එකෙන් ඕන වෙලාවක ආයේ බලන්න පුළුවන්
 // • ඉලක්ක: navbar එකේ data-tour="..." තියෙන elements. Phone එකේ පේන්නේ නැති ඒවා මැද card එකක් විදිහට
 "use client";
 
@@ -10,12 +12,13 @@ import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, BadgeCheck, Sparkles, X } from "lucide-react";
 import { createClient } from "@/lib/client";
 import { useLang } from "@/components/providers";
+import { useVerifiedHint } from "@/lib/verified-hint";
 
 const KEY = (uid: string) => `hm_tour_done_${uid}`;
 export const START_TOUR_EVENT = "hm-start-tour";
-type Step = { target?: string; title: string; text: string };
-// 👇 හැම පියවරකම ඉලක්කය (navbar එකේ data-tour="...")
-const TARGETS: (string | undefined)[] = [undefined, "browse", "interests", "messages", "bell", "profile", "support", undefined];
+// 👇 ඉලක්ක: navbar එකේ data-tour="..." — පළමු එක පේන්නේ නැත්නම් (phone එකේ) ඊළඟ එක (උදා: ☰ menu button එක)
+type Step = { targets?: string[]; title: string; text: string };
+const NEW_ACCOUNT_DAYS = 3; // 👈 ගිණුම හදලා දින කීයක් ඇතුළතද ඉබේම පෙන්නන්නේ
 
 export default function OnboardingTour() {
   const { t } = useLang();
@@ -25,26 +28,36 @@ export default function OnboardingTour() {
   const [i, setI] = useState(0);
   const [uid, setUid] = useState<string | null>(null);
   const [rect, setRect] = useState<DOMRect | null>(null);
+  const verified = useVerifiedHint() === "1"; // ✅ verify වුණ අයට "තහවුරු කරන්න" කියන්නේ නෑ
 
   const steps: Step[] = [
     { title: T.s0t, text: T.s0d },
-    { target: "browse", title: T.s1t, text: T.s1d },
-    { target: "interests", title: T.s2t, text: T.s2d },
-    { target: "messages", title: T.s3t, text: T.s3d },
-    { target: "bell", title: T.s4t, text: T.s4d },
-    { target: "profile", title: T.s5t, text: T.s5d },
-    { target: "support", title: T.s6t, text: T.s6d },
-    { title: T.s7t, text: T.s7d },
+    { targets: ["browse", "menu"], title: T.s1t, text: T.s1d },
+    { targets: ["interests", "menu"], title: T.s2t, text: T.s2d },
+    { targets: ["messages", "menu"], title: T.s3t, text: T.s3d },
+    { targets: ["bell"], title: T.s4t, text: T.s4d },
+    { targets: ["profile", "menu"], title: T.s5t, text: verified ? T.s5dVerified : T.s5d },
+    { targets: ["lang", "menu"], title: T.langT, text: T.langD },        // 🌐 update-64
+    { targets: ["theme", "menu"], title: T.themeT, text: T.themeD },     // 🌙 update-64
+    { targets: ["pricing", "menu"], title: T.pricingT, text: T.pricingD }, // 👑 update-64
+    { targets: ["support"], title: T.s6t, text: T.s6d },
+    { title: T.s7t, text: verified ? T.s7dVerified : T.s7d },
   ];
   const step = steps[i];
 
-  // 👇 පළමු login එකේ පටන් ගන්නවා (admin / My profile wizard එකේ නෙවෙයි)
+  // 👇 අලුත් ගිණුමකට විතරයි, එක පාරයි (admin / My profile wizard / login / register එකේ නෙවෙයි — wizard එක ඉවර කරලා එළියට ආවම)
   useEffect(() => {
     const sb = createClient();
     sb.auth.getSession().then(({ data }) => {
-      const id = data.session?.user.id ?? null;
+      const user = data.session?.user;
+      const id = user?.id ?? null;
       setUid(id);
-      if (!id || localStorage.getItem(KEY(id))) return;
+      if (!id || !user) return;
+      let seenHere = false;
+      try { seenHere = !!localStorage.getItem(KEY(id)); } catch { /* private mode */ }
+      if (seenHere || user.user_metadata?.tour_done) return;                    // 👈 කලින් බැලුවා (මේ browser එකේ හරි ගිණුමේ හරි)
+      const created = user.created_at ? new Date(user.created_at).getTime() : 0;
+      if (!created || Date.now() - created > NEW_ACCOUNT_DAYS * 86400_000) return; // 👈 පරණ ගිණුම් වලට ඉබේම එන්නේ නෑ
       if (pathname?.startsWith("/admin") || pathname?.startsWith("/profile") || pathname?.startsWith("/login") || pathname?.startsWith("/register")) return;
       setTimeout(() => { setI(0); setOpen(true); }, 1200);
     });
@@ -55,17 +68,27 @@ export default function OnboardingTour() {
 
   const finish = useCallback(() => {
     setOpen(false);
-    if (uid) localStorage.setItem(KEY(uid), "1");
+    if (!uid) return;
+    try { localStorage.setItem(KEY(uid), "1"); } catch { /* private mode */ }
+    // 👇 ගිණුමේම මතක තියාගන්නවා — ආයේ කවදාවත් ඉබේම එන්නේ නෑ (වෙන device එකකින් ආවත්)
+    createClient().auth.updateUser({ data: { tour_done: true } }).catch(() => {});
   }, [uid]);
 
   // 👇 ඉලක්කය තියෙන තැන (පේන්නේ නැත්නම් null → මැදට)
   useEffect(() => {
     if (!open) return;
-    const target = TARGETS[i];
+    const targets = steps[i]?.targets ?? [];
     const measure = () => {
-      const el = target ? document.querySelector<HTMLElement>(`[data-tour="${target}"]`) : null;
-      const r = el?.getBoundingClientRect();
-      setRect(r && r.width > 0 && r.height > 0 ? r : null);
+      // 👇 පේන පළමු ඉලක්කය (desktop එකේ navbar item එක, phone එකේ ☰ menu button එක)
+      let found: DOMRect | null = null;
+      for (const tg of targets) {
+        for (const el of document.querySelectorAll<HTMLElement>(`[data-tour="${tg}"]`)) {
+          const r = el.getBoundingClientRect();
+          if (r.width > 0 && r.height > 0) { found = r; break; }
+        }
+        if (found) break;
+      }
+      setRect(found);
     };
     const raf = requestAnimationFrame(measure);
     window.addEventListener("resize", measure);
@@ -77,6 +100,7 @@ export default function OnboardingTour() {
     };
     window.addEventListener("keydown", onKey);
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", measure); window.removeEventListener("scroll", measure, true); window.removeEventListener("keydown", onKey); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, i, finish, steps.length]);
 
   if (!open || !step) return null;
@@ -110,8 +134,14 @@ export default function OnboardingTour() {
 
         {last && (
           <div className="mt-4 grid gap-2">
-            <Link href="/profile" onClick={finish} className="rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-2.5 text-center text-sm font-bold text-white">{T.ctaProfile}</Link>
-            <Link href="/verify" onClick={finish} className="rounded-xl border border-border py-2.5 text-center text-sm font-semibold hover:border-primary/40 hover:text-primary">{T.ctaVerify}</Link>
+            {verified ? (
+              <Link href="/browse" onClick={finish} className="rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-2.5 text-center text-sm font-bold text-white">{T.ctaBrowse}</Link>
+            ) : (
+              <>
+                <Link href="/profile" onClick={finish} className="rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-2.5 text-center text-sm font-bold text-white">{T.ctaProfile}</Link>
+                <Link href="/verify" onClick={finish} className="rounded-xl border border-border py-2.5 text-center text-sm font-semibold hover:border-primary/40 hover:text-primary">{T.ctaVerify}</Link>
+              </>
+            )}
           </div>
         )}
 

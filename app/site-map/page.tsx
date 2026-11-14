@@ -5,11 +5,13 @@ import Link from "next/link";
 import { Lock, Map as MapIcon } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { siteLinkGroups } from "@/lib/site-links";
+import { useHasMatch } from "@/lib/useHasMatch";
 
 export default function SiteMapPage() {
   const { t } = useLang();
   const F = t.siteFooter;
-  const groups = siteLinkGroups(t);
+  const hasMatch = useHasMatch() === true; // 💍 update-64: "කතාව බෙදාගන්න" ගැලපීමක් තියෙන අයට විතරයි
+  const groups = siteLinkGroups(t).map((g) => ({ ...g, links: g.links.filter((l) => !(l.matchedOnly && !hasMatch)) }));
 
   return (
     <main className="min-h-screen bg-background">

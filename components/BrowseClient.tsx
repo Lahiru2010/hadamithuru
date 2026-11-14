@@ -363,6 +363,18 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   const [afterSend, setAfterSend] = useState<{ name: string; list: any[] } | null>(null); // 💌 කැමැත්ත යැව්වාට පස්සේ යෝජනා
 
   const [openSection, setOpenSection] = useState<string>("gender");
+  // 📱 update-64: phone / පොඩි tablet එකේ filters පහළින් එන sheet එකක (laptop එකේ කලින් වගේ වම් පැත්තේ)
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setFiltersOpen(false); };
+    const onResize = () => { if (window.innerWidth >= 1024) setFiltersOpen(false); };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); window.removeEventListener("resize", onResize); };
+  }, [filtersOpen]);
 
   const toggleSection = (section: string) => {
     setOpenSection(prev => prev === section ? "" : section);
@@ -620,22 +632,30 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
     </div>
     <div className="flex flex-col lg:flex-row gap-8">
       
-      {/* Filter Sidebar */}
-      <div className="browse-filters w-full lg:w-80 shrink-0">
+      {/* Filter Sidebar — 📱 update-64: lg ට අඩු screen වල පහළින් එන sheet එකක් ("පෙරහන්" button එකෙන් open වෙනවා) */}
+      <div className={`browse-filters shrink-0 lg:block lg:w-80 ${filtersOpen ? "fixed inset-0 z-[150] block" : "hidden"}`}>
+        {/* පිටුපස අඳුරු කොටස (phone එකේ) — ඔබලා වහන්න */}
+        <div aria-hidden onClick={() => setFiltersOpen(false)} className="absolute inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-200 lg:hidden" />
         {/* 👇 Filters කොටසේ අකුරු ටිකක් ලොකු කරනවා */}
         <style href="browse-filters-text" precedence="default">
           {`.browse-filters .text-sm{font-size:1rem;line-height:1.5rem}.browse-filters .text-xs{font-size:.875rem;line-height:1.25rem}`}
         </style>
         {/* 👇 "පෙරහන්" title එකයි "සුරැකි පෙරහන්" එකයි fix — යට filters කොටස විතරයි scroll වෙන්නේ */}
-        <div className="sticky top-4 flex max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-sm">
-          <div className="shrink-0 px-6 pt-6">
+        <div role={filtersOpen ? "dialog" : undefined} aria-modal={filtersOpen || undefined} aria-label={B.filters} className="absolute inset-x-0 bottom-0 flex max-h-[88dvh] flex-col overflow-hidden rounded-t-3xl border border-border bg-background shadow-2xl animate-in slide-in-from-bottom-8 duration-300 lg:sticky lg:inset-auto lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:animate-none lg:rounded-3xl lg:shadow-sm">
+          {/* 📱 Sheet එකේ උඩ ඇදගන්න ඉර */}
+          <div aria-hidden className="mx-auto mt-2.5 h-1.5 w-10 shrink-0 rounded-full bg-muted-foreground/30 lg:hidden" />
+          <div className="shrink-0 px-4 pt-4 sm:px-6 lg:pt-6">
           <div className="flex items-center justify-between mb-4 pb-4 border-b border-border/50">
             <div className="flex items-center gap-2 text-foreground font-bold text-lg">
               <SlidersHorizontal className="h-5 w-5 text-primary" /> {B.filters}
             </div>
-            <button onClick={clearFilters} className="text-xs text-primary font-semibold hover:underline cursor-pointer">
-              {B.clearAll}
-            </button>
+            <div className="flex items-center gap-1">
+              <button onClick={clearFilters} className="px-2 py-1 text-xs text-primary font-semibold hover:underline cursor-pointer">
+                {B.clearAll}
+              </button>
+              {/* 📱 වහන්න (phone එකේ විතරයි) */}
+              <button type="button" onClick={() => setFiltersOpen(false)} aria-label="Close" className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted lg:hidden"><X className="h-5 w-5" /></button>
+            </div>
           </div>
 
           {/* 👇 Filters save කරලා පස්සේ එක click එකකින් apply කරන්න */}
@@ -647,7 +667,7 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
           />
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-6 custom-scrollbar">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-6 custom-scrollbar sm:px-6">
             <AccordionSection title={B.gender} isOpen={openSection === "gender"} onToggle={() => toggleSection("gender")} hasActiveFilters={filterGender !== defaultGender}>
               {/* 👇 Radio options 3ක් icons එක්ක */}
               <div role="radiogroup" aria-label={B.gender} className="grid grid-cols-3 gap-2">
@@ -781,6 +801,12 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
               <CustomCheckbox label={B.onlyWithPhotos} checked={withPhotos} onChange={() => setWithPhotos(!withPhotos)} />
             </AccordionSection>
           </div>
+          {/* 📱 පහළ: "ප්‍රතිඵල N බලන්න" (phone එකේ විතරයි) */}
+          <div className="shrink-0 border-t border-border bg-background p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+            <button type="button" onClick={() => setFiltersOpen(false)} className="w-full rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-3.5 text-base font-bold text-white shadow-lg shadow-primary/20 active:scale-[0.99]">
+              {B.showResults.replace("{n}", String(filteredProfiles.length))}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -850,6 +876,11 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
         {/* 👇 Grid එකේ උඩ: වම් පැත්තේ ප්‍රතිඵල ගණන + "තහවුරු වූ අය පමණක්", දකුණු පැත්තේ Sort By */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-3">
+            {/* 📱 update-64: phone / පොඩි tablet එකේ "පෙරහන්" button එක → පහළින් filters sheet එක */}
+            <button type="button" onClick={() => setFiltersOpen(true)} className="relative inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold shadow-sm transition hover:border-primary/50 hover:text-primary lg:hidden">
+              <SlidersHorizontal className="h-4 w-4 text-primary" /> {B.filters}
+              {activeFilters.length > 0 && <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-white">{activeFilters.length}</span>}
+            </button>
             <p className="text-sm text-muted-foreground">
               {B.resultsCount.replace("{n}", String(filteredProfiles.length))}
             </p>

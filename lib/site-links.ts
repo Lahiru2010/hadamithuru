@@ -3,7 +3,7 @@
 import type { Translation } from "@/lib/i18n";
 
 // members = login වෙලා ඉන්න අයට විතරක් වැඩ කරන page එකක් · guestOnly = login වෙලා ඉන්නකොට footer එකේ පෙන්වන්නේ නෑ (update-59)
-export type SiteLink = { href: string; label: string; members?: boolean; guestOnly?: boolean };
+export type SiteLink = { href: string; label: string; members?: boolean; guestOnly?: boolean; matchedOnly?: boolean }; // matchedOnly = ගැලපීමක් තියෙන අයට විතරයි (update-64)
 export type SiteLinkGroup = { title: string; links: SiteLink[] };
 
 export function siteLinkGroups(t: Translation): SiteLinkGroup[] {
@@ -29,7 +29,7 @@ export function siteLinkGroups(t: Translation): SiteLinkGroup[] {
         { href: "/verify", label: F.verify, members: true },
         { href: "/preferences", label: t.prefs.navLabel, members: true },
         { href: "/invite", label: t.invite.navLabel, members: true },
-        { href: "/stories/new", label: t.stories.navLabel, members: true },
+        { href: "/stories/new", label: t.stories.navLabel, members: true, matchedOnly: true },
         { href: "/forgot-password", label: F.forgot, guestOnly: true },
       ],
     },

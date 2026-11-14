@@ -15,6 +15,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import VerifiedBadge from "@/components/VerifiedBadge";
 import { setVerifiedHint } from "@/lib/verified-hint";
+import { useHasMatch } from "@/lib/useHasMatch";
 import type { NavUser, NavProfile } from "@/lib/nav-profile";
 import AvatarImage from "@/components/AvatarImage";
 import Dropdown from "@/components/ui/Dropdown";
@@ -98,6 +99,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
   const headerRef = useRef<HTMLElement>(null);
   const [isVerified, setIsVerified] = useState(true);
   const [verifiedBadge, setVerifiedBadge] = useState(false); // ✅ update-59: verify වෙලා නම් profile button එකේ ලකුණ
+  const hasMatch = useHasMatch(user?.id ?? null) === true; // 💍 update-64: "කතාව බෙදාගන්න" ගැලපීමක් තියෙන අයට විතරයි
   // ⚡ මගේ boost එක සක්‍රියද (dropdown එකේ ඉතුරු කාලය පෙන්නන්න)
   const [myBoost, setMyBoost] = useState<{ until: string; startedAt: string | null } | null>(null);
   useEffect(() => {
@@ -341,8 +343,8 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
         <div className="hidden items-center gap-0.5 lg:flex xl:gap-1">
           <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navLinkClass("/")}>{t.nav.home}</Link>
           {/* 🔍 Browse — login නැති අයටත් */}
-          {/* 💍 update-60: "යෝජනා සොයන්න" — ප්‍රධාන දේ නිසා පොඩ්ඩක් කැපී පේන්න (මෘදු රෝස පසුබිම + ඉරක්) */}
-          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={isActive("/browse") ? navLinkClass("/browse") : "relative flex items-center gap-1 whitespace-nowrap rounded-lg bg-primary/[0.07] px-2.5 py-1.5 text-sm font-semibold text-primary ring-1 ring-inset ring-primary/20 transition-colors hover:bg-primary/10 xl:px-3"}>
+          {/* 💍 update-64: "යෝජනා සොයන්න" — රතු, තද අකුරු විතරයි (පසුබිමක් නෑ — click කරලා වගේ පේන්නේ නෑ) */}
+          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={isActive("/browse") ? navLinkClass("/browse") : "relative flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-bold text-primary transition-colors hover:bg-primary/5 xl:px-3"}>
             <Search className={`h-4 w-4 ${isActive("/browse") ? "stroke-[2.5]" : ""}`} /> {t.nav.browse}
           </Link>
           {user && (
@@ -357,7 +359,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               </Link>
             </>
           )}
-          <Link href="/pricing" aria-current={isActive("/pricing") ? "page" : undefined} className={navLinkClass("/pricing")}>{t.plans.navLabel}</Link>
+          <Link data-tour="pricing" href="/pricing" aria-current={isActive("/pricing") ? "page" : undefined} className={navLinkClass("/pricing")}>{t.plans.navLabel}</Link>
           <Link href="/about" aria-current={isActive("/about") ? "page" : undefined} className={navLinkClass("/about")}>{t.nav.about}</Link>
         </div>
 
@@ -367,6 +369,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
 
           {/* 🖥️ Desktop විතරයි: භාෂාව, theme, profile menu / login buttons */}
           <div className="hidden items-center gap-2 lg:flex">
+            <span data-tour="lang" className="inline-flex">{/* 🧭 update-64: site guide එකේ ඉලක්කය */}
             <Dropdown
               value={lang}
               onChange={(v) => setLang(v as typeof lang)}
@@ -377,8 +380,9 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               labelClassName="hidden xl:inline" // 👈 පොඩි laptop එකේ 🌐 icon එක විතරයි
               options={languages.map((l) => ({ value: l, label: langLabel(l) }))}
             />
+            </span>
             {mounted && (
-              <button onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} aria-label={t.nav.darkMode} className="flex h-9 w-9 items-center justify-center rounded-xl border border-border hover:bg-muted transition">
+              <button data-tour="theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} aria-label={t.nav.darkMode} className="flex h-9 w-9 items-center justify-center rounded-xl border border-border hover:bg-muted transition">
                 {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
             )}
@@ -415,7 +419,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                     <button type="button" onClick={() => { setIsDropdownOpen(false); window.dispatchEvent(new Event(START_TOUR_EVENT)); }} className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-muted transition-colors"><Compass className="h-4 w-4" /> <span>{t.tour.menu}</span></button>
                     <Link href="/horoscope" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/horoscope") ? "text-primary font-semibold bg-primary/5" : ""}`}><Star className="h-4 w-4" /> <span>{t.horo.navLabel}</span></Link>
                     <Link href="/invite" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/invite") ? "text-primary font-semibold bg-primary/5" : ""}`}><Gift className="h-4 w-4" /> <span>{t.invite.navLabel}</span></Link>
-                    <Link href="/stories/new" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/stories/new") ? "text-primary font-semibold bg-primary/5" : ""}`}><Sparkles className="h-4 w-4" /> <span>{t.stories.navLabel}</span></Link>
+                    {hasMatch && <Link href="/stories/new" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/stories/new") ? "text-primary font-semibold bg-primary/5" : ""}`}><Sparkles className="h-4 w-4" /> <span>{t.stories.navLabel}</span></Link>}
                     <Link href="/preferences" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/preferences") ? "text-primary font-semibold bg-primary/5" : ""}`}><HeartHandshake className="h-4 w-4" /> <span>{t.prefs.navLabel}</span></Link>
                     {!isVerified && <Link href="/verify" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/verify") ? "text-primary font-semibold bg-primary/5" : ""}`}><BadgeCheck className="h-4 w-4" /> <span>{t.extra.getVerified}</span></Link>}
                     <Link href="/help" onClick={() => setIsDropdownOpen(false)} className={`flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors ${isActive("/help") ? "text-primary font-semibold bg-primary/5" : ""}`}><LifeBuoy className="h-4 w-4" /> <span>{t.help.navLabel}</span></Link>
@@ -521,7 +525,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                     <MenuRow href="/preferences" active={isActive("/preferences")} onNavigate={closeMenu} icon={HeartHandshake} label={t.prefs.navLabel} />
                     <MenuRow href="/horoscope" active={isActive("/horoscope")} onNavigate={closeMenu} icon={Star} label={t.horo.navLabel} />
                     <MenuRow href="/invite" active={isActive("/invite")} onNavigate={closeMenu} icon={Gift} label={t.invite.navLabel} />
-                    <MenuRow href="/stories/new" active={isActive("/stories/new")} onNavigate={closeMenu} icon={Sparkles} label={t.stories.navLabel} />
+                    {hasMatch && <MenuRow href="/stories/new" active={isActive("/stories/new")} onNavigate={closeMenu} icon={Sparkles} label={t.stories.navLabel} />}
                     <button type="button" onClick={() => { closeMenu(); window.dispatchEvent(new Event(START_TOUR_EVENT)); }} className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 text-left text-[15px] hover:bg-muted">
                       <Compass className="h-5 w-5 shrink-0" /><span className="flex-1">{t.tour.menu}</span><ChevronRight className="h-4 w-4 text-muted-foreground/60" />
                     </button>
@@ -600,7 +604,7 @@ function MenuRow({ href, icon: Icon, label, dot = false, accent = false, active,
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
       className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors active:scale-[0.99] ${
-        active ? "bg-primary/10 font-semibold text-primary" : accent ? "bg-primary/5 font-semibold text-primary hover:bg-primary/10" : "text-foreground hover:bg-muted"
+        active ? "bg-primary/10 font-semibold text-primary" : accent ? "font-semibold text-primary hover:bg-primary/5" : "text-foreground hover:bg-muted"
       }`}
     >
       <Icon className="h-5 w-5 shrink-0" />

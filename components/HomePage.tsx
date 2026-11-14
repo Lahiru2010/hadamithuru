@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/client";
+import { useHasMatch } from "@/lib/useHasMatch";
 import CoupleSlider from "@/components/CoupleSlider";
 import FallingHearts from "@/components/FallingHearts";
 import VerifiedShowcase from "@/components/VerifiedShowcase";
@@ -45,6 +46,7 @@ export default function HomePage() {
   const stories = realStories.length >= 3 ? realStories : realStories.length ? [...realStories, ...sampleStories].slice(0, 3) : sampleStories;
   // 👇 Login වෙලාද (login වෙලා නම් register / login කොටස් පෙන්නන්නේ නෑ)
   const [loggedIn, setLoggedIn] = useState(false);
+  const hasMatch = useHasMatch() === true; // 💍 update-64
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getSession().then(({ data }) => setLoggedIn(!!data.session));
@@ -119,7 +121,8 @@ export default function HomePage() {
           <div className="mt-16">
             <CoupleSlider stories={stories} marriedLabel={H.married} prevLabel={H.prev} nextLabel={H.next} badge={X.storyBadge} />
             {/* 💍 Hadamithuru හරහා හමුවුණ අයට — ලස්සන ආරාධනා card එකක් */}
-            {loggedIn && (
+            {/* 💍 update-64: ගැලපීමක් තියෙන අයට විතරයි */}
+            {loggedIn && hasMatch && (
               <Link href="/stories/new" className="group relative z-40 mx-auto mt-10 flex max-w-2xl flex-col items-center gap-4 overflow-hidden rounded-3xl border border-primary/20 bg-background/90 p-5 text-left shadow-lg shadow-primary/10 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-xl sm:flex-row">
                 <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-2xl shadow-md">💍</span>
                 <span className="min-w-0 flex-1 text-center sm:text-left">
