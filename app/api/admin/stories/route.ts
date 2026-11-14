@@ -84,7 +84,7 @@ export async function POST(req: Request) {
   }
   if (action === "delete") {
     const { data: row } = await admin.from("success_stories").select("photo_path, is_custom").eq("id", id).maybeSingle();
-    if (!row?.is_custom) return NextResponse.json({ error: "Only admin slides can be deleted" }, { status: 400 });
+    if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 }); // 👈 update-46: ඕනෑම slide / කතාවක් මකන්න පුළුවන්
     if (row.photo_path) await admin.storage.from(BUCKET).remove([row.photo_path]);
     await admin.from("success_stories").delete().eq("id", id);
     return NextResponse.json({ ok: true });

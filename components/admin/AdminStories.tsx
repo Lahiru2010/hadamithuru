@@ -160,8 +160,8 @@ export default function AdminStories() {
                           <button disabled={busy === "order" || idx === list.length - 1} onClick={() => move(idx, 1)} title="Move down" className="rounded-lg border border-border px-2 py-1.5 text-xs font-bold disabled:opacity-30">↓</button>
                           <button onClick={() => setEditing(s)} title="Edit text" className="rounded-lg border border-border p-2 hover:border-primary hover:text-primary"><Pencil className="h-4 w-4" /></button>
                           {!s.is_custom && !s.gift_sent_at && <button onClick={() => act(s, "gift")} title="Mark gift as sent" className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold hover:border-primary hover:text-primary"><Gift className="h-4 w-4" /> Gift sent</button>}
-                          {s.is_custom ? <button onClick={() => act(s, "delete")} title="Delete slide" className="rounded-lg border border-border p-2 hover:border-red-500 hover:text-red-500"><Trash2 className="h-4 w-4" /></button>
-                            : <button onClick={() => act(s, "unpublish")} title="Unpublish" className="rounded-lg border border-border p-2 hover:border-red-500 hover:text-red-500"><EyeOff className="h-4 w-4" /></button>}
+                          <button onClick={() => act(s, "delete")} title="Delete permanently" className="rounded-lg border border-border p-2 hover:border-red-500 hover:text-red-500"><Trash2 className="h-4 w-4" /></button>
+                          {!s.is_custom && <button onClick={() => act(s, "unpublish")} title="Unpublish" className="rounded-lg border border-border p-2 hover:border-red-500 hover:text-red-500"><EyeOff className="h-4 w-4" /></button>}
                         </>
                       )}
                     </div>
