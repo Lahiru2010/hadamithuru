@@ -10,6 +10,7 @@ import SessionGuard from "@/components/SessionGuard";
 import SupportChat from "@/components/SupportChat";
 import FaviconBadge from "@/components/FaviconBadge";
 import CookieConsent from "@/components/CookieConsent";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import OnboardingTour from "@/components/OnboardingTour";
 import ReferralCapture from "@/components/ReferralCapture";
 import { IS_INDEXABLE, SITE_ALT_NAMES, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL, SOCIAL_URLS } from "@/lib/site";
@@ -72,7 +73,7 @@ const SITE_JSON_LD = {
       description: SITE_DESCRIPTION,
       // 👇 update-47: Social media pages — Google search එකේ brand panel එකට
       ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
-      contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: "support@hadamithuru.lk", areaServed: "LK", availableLanguage: ["Sinhala", "English", "Tamil"] },
+      contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: "support@hadamithuru.lk", url: `${SITE_URL}/contact`, areaServed: "LK", availableLanguage: ["Sinhala", "English", "Tamil"], hoursAvailable: "Mo-Su 00:00-23:59" }, // 👈 update-65: 24/7 + contact page
     },
     {
       "@type": "WebSite",
@@ -108,6 +109,7 @@ export default function RootLayout({
           <SupportChat />
           <FaviconBadge />
           <CookieConsent />
+          <GoogleAnalytics /> {/* 📊 update-65: NEXT_PUBLIC_GA_ID + cookie consent */}
           <OnboardingTour />
           <ReferralCapture />
         </Providers>

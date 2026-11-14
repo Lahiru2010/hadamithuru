@@ -1,6 +1,6 @@
 // lib/plans.ts
 // ⚠️ SAMPLE පැකේජ — මිල ගණන් සහ පහසුකම් launch කරන්න කලින් ඔයාට ඕන විදිහට වෙනස් කරන්න.
-// දැනට payments සම්බන්ධ කරලා නෑ, interests සීමාවත් (දිනකට 5) තාම enforce කරන්නේ නෑ.
+// දැනට payments සම්බන්ධ කරලා නෑ. Free පැකේජයේ කැමැත්ත සීමාව = මාසයකට 5 (update-65 — lib/interest-limit.ts + SQL trigger).
 export type PlanId = "free" | "gold" | "platinum";
 
 export const PLANS: { id: PlanId; priceLkr: number; months: number | null; popular?: boolean; features: string[] }[] = [

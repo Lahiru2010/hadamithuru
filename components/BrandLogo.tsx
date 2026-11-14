@@ -5,8 +5,8 @@
 // Font file එක site එකට load කරන්න ඕන නෑ — අකුරු දැනටමත් logo එක ඇතුළේ තියෙනවා.
 import Image from "next/image";
 
-// 👇 Logo එකේ පළල : උස = 4.054 : 1
-const RATIO = 4.054;
+// 👇 Logo එකේ පළල : උස = 4.161 : 1
+const RATIO = 4.161; // 👈 update-65: හදවතයි අකුරුයි අතර ඉඩ ටිකක් වැඩි කළා
 
 export default function BrandLogo({
   height = 36,

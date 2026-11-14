@@ -7,6 +7,7 @@ import { Check, Crown, Gem, Heart, Sparkles } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { useDialog } from "@/components/DialogProvider";
 import { usePricing } from "@/lib/usePricing";
+import { periodPrice } from "@/lib/pricing";
 import BoostCard from "@/components/BoostCard";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/client";
@@ -56,6 +57,11 @@ export default function PricingPage() {
     });
   }, []);
   const premiumActive = !!premiumUntil && new Date(premiumUntil) > new Date();
+  // 🗓️ update-65: තෝරපු කාලය (මාස 1 / 2 / 3 / 6 / 12) — admin එකෙන් on කරලා තියෙන ඒවා විතරයි
+  const durations = pricing.durations.filter((d) => d.enabled);
+  const [months, setMonths] = useState(1);
+  const dur = durations.find((d) => d.months === months) ?? durations[0];
+  const untilText = premiumUntil ? new Date(premiumUntil).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }) : "";
 
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
@@ -79,6 +85,24 @@ export default function PricingPage() {
           )}
         </div>
 
+        {/* 🗓️ update-65: කාලය තෝරන්න — මාස 2ක් හෝ ඊට වැඩි නම් අඩුවෙන් */}
+        {durations.length > 1 && (
+          <div className="mt-12 flex flex-col items-center gap-2">
+            <p className="text-sm font-semibold text-muted-foreground">{P.duration}</p>
+            <div role="radiogroup" aria-label={P.duration} className="flex max-w-full flex-wrap justify-center gap-1 rounded-2xl border border-border bg-background p-1.5 shadow-sm">
+              {durations.map((d) => {
+                const on = dur?.months === d.months;
+                return (
+                  <button key={d.months} type="button" role="radio" aria-checked={on} onClick={() => setMonths(d.months)} className={`relative rounded-xl px-4 py-2 text-sm font-bold transition ${on ? "bg-primary text-white shadow-md" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
+                    {d.months === 1 ? P.month1 : P.monthsN.replace("{n}", String(d.months))}
+                    {d.discountPct > 0 && <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-extrabold ${on ? "bg-white/25 text-white" : "bg-green-500/15 text-green-700 dark:text-green-400"}`}>-{d.discountPct}%</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         <div className="mt-14 grid gap-6 md:grid-cols-3 md:items-stretch">
           {pricing.plans.filter((p) => p.enabled !== false).map((plan) => {
             const Icon = ICONS[plan.id];
@@ -91,17 +115,41 @@ export default function PricingPage() {
                   featured ? "border-primary bg-gradient-to-b from-primary/10 to-background shadow-primary/10 md:-my-3 md:py-11" : "border-border/60 bg-background"
                 }`}
               >
-                {featured && (
+                {plan.id === "gold" && premiumActive ? (
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-green-600 px-4 py-1 text-xs font-bold text-white shadow-lg">
+                    <Check className="h-3.5 w-3.5" /> {P.activeBadge}
+                  </span>
+                ) : featured && (
                   <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-gradient-to-r from-[#D52047] to-[#F05160] px-4 py-1 text-xs font-bold text-white shadow-lg">
                     <Sparkles className="h-3.5 w-3.5" /> {P.popular}
                   </span>
                 )}
                 <span className={`flex h-12 w-12 items-center justify-center rounded-2xl ${featured ? "bg-primary text-white" : "bg-primary/10 text-primary"}`}><Icon className="h-6 w-6" /></span>
                 <h2 className="mt-5 text-2xl font-bold text-foreground">{name}</h2>
-                <p className="mt-3 flex items-baseline gap-1.5">
-                  <span className="text-4xl font-extrabold text-foreground">{plan.priceLkr === 0 ? "LKR 0" : `LKR ${plan.priceLkr.toLocaleString()}`}</span>
-                  <span className="text-sm text-muted-foreground">{plan.months === 1 ? P.perMonth : plan.months ? P.perMonths.replace("{n}", String(plan.months)) : P.forever}</span>
-                </p>
+                {plan.id === "free" || !dur ? (
+                  <p className="mt-3 flex items-baseline gap-1.5">
+                    <span className="text-4xl font-extrabold text-foreground">LKR 0</span>
+                    <span className="text-sm text-muted-foreground">{P.forever}</span>
+                  </p>
+                ) : (() => {
+                  // 💰 තෝරපු කාලයට මුළු මිල (අඩු කිරීමත් එක්ක)
+                  const pr = periodPrice(plan.priceLkr, dur);
+                  return (
+                    <div className="mt-3">
+                      <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+                        <span className="text-4xl font-extrabold text-foreground">LKR {pr.total.toLocaleString()}</span>
+                        <span className="text-sm text-muted-foreground">{dur.months === 1 ? P.perMonth : P.perMonths.replace("{n}", String(dur.months))}</span>
+                      </p>
+                      {dur.discountPct > 0 && (
+                        <p className="mt-1.5 flex flex-wrap items-center gap-2 text-sm">
+                          <span className="text-muted-foreground line-through">LKR {pr.full.toLocaleString()}</span>
+                          <span className="rounded-full bg-green-500/15 px-2 py-0.5 text-xs font-bold text-green-700 dark:text-green-400">{P.off.replace("{p}", String(dur.discountPct))}</span>
+                          <span className="text-xs text-muted-foreground">{P.perMonthApprox.replace("{x}", pr.perMonth.toLocaleString())}</span>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })()}
                 <ul className="mt-6 flex-1 space-y-3">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-foreground/90">
@@ -120,6 +168,11 @@ export default function PricingPage() {
                   ) : (
                     <Link href="/register" className="mt-8 rounded-xl border border-border py-3 text-center font-semibold transition hover:border-primary/50 hover:text-primary">{P.current}</Link>
                   )
+                ) : plan.id === "gold" && premiumActive ? (
+                  // 👑 update-65: Gold පැකේජය දැනටමත් සක්‍රිය නම්
+                  <p className="mt-8 flex items-center justify-center gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 py-3 text-center text-sm font-bold text-green-700 dark:text-green-400">
+                    {P.planActive.replace("{date}", untilText)}
+                  </p>
                 ) : (
                   <button
                     type="button"
@@ -137,7 +190,6 @@ export default function PricingPage() {
         {/* ⚡ Profile Boost */}
         {pricing.boost.enabled && <BoostCard boost={pricing.boost} />}
 
-        <p className="mt-10 text-center text-xs text-muted-foreground">{P.note}</p>
       </div>
     </main>
   );

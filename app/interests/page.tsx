@@ -14,6 +14,7 @@ import VerifiedBadge from "@/components/VerifiedBadge";
 import StoryGiftBanner from "@/components/StoryGiftBanner";
 import MatchCelebration from "@/components/MatchCelebration";
 import { useMyProfile } from "@/lib/useMyProfile";
+import { interestQuota, isLimitError } from "@/lib/interest-limit";
 import MatchBadge from "@/components/MatchBadge";
 import { ProfileModal } from "@/components/ProfileModal";
 import { useLang } from "@/components/providers";
@@ -44,6 +45,7 @@ export default function InterestsPage() {
   const [newInterestIds, setNewInterestIds] = useState<string[]>([]);
   const hasFetchedInitial = useRef(false);
   const { t } = useLang();
+  const myProfile = useMyProfile(); // 💌 update-65: Free සීමාව බලන්න (premium ද)
   const L = t.profile;
   const IT = t.interests;
 
@@ -511,7 +513,16 @@ export default function InterestsPage() {
             onSendInterest={async (id) => {
               // 🔖 සුරැකි පැතිකඩකින් අලුතින් ඇරයුමක් යවනවා නම්
               if (item.status === "none") {
+                // 💌 update-65: Free පැකේජයට මාසයකට කැමැත්ත 5යි
+                const askGold = async () => {
+                  const ok = await showConfirm({ title: t.plans.limitTitle, message: t.plans.limitMsg, confirmText: t.plans.limitCta, tone: "default" });
+                  if (ok) router.push("/pricing");
+                  return { status: "navigated" as const };
+                };
+                const quota = await interestQuota(supabase, currentUserId, (myProfile?.premium_until as string | null | undefined) ?? null);
+                if (!quota.allowed) return askGold();
                 const { error } = await supabase.from("interests").insert({ sender_id: currentUserId, receiver_id: id });
+                if (error && isLimitError(error)) return askGold();
                 if (error) return { status: "error" as const, message: error.message };
                 fetchInterests();
                 return { status: "sent" as const };

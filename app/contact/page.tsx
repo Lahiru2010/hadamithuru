@@ -9,6 +9,9 @@ import { useLang } from "@/components/providers";
 import { useMyProfile } from "@/lib/useMyProfile";
 import { authButtonClass, authInputClass } from "@/components/AuthCard";
 import Dropdown from "@/components/ui/Dropdown";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { track } from "@/lib/analytics";
+import { useContactSettings, waLink } from "@/lib/contact-settings";
 
 const TOPICS = ["general", "account", "payment", "safety", "feedback", "other"] as const;
 type Topic = (typeof TOPICS)[number];
@@ -17,6 +20,7 @@ export default function ContactPage() {
   const { t, lang } = useLang();
   const C = t.contactPage;
   const me = useMyProfile(); // 👤 Login වෙලා නම් නම / email ඉබේම පිරෙනවා
+  const contact = useContactSettings(); // 🟢 update-65: WhatsApp අංකය (admin එකෙන්)
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", topic: "general" as Topic, message: "", website: "" });
   const [touched, setTouched] = useState({ name: false, email: false });
@@ -42,6 +46,7 @@ export default function ContactPage() {
         body: JSON.stringify({ ...form, name, email, lang }),
       });
       if (res.ok) {
+        track("contact_submit", { topic: form.topic }); // 📊 update-65
         setState("sent");
         setForm((f) => ({ ...f, message: "", phone: "" }));
         return;
@@ -73,6 +78,16 @@ export default function ContactPage() {
         <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.5fr]">
           {/* ℹ️ වම් පැත්ත: වෙනත් ක්‍රම */}
           <aside className="order-2 space-y-4 lg:order-1">
+            {/* 🟢 update-65: WhatsApp — වැඩිපුරම පාවිච්චි වෙන නිසා උඩින්ම */}
+            <a href={waLink(contact.whatsapp, C.whatsappPrefill)} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4 rounded-2xl border border-[#25D366]/40 bg-[#25D366]/10 p-5 shadow-sm transition hover:border-[#25D366] hover:bg-[#25D366]/15">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-md shadow-[#25D366]/30"><WhatsAppIcon className="h-6 w-6" /></span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold text-foreground">{C.whatsapp}</span>
+                <span className="block text-sm text-muted-foreground">{C.whatsappText}</span>
+                <span className="mt-1 block font-semibold text-[#128C7E] dark:text-[#25D366]">{contact.whatsapp}</span>
+              </span>
+              <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#128C7E] transition group-hover:translate-x-0.5" />
+            </a>
             <a href={`mailto:${contactEmail}`} className="flex items-start gap-4 rounded-2xl border border-border bg-background/80 p-5 shadow-sm backdrop-blur transition hover:border-primary/40">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary"><Mail className="h-5 w-5" /></span>
               <span className="min-w-0">

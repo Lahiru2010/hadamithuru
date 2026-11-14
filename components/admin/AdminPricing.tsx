@@ -6,7 +6,7 @@ import { Check, Crown, ExternalLink, Gem, Heart, Loader2, RotateCcw, Save, Spark
 import { useDialog } from "@/components/DialogProvider";
 import { useLang } from "@/components/providers";
 import { createClient } from "@/lib/client";
-import { DEFAULT_PRICING, FEATURE_KEYS, normalizePricing, type Pricing } from "@/lib/pricing";
+import { DEFAULT_PRICING, FEATURE_KEYS, normalizePricing, periodPrice, type Pricing } from "@/lib/pricing";
 import BoostProgress from "@/components/BoostProgress";
 
 type Req = { id: string; user_id: string; days: number; price_lkr: number; status: string; created_at: string; profile: { full_name: string; email: string; boosted_until: string | null } | null; phone: string | null };
@@ -125,13 +125,8 @@ export default function AdminPricing() {
                             <span className="bg-muted px-3 py-3 text-sm font-bold text-muted-foreground">LKR</span>
                             <input type="number" min={0} value={plan.priceLkr} onChange={(e) => setPlan(i, { priceLkr: Number(e.target.value) })} className="min-w-0 flex-1 bg-transparent px-3 py-2 text-2xl font-extrabold outline-none" />
                           </div>
-                          <div>
-                            <p className="mb-1.5 text-xs font-semibold uppercase text-muted-foreground">Duration</p>
-                            <div className="inline-flex flex-wrap gap-1 rounded-xl border border-border p-1">
-                              {[1, 3, 6, 12].map((m) => <button key={m} type="button" onClick={() => setPlan(i, { months: m })} className={seg(plan.months === m)}>{m === 1 ? "1 month" : `${m} months`}</button>)}
-                            </div>
-                          </div>
-                          <p className="text-xs text-muted-foreground">Shows as <b className="text-foreground">LKR {plan.priceLkr.toLocaleString()} {plan.months === 1 ? P.perMonth : P.perMonths.replace("{n}", String(plan.months))}</b>{plan.months && plan.months > 1 ? ` · ≈ LKR ${Math.round(plan.priceLkr / plan.months).toLocaleString()} / month` : ""}</p>
+                          {/* 🗓️ update-65: මිල = මාසයක මිල. මාස 2 / 3 / 6 / 12 මිල + අඩු කිරීම් යට "Durations" කොටසෙන් */}
+                          <p className="text-xs text-muted-foreground">Price for <b className="text-foreground">1 month</b> — longer periods &amp; discounts are set in <b className="text-foreground">Durations</b> below.</p>
                           <button type="button" onClick={() => setPricing((p) => p && { ...p, plans: p.plans.map((x, k) => ({ ...x, popular: k === i ? !x.popular : false })) })} className={`flex w-fit items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${plan.popular ? "bg-primary text-white" : "border border-border text-muted-foreground hover:border-primary/40"}`}><Star className={`h-3.5 w-3.5 ${plan.popular ? "fill-current" : ""}`} /> Most popular</button>
                         </>
                       )}
@@ -152,6 +147,43 @@ export default function AdminPricing() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* 🗓️ update-65: Durations — මාස 1 / 2 / 3 / 6 / 12 + එක එකට අඩු කිරීම (%) */}
+            <div className="mt-6 overflow-hidden rounded-3xl border border-border">
+              <div className="border-b border-border bg-muted/40 px-5 py-4">
+                <p className="text-lg font-extrabold">🗓️ Durations &amp; discounts</p>
+                <p className="text-xs text-muted-foreground">Members choose how many months to buy on the Plans page. Turn a period on/off and set its discount.</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[34rem] text-sm">
+                  <thead className="text-left text-xs uppercase text-muted-foreground">
+                    <tr><th className="px-5 py-3">Period</th><th className="px-3 py-3">Show</th><th className="px-3 py-3">Discount</th>{pricing.plans.filter((p) => p.id !== "free").map((p) => <th key={p.id} className="px-3 py-3">{P[`${p.id}Name` as const]} total</th>)}</tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {pricing.durations.map((d, k) => (
+                      <tr key={d.months} className={d.enabled ? "" : "opacity-50"}>
+                        <td className="px-5 py-3 font-bold">{d.months === 1 ? "1 month" : `${d.months} months`}</td>
+                        <td className="px-3 py-3">
+                          <button type="button" role="switch" aria-checked={d.enabled} disabled={d.months === 1} onClick={() => setPricing({ ...pricing, durations: pricing.durations.map((x, j) => (j === k ? { ...x, enabled: !x.enabled } : x)) })} className={`relative inline-flex h-6 w-11 items-center rounded-full transition disabled:cursor-not-allowed ${d.enabled ? "bg-primary" : "bg-muted-foreground/30"}`}>
+                            <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition ${d.enabled ? "translate-x-6" : "translate-x-1"}`} />
+                          </button>
+                        </td>
+                        <td className="px-3 py-3">
+                          <div className="inline-flex items-center overflow-hidden rounded-xl border border-border focus-within:border-primary">
+                            <input type="number" min={0} max={90} value={d.discountPct} disabled={d.months === 1} onChange={(e) => setPricing({ ...pricing, durations: pricing.durations.map((x, j) => (j === k ? { ...x, discountPct: Number(e.target.value) } : x)) })} className="w-16 bg-transparent px-3 py-1.5 text-sm font-bold outline-none disabled:text-muted-foreground" aria-label={`Discount for ${d.months} months`} />
+                            <span className="bg-muted px-2 py-1.5 text-xs font-bold text-muted-foreground">%</span>
+                          </div>
+                        </td>
+                        {pricing.plans.filter((p) => p.id !== "free").map((p) => {
+                          const pr = periodPrice(p.priceLkr, d);
+                          return <td key={p.id} className="px-3 py-3"><b>LKR {pr.total.toLocaleString()}</b>{d.discountPct > 0 && <span className="ml-1.5 text-xs text-muted-foreground line-through">{pr.full.toLocaleString()}</span>}</td>;
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* ⚡ Boost settings */}
@@ -204,7 +236,7 @@ export default function AdminPricing() {
           <div className="flex flex-wrap items-center gap-2">
             <input value={grant.email} onChange={(e) => setGrant({ ...grant, email: e.target.value })} placeholder="user@email.com" className="w-56 rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary" />
             <select value={grant.months} onChange={(e) => setGrant({ ...grant, months: e.target.value })} className="rounded-xl border border-border bg-background px-3 py-2 text-sm">
-              {[1, 3, 6, 12].map((m) => <option key={m} value={m}>{m} month{m > 1 ? "s" : ""}</option>)}
+              {[1, 2, 3, 6, 12].map((m) => <option key={m} value={m}>{m} month{m > 1 ? "s" : ""}</option>)}
             </select>
             <button disabled={!grant.email || busy === "grant"} onClick={async () => {
               setBusy("grant");

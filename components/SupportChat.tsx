@@ -9,6 +9,8 @@ import { Headset, Loader2, Send, X, Lock } from "lucide-react";
 import { createClient } from "@/lib/client";
 import { useLang } from "@/components/providers";
 import { playChime } from "@/lib/chime";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useContactSettings, waLink } from "@/lib/contact-settings";
 
 type Msg = { id: string; sender: "user" | "admin"; content: string; created_at: string };
 
@@ -16,6 +18,7 @@ type Msg = { id: string; sender: "user" | "admin"; content: string; created_at: 
 export default function SupportChat() {
   const { t } = useLang();
   const E = t.extra;
+  const contact = useContactSettings(); // 🟢 update-65: WhatsApp අංකය (admin එකෙන්)
   const pathname = usePathname();
   const [userId, setUserId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -94,6 +97,12 @@ export default function SupportChat() {
             </div>
             <button onClick={() => setOpen(false)} aria-label="Close" className="rounded-full p-1.5 hover:bg-white/20"><X className="h-5 w-5" /></button>
           </div>
+          {/* 🟢 update-65: WhatsApp එකෙනුත් message කරන්න පුළුවන් */}
+          <a href={waLink(contact.whatsapp, t.contactPage.whatsappPrefill)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 border-b border-border bg-[#25D366]/10 px-4 py-2.5 text-sm font-semibold text-[#128C7E] transition hover:bg-[#25D366]/20 dark:text-[#25D366]">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white shadow-sm"><WhatsAppIcon className="h-[18px] w-[18px]" /></span>
+            <span className="min-w-0 flex-1 leading-snug">{t.contactPage.whatsappCta}</span>
+            <span aria-hidden>→</span>
+          </a>
           <div className="flex-1 space-y-2 overflow-y-auto bg-muted/20 p-4 custom-scrollbar">
             <p className="max-w-[85%] rounded-2xl rounded-bl-sm bg-background px-4 py-2.5 text-sm shadow-sm">{E.supportHello}</p>
             {msgs.map((m) => (

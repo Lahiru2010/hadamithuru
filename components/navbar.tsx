@@ -336,7 +336,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
       <nav className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3 lg:py-4">
         {/* 💗 Logo */}
         <Link href="/" aria-label={`${t.brand} – ${t.nav.home}`} className="flex shrink-0 items-center">
-          <BrandLogo height={28} priority className="h-[22px] w-auto sm:h-6 xl:h-7" />
+          <BrandLogo height={30} priority className="h-6 w-auto sm:h-[26px] xl:h-[30px]" />
         </Link>
 
         {/* 🖥️ Laptop / desktop (lg+) links — දැනට ඉන්න page එක රෝස පාටින් */}
@@ -483,7 +483,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
           >
             {/* Header: logo + වහන්න */}
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <Link href="/" onClick={closeMenu} aria-label={t.nav.home}><BrandLogo height={22} className="h-[22px] w-auto" /></Link>
+              <Link href="/" onClick={closeMenu} aria-label={t.nav.home}><BrandLogo height={24} className="h-6 w-auto" /></Link>
               <button type="button" onClick={closeMenu} aria-label={t.nav.closeMenu} className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted active:scale-95"><X className="h-5 w-5" /></button>
             </div>
 

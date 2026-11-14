@@ -20,6 +20,8 @@ import FoundingBadge from "@/components/FoundingBadge";
 import AfterSendDialog from "@/components/AfterSendDialog";
 import { computeMatch, type MatchResult } from "@/lib/match";
 import MiniMatchRing from "@/components/MiniMatchRing";
+import { interestQuota, isLimitError } from "@/lib/interest-limit";
+import { track } from "@/lib/analytics";
 
 const PAGE_FIRST = 20;
 const PAGE_MORE = 15;
@@ -303,7 +305,7 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   const router = useRouter();
   const supabase = createClient();
   const { showAlert, showConfirm } = useDialog();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const tr = useTr(); // 👈 Values (Divorced, Buddhist, Galle...) language එකට
   const B = t.browse; // 👈 Labels (Filters, Religion, Clear All...) language එකට
 
@@ -393,6 +395,22 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   const hasPrefs = !!(viewerProfile?.partner_prefs && Object.keys(viewerProfile.partner_prefs as object).length);
   // 💎 "අද ඔබට 5 දෙනා" Premium අයට විතරයි (ගෙවපු / Founding / refer තෑගි — premium_until තවම ඉවර නැත්නම්)
   const isPremium = isBoosted(viewerProfile?.premium_until as string | null | undefined);
+  // 👋 update-65: අලුත් user කෙනෙක් මුලින්ම Browse එකට ආවම customer support එකෙන් සාදර පිළිගැනීමේ message එකක් (server එකේ එක පාරයි)
+  useEffect(() => {
+    if (!currentUser?.id) return;
+    const key = `hm_welcome_${currentUser.id}`;
+    try { if (localStorage.getItem(key)) return; localStorage.setItem(key, "1"); } catch { /* private mode */ }
+    fetch("/api/support/welcome", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lang }) }).catch(() => {});
+  }, [currentUser?.id, lang]);
+
+  // 💌 update-65: Free අයට මේ මාසයේ ඉතුරු කැමැත්ත ගණන (Browse එකේ උඩ පේනවා)
+  const [freeLeft, setFreeLeft] = useState<number | null>(null);
+  useEffect(() => {
+    if (!currentUser?.id || isPremium) { setFreeLeft(null); return; }
+    let active = true;
+    interestQuota(supabase, currentUser.id, null).then((q) => { if (active) setFreeLeft(q.left); });
+    return () => { active = false; };
+  }, [currentUser?.id, isPremium, supabase, sentIds.length]);
   const todayPicks = useMemo(() => {
     if (!viewerProfile) return [] as Profile[];
     const pool = initialProfiles
@@ -514,11 +532,22 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
     if (status === "sent") return { status: "already", message: B.alreadySentMsg };
 
     if (sendingRef.current.has(receiverId)) return { status: "already" };
+
+    // 💌 update-65: Free පැකේජයට මාසයකට කැමැත්ත 5යි — ඉවර නම් Gold පැකේජයට යොමු කරනවා
+    const askGold = async () => {
+      const ok = await showConfirm({ title: t.plans.limitTitle, message: t.plans.limitMsg, confirmText: t.plans.limitCta, tone: "default" });
+      if (ok) router.push("/pricing");
+      return { status: "navigated" as const };
+    };
+    const quota = await interestQuota(supabase, currentUser.id, viewerProfile?.premium_until as string | null | undefined);
+    if (!quota.allowed) return askGold();
+
     sendingRef.current.add(receiverId);
     const { error } = await supabase.from("interests").insert({ sender_id: currentUser.id, receiver_id: receiverId });
     sendingRef.current.delete(receiverId);
 
     if (error) {
+      if (isLimitError(error)) return askGold(); // 👈 DB trigger එකෙන් නැවැත්තුවොත්
       // 23505 = database එකේ duplicate එකක්
       if (error.code === "23505") {
         setSentIds((prev) => (prev.includes(receiverId) ? prev : [...prev, receiverId]));
@@ -527,6 +556,7 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
       return { status: "error", message: `${B.cantSendTitle}: ${error.message}` };
     }
     setSentIds((prev) => [...prev, receiverId]);
+    track("send_interest"); // 📊 update-65
     return { status: "sent" };
   }, [currentUser, router, supabase, getInterestStatus, B, askLogin, viewerProfile, showConfirm, t]);
 
@@ -884,6 +914,11 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
             <p className="text-sm text-muted-foreground">
               {B.resultsCount.replace("{n}", String(filteredProfiles.length))}
             </p>
+            {freeLeft !== null && (
+              <Link href="/pricing" className={`rounded-full px-3 py-1 text-xs font-bold transition hover:opacity-80 ${freeLeft === 0 ? "bg-red-500/10 text-red-600 dark:text-red-400" : "bg-primary/10 text-primary"}`}>
+                💌 {t.plans.limitLeft.replace("{n}", String(freeLeft))}
+              </Link>
+            )}
 
           </div>
           <div className="flex items-center gap-2">

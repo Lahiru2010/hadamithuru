@@ -21,12 +21,13 @@ export default function HoroscopeSummary({ onEdit }: { onEdit?: () => void }) {
         <h3 className="flex items-center gap-2 text-sm font-bold text-primary"><Star className="h-4 w-4" /> {H.title}</h3>
         {onEdit && <button type="button" onClick={onEdit} className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-primary hover:bg-primary/10"><Pencil className="h-3.5 w-3.5" /> {t.wizard.edit}</button>}
       </div>
-      <div className="flex flex-wrap items-center gap-5">
-        <div className="w-36 shrink-0"><HoroscopeChart lagna={h.lagna} planets={h.planets} lang={lang} title={H.lagna} /></div>
-        <dl className="grid flex-1 grid-cols-2 gap-x-4 gap-y-3 text-sm">
-          <div><dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{H.lagna}</dt><dd className="font-semibold">{(SIGNS[lang] ?? SIGNS.si)[h.lagna]}</dd></div>
-          <div><dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{H.nakshatra}</dt><dd className="font-semibold">{(NAKSHATRAS[lang] ?? NAKSHATRAS.si)[h.nakshatra]} · {H.pada} {h.pada}</dd></div>
-          <div className="col-span-2"><dd className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-800 dark:text-emerald-300"><Lock className="h-4 w-4 shrink-0" /> {H.private.replace(/^🔒\s*/, "")}</dd></div>
+      {/* 📱 update-65: phone එකේ chart එක උඩින් මැදට, විස්තර යටින් සම්පූර්ණ පළලට (කලින් අකුරු එකට හිරවුණා) */}
+      <div className="grid items-center gap-4 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-5">
+        <div className="mx-auto w-44 max-w-full sm:mx-0 sm:w-full"><HoroscopeChart lagna={h.lagna} planets={h.planets} lang={lang} title={H.lagna} /></div>
+        <dl className="grid min-w-0 grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div className="min-w-0"><dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{H.lagna}</dt><dd className="break-words font-semibold">{(SIGNS[lang] ?? SIGNS.si)[h.lagna]}</dd></div>
+          <div className="min-w-0"><dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{H.nakshatra}</dt><dd className="break-words font-semibold">{(NAKSHATRAS[lang] ?? NAKSHATRAS.si)[h.nakshatra]} · {H.pada} {h.pada}</dd></div>
+          <div className="col-span-2"><dd className="flex items-start gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-xs font-semibold leading-relaxed text-emerald-800 dark:text-emerald-300"><Lock className="mt-0.5 h-4 w-4 shrink-0" /> <span className="min-w-0">{H.private.replace(/^🔒\s*/, "")}</span></dd></div>
         </dl>
       </div>
     </div>

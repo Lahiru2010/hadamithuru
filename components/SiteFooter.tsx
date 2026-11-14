@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Lock, ShieldCheck, EyeOff, MessageCircleHeart } from "lucide-react";
+import { Heart, Lock, ShieldCheck, EyeOff, MessageCircleHeart, ChevronDown } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { siteLinkGroups } from "@/lib/site-links";
 import { useLoggedIn } from "@/lib/useLoggedIn";
@@ -131,16 +131,16 @@ export default function SiteFooter() {
     <footer className={S.footer}>
       {/* 👇 Wine style එකේ උඩින් theme රතු ඉර (dark mode එකේ නෑ) */}
       {FOOTER_STYLE === "wine" && <div aria-hidden className="h-1 w-full bg-[linear-gradient(90deg,#AD032A,#D52047_40%,#F05160)] dark:hidden" />}
-      <div className="mx-auto max-w-[1600px] px-4 py-14">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto max-w-[1600px] px-4 py-10 md:py-14">
+        <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10">
           {/* Brand + trust */}
           <div>
             {/* 💗 update-48: logo එක — තද පසුබිමේ (wine / red) සුදු අකුරු */}
             <Link href="/" aria-label={t.brand} className="inline-flex">
-              <BrandLogo height={32} variant={FOOTER_STYLE === "classic" ? "auto" : "white"} className="h-8 w-auto" />
+              <BrandLogo height={34} variant={FOOTER_STYLE === "classic" ? "auto" : "white"} className="h-[34px] w-auto" />
             </Link>
             <p className={S.about}>{F.about}</p>
-            <ul className="mt-5 space-y-2 text-base">
+            <ul className="mt-5 hidden space-y-2 text-base sm:block">{/* 📱 phone එකේ කෙටියෙන් — trust ලැයිස්තුව tablet / laptop එකේ විතරයි */}
               {[
                 { icon: EyeOff, text: H.trust1 },
                 { icon: Lock, text: H.trust2 },
@@ -169,8 +169,9 @@ export default function SiteFooter() {
             )}
           </div>
 
+          {/* 🖥️ Tablet / laptop: links තීරු 3ක */}
           {columns.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
+            <nav key={col.title} aria-label={col.title} className="hidden md:block">
               <h3 className={S.heading}>{col.title}</h3>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
@@ -181,6 +182,25 @@ export default function SiteFooter() {
               </ul>
             </nav>
           ))}
+
+          {/* 📱 update-65: Phone එකේ links කොටස් හකුළලා (ඔබපුවම විවෘත වෙනවා) — footer එක දිගට scroll කරන්න ඕන නෑ */}
+          <div className={`divide-y border-y md:hidden ${FOOTER_STYLE === "classic" ? "divide-border border-border" : "divide-white/15 border-white/15 dark:divide-border dark:border-border"}`}>
+            {columns.map((col) => (
+              <details key={col.title} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-4 [&::-webkit-details-marker]:hidden">
+                  <span className={S.heading}>{col.title}</span>
+                  <ChevronDown className="h-5 w-5 opacity-70 transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-3 pb-5">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className={S.link}>{l.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
         </div>
 
         {/* Safety tip */}

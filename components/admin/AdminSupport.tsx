@@ -2,7 +2,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Headset, Loader2, Send } from "lucide-react";
+import { Check, Headset, Loader2, Send } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useContactSettings, waLink } from "@/lib/contact-settings";
 import { useOnlineUsers } from "@/lib/presence";
 import { lastSeenText, parseTs } from "@/lib/last-seen";
 import { useLang } from "@/components/providers";
@@ -73,7 +75,11 @@ export default function AdminSupport() {
 
   return (
     <section className="mb-10 rounded-[2rem] border border-border bg-background p-6 shadow-sm">
-      <h2 className="flex items-center gap-2 text-xl font-bold"><Headset className="h-6 w-6 text-primary" /> Customer support {unreadTotal > 0 && <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs text-white">{unreadTotal}</span>}</h2>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="flex items-center gap-2 text-xl font-bold"><Headset className="h-6 w-6 text-primary" /> Customer support {unreadTotal > 0 && <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs text-white">{unreadTotal}</span>}</h2>
+        {/* 🟢 update-65: Support chat / Contact page එකේ පේන WhatsApp අංකය */}
+        <WhatsAppSetting />
+      </div>
       <div className="mt-5 grid h-[28rem] overflow-hidden rounded-2xl border border-border md:grid-cols-[18rem_1fr]">
         <ul className="overflow-y-auto border-b border-border md:border-b-0 md:border-r custom-scrollbar">
           {threads === null ? <li className="p-6 text-center"><Loader2 className="mx-auto h-5 w-5 animate-spin" /></li> :
@@ -121,5 +127,32 @@ export default function AdminSupport() {
         </div>
       </div>
     </section>
+  );
+}
+
+// 🟢 update-65: WhatsApp අංකය වෙනස් කරන්න (app_settings → "contact")
+function WhatsAppSetting() {
+  const current = useContactSettings();
+  const [value, setValue] = useState<string | null>(null);
+  const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [err, setErr] = useState("");
+  const v = value ?? current.whatsapp;
+  const save = async () => {
+    setState("saving");
+    const res = await fetch("/api/admin/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ whatsapp: v }) });
+    const d = await res.json().catch(() => ({}));
+    if (res.ok) { setState("saved"); setTimeout(() => setState("idle"), 2000); }
+    else { setState("error"); setErr(d.error ?? "Couldn't save"); }
+  };
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="flex items-center gap-1.5 text-sm font-semibold text-[#128C7E] dark:text-[#25D366]"><WhatsAppIcon className="h-4 w-4" /> WhatsApp</span>
+      <input value={v} onChange={(e) => { setValue(e.target.value); setState("idle"); }} inputMode="tel" placeholder="0716543234" aria-label="WhatsApp number" className="w-36 rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:border-primary" />
+      <button onClick={save} disabled={state === "saving" || v === current.whatsapp && value === null} className="flex items-center gap-1.5 rounded-xl bg-[#25D366] px-3 py-2 text-sm font-bold text-white disabled:opacity-50">
+        {state === "saving" ? <Loader2 className="h-4 w-4 animate-spin" /> : state === "saved" ? <Check className="h-4 w-4" /> : null} {state === "saved" ? "Saved" : "Save"}
+      </button>
+      <a href={waLink(v)} target="_blank" rel="noreferrer" className="text-xs font-semibold text-muted-foreground hover:text-primary hover:underline">Test link ↗</a>
+      {state === "error" && <span className="w-full text-xs text-red-500">{err}</span>}
+    </div>
   );
 }

@@ -915,9 +915,10 @@ export default function ProfileWizard({ userId }: { userId: string }) {
                   {s.fields
                     .filter((k) => isRelevant(k, form))
                     .map((k) => (
-                      <div key={k} className="min-w-0">
+                      // 👇 update-65: දිග අගයන් (උදා: විනෝදාංශ) "…" වෙලා කැපෙන්නේ නෑ — සම්පූර්ණ පළලට, පේළි කීපයකට
+                      <div key={k} className={`min-w-0 ${k === "hobbies" ? "col-span-2 md:col-span-3" : ""}`}>
                         <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{fieldLabel(k, W, P, A.phone)}</dt>
-                        <dd className={`truncate text-sm font-semibold capitalize ${isFilled(form[k]) ? "" : "font-normal italic text-muted-foreground"}`}>
+                        <dd className={`break-words text-sm font-semibold capitalize ${isFilled(form[k]) ? "" : "font-normal italic text-muted-foreground"}`}>
                           {displayValue(k, form, tr) || W.notSet}
                         </dd>
                       </div>
