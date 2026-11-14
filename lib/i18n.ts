@@ -1871,7 +1871,7 @@ export const translations = {
       contact: "Contact us",
       tipTitle: "Safety tip",
       tip: "Never send money or share bank details with someone you met online. Meet in a public place, with family.",
-      madeIn: "Made in Sri Lanka with love",
+      madeIn: "Made in Sri Lanka with",
       home: "Home",
       pricing: "Plans & pricing",
       verify: "Get verified",
