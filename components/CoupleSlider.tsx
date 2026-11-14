@@ -89,7 +89,7 @@ export default function CoupleSlider({ stories, marriedLabel, prevLabel, nextLab
               <CoupleImage src={s.img} alt={s.name} className="h-full w-full" />
               {/* 👇 මැද photo එකේ පහළින්: "කසුන් ♥ දිලිනි" + ස්ථානය · විවාහ වූ වර්ෂය */}
               {pos === "center" && (() => {
-                const [a, b] = s.name.split(/\s*(?:&|සහ)\s*/);
+                const [a, b] = splitNames(s.name);
                 return (
                   <span key={index} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-6 pt-20 text-white animate-in fade-in slide-in-from-bottom-2 duration-700">
                     <span className="flex items-center gap-2.5 text-xl font-bold tracking-tight drop-shadow sm:text-2xl">
@@ -151,4 +151,12 @@ function SliderHeart() {
       <Image src="/logo-mark.svg" alt="" width={24} height={24} className="h-[22px] w-[22px] sm:h-6 sm:w-6" />
     </span>
   );
+}
+
+// 🐞 update-55: නම් දෙක වෙන් කරන්නේ "&", "+", "♥" හෝ වෙනම වචනයක් විදිහට එන "සහ" / "and" / "மற்றும்" එකෙන් විතරයි.
+//   කලින් "සහ" අකුරු නමක් ඇතුළේ තිබ්බත් (උදා: "සහන් සහ නිමාලි") කැඩුණා → "♥ න්" වගේ වැරදියට පෙන්නුවා.
+function splitNames(name: string): [string, string | undefined] {
+  const parts = name.trim().split(/\s*[&+♥❤]\s*|\s+(?:සහ|and|மற்றும்)\s+/i).map((x) => x.trim()).filter(Boolean);
+  if (parts.length < 2) return [name.trim(), undefined]; // 👈 වෙන් කරන්න බැරි නම් සම්පූර්ණ නම, හදවත නැතුව
+  return [parts[0], parts.slice(1).join(" ")];
 }
