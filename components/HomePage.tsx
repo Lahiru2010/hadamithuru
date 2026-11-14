@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/client";
 import CoupleSlider from "@/components/CoupleSlider";
@@ -12,7 +13,12 @@ import { useLang } from "@/components/providers";
 import { ShieldCheck, Lock, EyeOff, MessageCircleHeart, UserPlus, Search, HeartHandshake, ChevronDown, ArrowRight, Headset } from "lucide-react";
 
 export default function HomePage() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  // ✍️ update-49: සිංහලෙන් hero title එක logo එකේ font එකෙන්ම (Tharu Digital) — SVG පින්තූරයක් විදිහට
+  //   (public/hero-title-si.svg — එක පේළිය, public/hero-title-si-2line.svg — phone එකට පේළි දෙක)
+  //   ⚠️ lib/i18n.ts එකේ hero.title එක වෙනස් කළොත් පින්තූරය නොපෙන්වා සාමාන්‍ය අකුරු පේනවා (SVG එක අලුතෙන් හදන්න ඕනේ)
+  const HERO_SI_TITLE = "ඔබේ ජීවිත සහකරු සොයාගන්න";
+  const heroFontTitle = lang === "si" && t.hero.title === HERO_SI_TITLE;
   const H = t.home;
   const X = t.extra;
 
@@ -76,7 +82,16 @@ export default function HomePage() {
             <ShieldCheck className="h-4 w-4" /> {H.badge}
           </span>
           <h1 className="mt-6 text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E3324F] via-[#F0544F] to-[#E3324F]">{t.hero.title}</span>
+            {heroFontTitle ? (
+              <>
+                {/* 👇 Google / screen readers වලට ඇත්ත අකුරු (පේන්නේ නෑ) */}
+                <span className="sr-only">{t.hero.title}</span>
+                <Image src="/hero-title-si.svg" alt="" aria-hidden width={860} height={75} priority className="mx-auto hidden h-auto w-[700px] max-w-full md:block lg:w-[860px]" />
+                <Image src="/hero-title-si-2line.svg" alt="" aria-hidden width={340} height={101} priority className="mx-auto h-auto w-full max-w-[340px] md:hidden" />
+              </>
+            ) : (
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E3324F] via-[#F0544F] to-[#E3324F]">{t.hero.title}</span>
+            )}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground font-medium">{t.hero.subtitle}</p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
