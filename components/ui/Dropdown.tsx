@@ -17,6 +17,7 @@ export default function Dropdown({
   align = "left",
   className = "",
   buttonClassName = "",
+  labelClassName = "",
   placeholder,
   fullWidth = false,
   disabled = false,
@@ -30,6 +31,8 @@ export default function Dropdown({
   align?: "left" | "right";
   className?: string;
   buttonClassName?: string;
+  /** 👇 update-48: Button එකේ label text එකට classes (උදා: phone එකේ හංගන්න "hidden sm:inline") */
+  labelClassName?: string;
   /** Value එක හිස් නම් පේන text එක (form වල "තෝරන්න…") */
   placeholder?: string;
   /** Form එකක input එකක් වගේ සම්පූර්ණ පළලට, උස */
@@ -105,7 +108,7 @@ export default function Dropdown({
         } ${buttonClassName}`}
       >
         {icon}
-        <span className={`truncate ${fullWidth ? "flex-1 text-left" : ""} ${current ? "" : "text-muted-foreground"}`}>{current?.label ?? placeholder}</span>
+        <span className={`truncate ${fullWidth ? "flex-1 text-left" : ""} ${current ? "" : "text-muted-foreground"} ${labelClassName}`}>{current?.label ?? placeholder}</span>
         <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 

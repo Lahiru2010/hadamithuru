@@ -12,6 +12,7 @@ import { languages } from "@/lib/i18n";
 import { createClient } from "@/lib/client";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import type { NavUser, NavProfile } from "@/lib/nav-profile";
 import AvatarImage from "@/components/AvatarImage";
 import Dropdown from "@/components/ui/Dropdown";
@@ -298,8 +299,11 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
   // 👇 Navbar එක page එකත් එක්ක scroll වෙනවා (fixed / sticky නෑ)
   return (
     <header ref={headerRef} className="relative z-[60] border-b border-border bg-background/95">
-      <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4">
-        <Link href="/" className="text-xl font-bold text-primary">{t.brand}</Link>
+      <nav className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-3 py-4 sm:px-4">
+        {/* 💗 update-48: text එක වෙනුවට logo එක */}
+        <Link href="/" aria-label={`${t.brand} – ${t.nav.home}`} className="flex shrink-0 items-center">
+          <BrandLogo height={36} priority className="h-[22px] w-auto min-[400px]:h-6 min-[440px]:h-7 sm:h-9" />
+        </Link>
         {/* 👇 දැනට ඉන්න page එකේ link එක රෝස පාට පසුබිමකින් highlight වෙනවා */}
         <div className="hidden gap-1 md:flex">
           <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navLinkClass("/")}>{t.nav.home}</Link>
@@ -322,7 +326,8 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
           <Link href="/pricing" aria-current={isActive("/pricing") ? "page" : undefined} className={navLinkClass("/pricing")}>{t.plans.navLabel}</Link>
           <Link href="/about" aria-current={isActive("/about") ? "page" : undefined} className={navLinkClass("/about")}>{t.nav.about}</Link>
         </div>
-        <div className="flex items-center gap-2">
+        {/* 📱 update-48: phone එකේ logo එකත් එක්ක එක පේළියට ගැලපෙන්න gap ටිකක් අඩු කළා */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* 🔔 දැනුම්දීම් (login වෙලා නම්) */}
           {user && <span data-tour="bell" className="inline-flex"><NotificationsBell userId={user.id} isAdmin={isAdmin} /></span>}
           {/* 👇 Language — site එකට ගැලපෙන dropdown එක, භාෂාවල නම් ඒ ඒ අකුරෙන්ම */}
@@ -333,6 +338,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
             ariaLabel="Language"
             align="right"
             buttonClassName="pl-3 pr-2.5"
+            labelClassName="hidden min-[440px]:inline" // 📱 update-48: පොඩි phone එකේ 🌐 icon එක විතරයි
             options={languages.map((l) => ({ value: l, label: l === "si" ? "සිංහල" : l === "en" ? "English" : "தமிழ்" }))}
           />
           {mounted && (
@@ -391,9 +397,9 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
             <div className="ml-2 flex items-center gap-2 pl-2" aria-hidden><div className="h-8 w-8 animate-pulse rounded-lg bg-muted" /><div className="hidden h-4 w-20 animate-pulse rounded bg-muted sm:block" /></div>
           ) : (
             mounted && (
-              <div className="flex items-center gap-2 ml-2">
+              <div className="flex items-center gap-2 sm:ml-2">
                 <Link href="/login" className="hidden rounded-full px-4 py-2 text-sm font-medium hover:bg-muted sm:block transition">{t.nav.login}</Link>
-                <Link href="/register" className="rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 shadow-md shadow-primary/20 transition">{t.nav.register}</Link>
+                <Link href="/register" className="whitespace-nowrap rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-3 py-2 text-[13px] sm:px-4 sm:text-sm font-semibold text-white hover:opacity-90 shadow-md shadow-primary/20 transition">{t.nav.register}</Link>
               </div>
             )
           )}
