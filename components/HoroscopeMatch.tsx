@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import { Check, Info, Sparkles, Star, X } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { PORONDAM_8, type FullPorondam } from "@/lib/porondam";
+import { withPronoun } from "@/lib/pronoun"; // 👤 update-60: මෙයා / මොහු
 
 function Ring({ percent, size = 72 }: { percent: number; size?: number }) {
   const r = size / 2 - 6, c = 2 * Math.PI * r;
@@ -19,7 +20,7 @@ function Ring({ percent, size = 72 }: { percent: number; size?: number }) {
   );
 }
 
-export default function HoroscopeMatch({ userId, name }: { userId: string; name: string }) {
+export default function HoroscopeMatch({ userId, name, gender }: { userId: string; name: string; gender?: string | null }) {
   const { t, lang } = useLang();
   const H = t.horo;
   const [d, setD] = useState<{ mine: boolean; theirs: boolean; matched?: boolean; result?: FullPorondam } | null>(null);
@@ -55,7 +56,7 @@ export default function HoroscopeMatch({ userId, name }: { userId: string; name:
     <div className="mb-8 flex items-start gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-5">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary"><Sparkles className="h-5 w-5" /></span>
       <div>
-        <p className="font-bold text-foreground">{H.lockedTitle}</p>
+        <p className="font-bold text-foreground">{withPronoun(H.lockedTitle, lang, gender)}</p>
         <p className="mt-0.5 text-sm text-muted-foreground">{H.lockedText}</p>
       </div>
     </div>

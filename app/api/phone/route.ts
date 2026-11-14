@@ -53,9 +53,25 @@ export async function POST(req: Request) {
   if (!UUID.test(other) || other === uid) return NextResponse.json({ error: "Invalid user" }, { status: 400 });
   const admin = createAdminClient();
   if (share && !(await matched(admin, uid, other))) return NextResponse.json({ error: "Not matched" }, { status: 403 });
+  // 👇 කලින්ම share කරලාද (එහෙම නම් ආයේ notification යවන්නේ නෑ)
+  const { count: before } = share
+    ? await admin.from("phone_shares").select("owner_id", { count: "exact", head: true }).eq("owner_id", uid).eq("viewer_id", other)
+    : { count: 0 };
   const { error } = share
     ? await admin.from("phone_shares").upsert({ owner_id: uid, viewer_id: other }, { onConflict: "owner_id,viewer_id", ignoreDuplicates: true })
     : await admin.from("phone_shares").delete().eq("owner_id", uid).eq("viewer_id", other);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // 📞 update-60: අලුතින් On කළාම අනිත් කෙනාට 🔔 notification එකක් — "කසුන් තමන්ගේ දුරකථන අංකය ඔබට පේන්න සැලැස්සුවා"
+  //   (Off කරලා ආයේ On කළොත් — කියවපු නැති පරණ එක අයින් කරලා අලුත් එකක්, ගොඩගැහෙන්නේ නෑ)
+  if (share && !before) {
+    try {
+      const { data: p } = await admin.from("profiles").select("full_name").eq("id", uid).maybeSingle();
+      const first = String(p?.full_name ?? "").trim().split(/\s+/)[0] || "…";
+      const link = `/chat?userId=${uid}`;
+      await admin.from("notifications").delete().eq("user_id", other).eq("type", "phone_shared").eq("link", link).is("read_at", null);
+      await admin.from("notifications").insert({ user_id: other, type: "phone_shared", title: "phone_shared", body: first, link });
+    } catch { /* SQL එක තාම run කරලා නැත්නම් notification එක නැතුව වුණත් share එක වැඩ */ }
+  }
   return NextResponse.json({ ok: true, share });
 }

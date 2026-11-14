@@ -6,9 +6,10 @@
 import { useEffect, useState } from "react";
 import { Loader2, Lock, MessageCircle, Phone } from "lucide-react";
 import { useLang } from "@/components/providers";
+import { withPronoun } from "@/lib/pronoun"; // 👤 update-60: මෙයා / මොහු
 
-export default function MatchPhone({ userId, name }: { userId: string; name: string }) {
-  const { t } = useLang();
+export default function MatchPhone({ userId, name, gender }: { userId: string; name: string; gender?: string | null }) {
+  const { t, lang } = useLang();
   const T = t.phone;
   const [data, setData] = useState<{ theirPhone: string | null; iShare: boolean; hasPhone: boolean; matched: boolean } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -50,14 +51,14 @@ export default function MatchPhone({ userId, name }: { userId: string; name: str
             <a href={`https://wa.me/${digits.replace(/^\+/, "")}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-xl bg-[#25D366]/10 px-4 py-2 text-sm font-semibold text-[#128C7E] hover:bg-[#25D366] hover:text-white"><MessageCircle className="h-4 w-4" /> {T.whatsapp}</a>
           </div>
         ) : (
-          <p className="flex items-start gap-2 text-sm text-muted-foreground"><Lock className="mt-0.5 h-4 w-4 shrink-0" /> {T.hidden}</p>
+          <p className="flex items-start gap-2 text-sm text-muted-foreground"><Lock className="mt-0.5 h-4 w-4 shrink-0" /> {withPronoun(T.hidden, lang, gender)}</p>
         )}
       </div>
       {/* 👇 මගේ අංකය මේ කෙනාට විතරක් */}
       <div className="flex items-start gap-4 border-t border-border bg-muted/30 px-5 py-4">
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-foreground">{T.shareWith.replace("{name}", name)}</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{data.hasPhone ? T.shareHint : T.noPhone}</p>
+          <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{data.hasPhone ? `${withPronoun(T.shareHint, lang, gender)} ${withPronoun(T.sharedNotice, lang, gender)}` : T.noPhone}</p>
         </div>
         <button type="button" role="switch" aria-checked={data.iShare} aria-label={T.shareWith.replace("{name}", name)} disabled={!data.hasPhone || busy} onClick={toggle} className={`relative mt-0.5 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition disabled:opacity-50 ${data.iShare ? "bg-green-500" : "bg-muted-foreground/30"}`}>
           <span className={`inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition ${data.iShare ? "translate-x-6" : "translate-x-1"}`}>{busy && <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />}</span>

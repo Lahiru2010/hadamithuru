@@ -29,7 +29,12 @@ if [ ${#SQLS[@]} -gt 0 ]; then
 fi
 
 npm install --no-audit --no-fund --loglevel=error
-npx tsc --noEmit && echo "✅ TypeScript OK"
+# 👇 update-63: TypeScript error එකක් තිබ්බොත් මෙතනින් නවතිනවා (කලින් error එක තිබ්බත් commit වුණා)
+if ! npx tsc --noEmit; then
+  echo "❌ TypeScript errors තියෙනවා — commit කළේ නෑ. මේ error එක Claude ට එවන්න."
+  exit 1
+fi
+echo "✅ TypeScript OK"
 
 git add -A
 git commit -qm "update-$N"

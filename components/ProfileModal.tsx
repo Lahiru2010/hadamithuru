@@ -151,8 +151,9 @@ export function ProfileModal({
           <X className="h-5 w-5" />
         </button>
 
-        {/* 📜 Photo එකයි විස්තරයි එකට scroll වෙනවා — phone එකේ photo එක ඉඩ අල්ලගෙන හිරවෙන්නේ නෑ */}
-        <div className="custom-scrollbar flex-1 overflow-y-auto overscroll-contain">
+        {/* 📜 update-60: Phone එකේ photo එකයි විස්තරයි එකට scroll වෙනවා.
+             Tablet / laptop එකේ photo එක උඩ නොසෙල්වී තියෙනවා — යට විස්තර ටික විතරයි scroll වෙන්නේ */}
+        <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain sm:flex sm:flex-col sm:overflow-hidden">
         {/* Header Image */}
         <div className="relative h-[92vw] max-h-[440px] w-full shrink-0 overflow-hidden bg-muted sm:h-80">
           {/* 👇 Photo එක load වෙනකම් ඒකේම පොඩි blur version එක පිටිපස්සෙන් පේනවා */}
@@ -260,7 +261,7 @@ export function ProfileModal({
         </div>
 
         {/* Content Body */}
-        <div className="bg-muted/20 p-4 sm:p-6">
+        <div className="custom-scrollbar bg-muted/20 p-4 sm:min-h-0 sm:flex-1 sm:overflow-y-auto sm:overscroll-contain sm:p-6">
 
           <div className="mb-6 grid grid-cols-3 gap-2 sm:mb-8 sm:gap-3">
             <div className="rounded-2xl border border-border bg-background p-2.5 text-center shadow-sm sm:p-3">
@@ -291,13 +292,13 @@ export function ProfileModal({
           </div>
 
           {/* 📞 ගැලපුණු අයට — අංකය එක එක කෙනාට වෙන වෙනම (දෙපැත්තෙන්ම තමන් කැමති නම් විතරයි) */}
-          {!isPreview && profile.interestStatus === "accepted" && me && me.id !== profile.id && <MatchPhone userId={profile.id} name={profile.full_name ?? ""} />}
+          {!isPreview && profile.interestStatus === "accepted" && me && me.id !== profile.id && <MatchPhone userId={profile.id} name={profile.full_name ?? ""} gender={profile.gender} />}
 
           {/* 🔮 මගේ පැතිකඩ පෙරදසුනේ — කේන්දරය දාලා නම් සාරාංශය (අනිත් අයට පේන්නේ නෑ, ඔබට විතරයි) */}
           {isPreview && !adminView && <div className="mb-8"><HoroscopeSummary /></div>}
 
           {/* 💞 කේන්දර ගැළපීම — ගැලපුණු අයට ලකුණු · නැත්නම් "කේන්දරයක් දාලා තියෙනවා — accept කළාම පේනවා" විතරයි */}
-          {!isPreview && !adminView && me && me.id !== profile.id && <HoroscopeMatch key={`h-${profile.id}-${profile.interestStatus}`} userId={profile.id} name={profile.full_name ?? ""} />}
+          {!isPreview && !adminView && me && me.id !== profile.id && <HoroscopeMatch key={`h-${profile.id}-${profile.interestStatus}`} userId={profile.id} name={profile.full_name ?? ""} gender={profile.gender} />}
 
           {/* 👇 මා ගැන */}
           {about && (

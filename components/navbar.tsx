@@ -341,7 +341,8 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
         <div className="hidden items-center gap-0.5 lg:flex xl:gap-1">
           <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navLinkClass("/")}>{t.nav.home}</Link>
           {/* 🔍 Browse — login නැති අයටත් */}
-          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={navLinkClass("/browse")}>
+          {/* 💍 update-60: "යෝජනා සොයන්න" — ප්‍රධාන දේ නිසා පොඩ්ඩක් කැපී පේන්න (මෘදු රෝස පසුබිම + ඉරක්) */}
+          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={isActive("/browse") ? navLinkClass("/browse") : "relative flex items-center gap-1 whitespace-nowrap rounded-lg bg-primary/[0.07] px-2.5 py-1.5 text-sm font-semibold text-primary ring-1 ring-inset ring-primary/20 transition-colors hover:bg-primary/10 xl:px-3"}>
             <Search className={`h-4 w-4 ${isActive("/browse") ? "stroke-[2.5]" : ""}`} /> {t.nav.browse}
           </Link>
           {user && (
@@ -504,7 +505,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               {/* 🧭 ප්‍රධාන pages */}
               <nav aria-label={t.nav.menu} className="space-y-0.5">
                 <MenuRow href="/" active={isActive("/")} onNavigate={closeMenu} icon={House} label={t.nav.home} />
-                <MenuRow href="/browse" active={isActive("/browse")} onNavigate={closeMenu} icon={Search} label={t.nav.browse} />
+                <MenuRow href="/browse" active={isActive("/browse")} onNavigate={closeMenu} icon={Search} label={t.nav.browse} accent />
                 {user && <MenuRow href="/interests" active={isActive("/interests")} onNavigate={closeMenu} icon={Heart} label={t.nav.interests} dot={hasUnreadInterests} />}
                 {user && <MenuRow href="/chat" active={isActive("/chat")} onNavigate={closeMenu} icon={MessageCircle} label={t.nav.messages} dot={hasUnreadMessages} />}
                 <MenuRow href="/pricing" active={isActive("/pricing")} onNavigate={closeMenu} icon={Crown} label={t.plans.navLabel} />
@@ -599,7 +600,7 @@ function MenuRow({ href, icon: Icon, label, dot = false, accent = false, active,
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
       className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors active:scale-[0.99] ${
-        active ? "bg-primary/10 font-semibold text-primary" : accent ? "font-semibold text-primary hover:bg-primary/5" : "text-foreground hover:bg-muted"
+        active ? "bg-primary/10 font-semibold text-primary" : accent ? "bg-primary/5 font-semibold text-primary hover:bg-primary/10" : "text-foreground hover:bg-muted"
       }`}
     >
       <Icon className="h-5 w-5 shrink-0" />
