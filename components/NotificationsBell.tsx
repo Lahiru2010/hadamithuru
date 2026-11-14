@@ -16,7 +16,7 @@ import { useLang } from "@/components/providers";
 import { timeAgo } from "@/lib/last-seen";
 import { playChime, openAdminTab } from "@/lib/chime";
 
-type Notif = { id: string; type: string; body: string | null; link: string | null; read_at: string | null; created_at: string };
+type Notif = { id: string; type: string; title?: string | null; body: string | null; link: string | null; read_at: string | null; created_at: string };
 const REMINDER_SEEN_KEY = "seneha_verify_reminder_seen"; // 👈 එක පාරක් බැලුවම රතු තිත අයින් වෙනවා (list එකේ තියෙනවා)
 const REMINDER_SNOOZE_KEY = "seneha_verify_reminder_snooze"; // 👈 "දින 7කට සඟවන්න" — { userId, until }
 const VERIFY_MSG_TYPES = ["verify_rejected", "verify_info"]; // 👈 user verify වුණාම මේවා අයින් වෙනවා
@@ -37,7 +37,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
 
   useEffect(() => {
     Promise.all([
-      supabase.from("notifications").select("id, type, body, link, read_at, created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(30),
+      supabase.from("notifications").select("id, type, title, body, link, read_at, created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(30),
       supabase.from("profiles").select("id_verified").eq("id", userId).maybeSingle(),
     ]).then(([{ data }, { data: prof }]) => {
       const verified = prof?.id_verified === "Yes";
@@ -175,6 +175,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
     : n.type === "new_message" ? t.liveAlerts.message.replace("{name}", n.body ?? "")
     : n.type === "story_approved" ? t.stories.notifApproved
     : n.type === "story_confirm" ? t.stories.notifConfirm.replace("{names}", n.body ?? "")
+    : n.type === "premium_active" ? t.plans.notifPaid.replace("{plan}", n.title === "platinum" ? t.plans.platinumName : t.plans.goldName).replace("{date}", n.body ? new Date(n.body).toLocaleDateString() : "") // 💳 update-67
     : n.type === "boost_active" ? t.boost.notifActive.replace("{date}", n.body ? new Date(n.body).toLocaleDateString() : "")
     : n.type === "report_reviewed" ? E.reportReviewed.replace("{name}", n.body ?? "")
     : n.type === "phone_shared" ? t.phone.notifShared.replace("{name}", n.body ?? "") // 📞 update-60
@@ -255,7 +256,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
                 {/* 👇 Click කළාම ඒ page එකට + කියෙව්වා ලෙස */}
                 <Link href={n.link ?? "#"} onClick={() => { setOpen(false); if (!n.read_at) setRead(n, true); }} className="flex min-w-0 flex-1 gap-3 p-4 pr-2 hover:bg-muted/50">
                   {n.type === "verified" ? <BadgeCheck className="h-5 w-5 shrink-0 text-blue-500" />
-                    : n.type === "founding_member" ? <Crown className="h-5 w-5 shrink-0 text-amber-500" />
+                    : n.type === "founding_member" || n.type === "premium_active" ? <Crown className="h-5 w-5 shrink-0 text-amber-500" />
                     : n.type === "verify_reward" || n.type === "referral_reward" ? <Gift className="h-5 w-5 shrink-0 text-primary" />
                     : n.type === "story_approved" || n.type === "story_confirm" || n.type === "new_interest" ? <Heart className="h-5 w-5 shrink-0 fill-primary text-primary" />
                     : n.type === "new_message" ? <MessageCircle className="h-5 w-5 shrink-0 text-blue-500" />

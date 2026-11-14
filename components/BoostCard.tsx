@@ -8,6 +8,8 @@ import { useLang } from "@/components/providers";
 import { useDialog } from "@/components/DialogProvider";
 import type { BoostConfig } from "@/lib/pricing";
 import BoostProgress, { boostTimeLeft } from "@/components/BoostProgress";
+import { startCheckout } from "@/lib/payhere-client";
+import { usePayConfig } from "@/lib/usePayConfig";
 
 export default function BoostCard({ boost }: { boost: BoostConfig }) {
   const { t } = useLang();
@@ -20,8 +22,18 @@ export default function BoostCard({ boost }: { boost: BoostConfig }) {
     fetch("/api/boost", { cache: "no-store" }).then((r) => (r.status === 401 ? "guest" : r.ok ? r.json() : null)).then((d) => setMe(d)).catch(() => setMe(null));
   }, []);
 
+  const pay = usePayConfig(); // 💳 update-67: PayHere සකස් කරලා නම් කෙලින්ම ගෙවනවා, නැත්නම් පරණ විදිහට ඉල්ලීමක්
+
   const request = async () => {
     setBusy(true);
+    if (pay.enabled) {
+      const r = await startCheckout("boost");
+      if (r === "redirecting") return; // PayHere page එකට යනවා
+      setBusy(false);
+      if (r === "login") return void (window.location.href = "/login");
+      if (r !== "not_configured") return showAlert({ title: r === "too_many" ? t.plans.tooMany : t.plans.payError, tone: "error" });
+      setBusy(true); // not_configured → පරණ ඉල්ලීම් ක්‍රමයට
+    }
     const res = await fetch("/api/boost", { method: "POST" });
     setBusy(false);
     if (!res.ok) return showAlert({ title: B.error, tone: "error" });
@@ -39,11 +51,11 @@ export default function BoostCard({ boost }: { boost: BoostConfig }) {
           <h2 className="text-2xl font-extrabold">{B.title}</h2>
           <p className="mt-1 text-muted-foreground">{B.desc.replace("{days}", String(boost.days))}</p>
           <p className="mt-3 text-3xl font-extrabold text-foreground">{B.price.replace("{price}", boost.priceLkr.toLocaleString()).replace("{days}", String(boost.days))}</p>
-          <p className="mt-2 text-xs text-muted-foreground">{B.payNote}</p>
+          <p className="mt-2 text-xs text-muted-foreground">{pay.enabled ? B.payNoteOnline : B.payNote}</p>
         </div>
         <div className="shrink-0">
           {me === "guest" ? (
-            <Link href="/register" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 font-bold text-amber-950 shadow-lg shadow-amber-500/25"><Zap className="h-5 w-5" /> {B.request}</Link>
+            <Link href="/register" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 font-bold text-amber-950 shadow-lg shadow-amber-500/25"><Zap className="h-5 w-5" /> {pay.enabled ? B.payNow : B.request}</Link>
           ) : active ? (
             // ⚡ සක්‍රිය boost — progress bar + ඉවර වෙන්න ළඟ නම් "නැවත Boost කරන්න"
             <div className="w-72 max-w-full space-y-3 rounded-2xl bg-background/80 p-4 shadow-sm">
@@ -58,7 +70,7 @@ export default function BoostCard({ boost }: { boost: BoostConfig }) {
             <p className="flex max-w-xs items-start gap-2 rounded-xl bg-amber-500/10 px-5 py-3 text-sm font-semibold text-amber-800 dark:text-amber-300"><Clock className="mt-0.5 h-5 w-5 shrink-0" /> {B.pending}</p>
           ) : (
             <button type="button" onClick={request} disabled={busy || me === null} className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 font-bold text-amber-950 shadow-lg shadow-amber-500/25 transition hover:-translate-y-0.5 disabled:opacity-60">
-              {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Zap className="h-5 w-5" />} {B.request}
+              {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Zap className="h-5 w-5" />} {pay.enabled ? B.payNow : B.request}
             </button>
           )}
         </div>

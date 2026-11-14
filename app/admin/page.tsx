@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/client";
-import { Trash2, User, ShieldAlert, ChevronLeft, ChevronRight, Calendar, Mail, Users as Users2, BadgeCheck, Headset, Flag, Crown, Search, X as XIcon, LayoutDashboard, Heart, Zap } from "lucide-react";
+import { Trash2, User, ShieldAlert, ChevronLeft, ChevronRight, Calendar, Mail, Users as Users2, BadgeCheck, Headset, Flag, Crown, Search, X as XIcon, LayoutDashboard, Heart, Zap, CreditCard } from "lucide-react";
 import AvatarImage from "@/components/AvatarImage";
 import { isAdminEmail } from "@/lib/admin-emails";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ import AdminAdmins from "@/components/admin/AdminAdmins";
 import AdminOverview from "@/components/admin/AdminOverview";
 import AdminStories from "@/components/admin/AdminStories";
 import AdminPricing from "@/components/admin/AdminPricing";
+import AdminPayments from "@/components/admin/AdminPayments";
 
 
 
@@ -34,7 +35,7 @@ export default function AdminPage() {
   const [userQuery, setUserQuery] = useState("");
   const [userSort, setUserSort] = useState<"newest" | "oldest" | "name" | "verified">("newest");
   // 👇 Default tab එක දැන් "Overview" (statistics + graphs)
-  const [tab, setTab] = useState<"overview" | "users" | "verify" | "support" | "contact" | "reports" | "stories" | "pricing" | "admins">(() => {
+  const [tab, setTab] = useState<"overview" | "users" | "verify" | "support" | "contact" | "reports" | "stories" | "pricing" | "payments" | "admins">(() => {
     if (typeof window === "undefined") return "overview";
     // වෙන page එකක notification එකකින් ආවොත් (sessionStorage) හෝ ?tab=...
     const stored = sessionStorage.getItem("seneha_admin_tab");
@@ -118,6 +119,7 @@ export default function AdminPage() {
     { id: "reports" as const, label: "Reports", icon: Flag, count: summary.openReports },
     { id: "stories" as const, label: "Success stories", icon: Heart, count: summary.pendingStories ?? 0 },
     { id: "pricing" as const, label: "Pricing & boost", icon: Zap, count: summary.pendingBoosts ?? 0 },
+    { id: "payments" as const, label: "Payments", icon: CreditCard, count: 0 }, // 💳 update-67
     ...(isSuper ? [{ id: "admins" as const, label: "Admins", icon: Crown, count: 0 }] : []),
   ];
 
@@ -164,6 +166,7 @@ export default function AdminPage() {
         {!loading && isAdmin && tab === "reports" && <AdminReports />}
         {!loading && isAdmin && tab === "stories" && <AdminStories />}
         {!loading && isAdmin && tab === "pricing" && <AdminPricing />}
+        {!loading && isAdmin && tab === "payments" && <AdminPayments />}
         {!loading && isSuper && tab === "admins" && <AdminAdmins />}
 
         {/* 👇 Users: සෙවීම + පිළිවෙළ (join වුණ දිනය / නම / verified) */}

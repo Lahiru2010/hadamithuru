@@ -1,6 +1,6 @@
 // lib/legal.ts
 // ⚠️ Template එකක් — launch කරන්න කලින් නීතිඥයෙකු ලවා පරීක්ෂා කරවන්න. {brand} → site එකේ නම
-export const LEGAL_UPDATED = "2026-11-13";
+export const LEGAL_UPDATED = "2026-11-14";
 
 export const TERMS: Record<string, [string, string][]> = {
   "en": [
@@ -26,7 +26,11 @@ export const TERMS: Record<string, [string, string][]> = {
     ],
     [
       "Paid plans",
-      "Some features may require a paid plan. Prices and what each plan includes are shown on the Plans page before you pay."
+      "Some features require a paid plan or a Profile Boost. Prices (in Sri Lankan Rupees) and what each plan includes are shown on the Plans page before you pay. Payments are processed securely by PayHere (PayHere (Pvt) Ltd) — we never see or store your card details. Each purchase is a one-time payment for the period shown; nothing renews automatically. Your plan or boost starts as soon as the payment is confirmed."
+    ],
+    [
+      "Refunds and cancellations",
+      "Because a plan or boost starts immediately and gives instant access to its features, payments are generally non-refundable. If you were charged twice, charged but did not receive what you paid for, or were charged in error, contact us within 7 days with your order number and we will refund the amount in full to the same payment method (refunds can take 5–10 working days to appear). If we remove your profile for breaking these terms, unused time is not refunded."
     ],
     [
       "Suspension and removal",
@@ -64,7 +68,11 @@ export const TERMS: Record<string, [string, string][]> = {
     ],
     [
       "ගෙවන පැකේජ",
-      "සමහර පහසුකම් සඳහා ගෙවන පැකේජයක් අවශ්‍ය විය හැකියි. මිල ගණන් සහ එක් එක් පැකේජයේ ඇතුළත් දේ ඔබ ගෙවීමට පෙර පැකේජයන් පිටුවේ පෙන්වනවා."
+      "සමහර පහසුකම් සඳහා ගෙවන පැකේජයක් හෝ Profile Boost එකක් අවශ්‍යයි. මිල ගණන් (ශ්‍රී ලංකා රුපියල් වලින්) සහ එක් එක් පැකේජයේ ඇතුළත් දේ ඔබ ගෙවීමට පෙර පැකේජයන් පිටුවේ පෙන්වනවා. ගෙවීම් ආරක්ෂිතව සිදු කරන්නේ PayHere (PayHere (Pvt) Ltd) හරහායි — ඔබේ කාඩ්පත් විස්තර අපට පේන්නේවත් අප ගබඩා කරන්නේවත් නෑ. හැම ගෙවීමක්ම පෙන්වා ඇති කාලයට එක් වරක් කරන ගෙවීමක්; ස්වයංක්‍රීයව අලුත් වෙන්නේ නෑ. ගෙවීම තහවුරු වූ ගමන් ඔබේ පැකේජය හෝ Boost එක පටන් ගන්නවා."
+    ],
+    [
+      "මුදල් ආපසු ගෙවීම සහ අවලංගු කිරීම",
+      "පැකේජයක් හෝ Boost එකක් ගෙවූ ගමන්ම පටන් ගෙන එහි පහසුකම් වහාම ලැබෙන නිසා, සාමාන්‍යයෙන් ගෙවීම් ආපසු ගෙවන්නේ නෑ. ඔබෙන් දෙපාරක් මුදල් අය වුණොත්, මුදල් අය වී ගෙවූ දේ නොලැබුණොත්, හෝ වැරදීමකින් අය වුණොත්, දින 7ක් ඇතුළත order අංකය සමඟ අපිව සම්බන්ධ කරගන්න — සම්පූර්ණ මුදල ඔබ ගෙවූ ක්‍රමයටම ආපසු ගෙවනවා (ඔබේ ගිණුමට එන්න වැඩ කරන දින 5–10ක් යා හැකියි). මෙම නියමයන් කඩ කිරීම නිසා ඔබේ ගිණුම ඉවත් කළොත්, ඉතුරු කාලයට මුදල් ආපසු ගෙවන්නේ නෑ."
     ],
     [
       "අත්හිටුවීම සහ ඉවත් කිරීම",
@@ -102,7 +110,11 @@ export const TERMS: Record<string, [string, string][]> = {
     ],
     [
       "கட்டணத் திட்டங்கள்",
-      "சில அம்சங்களுக்கு கட்டணத் திட்டம் தேவைப்படலாம். விலைகளும் ஒவ்வொரு திட்டத்திலும் உள்ளவையும் நீங்கள் செலுத்தும் முன் திட்டங்கள் பக்கத்தில் காட்டப்படும்."
+      "சில அம்சங்களுக்கு கட்டணத் திட்டம் அல்லது Profile Boost தேவை. விலைகளும் (இலங்கை ரூபாயில்) ஒவ்வொரு திட்டத்திலும் உள்ளவையும் நீங்கள் செலுத்தும் முன் திட்டங்கள் பக்கத்தில் காட்டப்படும். கட்டணங்கள் PayHere (PayHere (Pvt) Ltd) மூலம் பாதுகாப்பாகச் செயலாக்கப்படுகின்றன — உங்கள் அட்டை விவரங்களை நாங்கள் பார்ப்பதோ சேமிப்பதோ இல்லை. ஒவ்வொரு கொள்முதலும் காட்டப்பட்ட காலத்துக்கான ஒருமுறைக் கட்டணம்; தானாகப் புதுப்பிக்கப்படாது. கட்டணம் உறுதியானதும் உங்கள் திட்டம் அல்லது Boost தொடங்கும்."
+    ],
+    [
+      "பணம் திருப்பித் தருதல் மற்றும் ரத்து",
+      "திட்டம் அல்லது Boost உடனே தொடங்கி அதன் அம்சங்கள் உடனே கிடைப்பதால், கட்டணங்கள் பொதுவாகத் திருப்பித் தரப்படாது. இருமுறை அறவிடப்பட்டால், பணம் அறவிடப்பட்டும் செலுத்தியது கிடைக்காவிட்டால், அல்லது தவறுதலாக அறவிடப்பட்டால், 7 நாட்களுக்குள் order எண்ணுடன் எங்களைத் தொடர்புகொள்ளுங்கள் — முழுத் தொகையும் நீங்கள் செலுத்திய முறைக்கே திருப்பித் தரப்படும் (உங்கள் கணக்கில் வர 5–10 வேலை நாட்கள் ஆகலாம்). இந்த விதிமுறைகளை மீறியதற்காக உங்கள் சுயவிவரம் நீக்கப்பட்டால், மீதமுள்ள காலத்துக்குப் பணம் திருப்பித் தரப்படாது."
     ],
     [
       "இடைநிறுத்தம் மற்றும் நீக்கம்",
