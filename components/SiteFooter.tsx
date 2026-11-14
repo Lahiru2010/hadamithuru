@@ -8,6 +8,7 @@ import { Heart, Lock, ShieldCheck, EyeOff, MessageCircleHeart } from "lucide-rea
 import { useLang } from "@/components/providers";
 import { siteLinkGroups } from "@/lib/site-links";
 import { SOCIAL_LINKS } from "@/lib/site";
+import BrandLogo from "@/components/BrandLogo";
 
 // 📱 update-47: Social media icons (lucide එකේ brand icons නැති නිසා SVG කෙලින්ම)
 function SocialIcon({ name }: { name: (typeof SOCIAL_LINKS)[number]["key"] }) {
@@ -128,7 +129,10 @@ export default function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand + trust */}
           <div>
-            <Link href="/" className={S.brand}>{t.brand}</Link>
+            {/* 💗 update-48: logo එක — තද පසුබිමේ (wine / red) සුදු අකුරු */}
+            <Link href="/" aria-label={t.brand} className="inline-flex">
+              <BrandLogo height={44} variant={FOOTER_STYLE === "classic" ? "auto" : "white"} className="h-11 w-auto" />
+            </Link>
             <p className={S.about}>{F.about}</p>
             <ul className="mt-5 space-y-2 text-base">
               {[
