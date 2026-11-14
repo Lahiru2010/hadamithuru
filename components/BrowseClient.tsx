@@ -395,7 +395,7 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
   const hasPrefs = !!(viewerProfile?.partner_prefs && Object.keys(viewerProfile.partner_prefs as object).length);
   // 💎 "අද ඔබට 5 දෙනා" Premium අයට විතරයි (ගෙවපු / Founding / refer තෑගි — premium_until තවම ඉවර නැත්නම්)
   const isPremium = isBoosted(viewerProfile?.premium_until as string | null | undefined);
-  // 👋 update-65: අලුත් user කෙනෙක් මුලින්ම Browse එකට ආවම customer support එකෙන් සාදර පිළිගැනීමේ message එකක් (server එකේ එක පාරයි)
+  // 👋 update-66: ඕනම user කෙනෙක් Browse එකට ආවම customer support එකෙන් සාදර පිළිගැනීමේ message එකක් (server එකේ එක user කෙනෙකුට එක පාරයි)
   useEffect(() => {
     if (!currentUser?.id) return;
     const key = `hm_welcome_${currentUser.id}`;

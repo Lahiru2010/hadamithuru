@@ -900,7 +900,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
               </div>
             )}
             {STEPS.filter((s) => s.fields.length > 0).map((s) => (
-              <div key={s.id} className="rounded-2xl border border-border p-4">
+              <div key={s.id} className="rounded-2xl border border-border p-3.5 sm:p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="flex items-center gap-2 text-sm font-bold text-primary">{s.icon} {W[s.id]}</h3>
                   <button
@@ -911,18 +911,22 @@ export default function ProfileWizard({ userId }: { userId: string }) {
                     <Pencil className="h-3.5 w-3.5" /> {W.edit}
                   </button>
                 </div>
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-3 md:grid-cols-3">
+                {/* 📱 update-66: සංක්ෂිප්ත (compact) — පොඩි අකුරු, අඩු ඉඩ. "මා ගැන" වගේ දිග text සම්පූර්ණ පළලට, සාමාන්‍ය අකුරුවලින් */}
+                <dl className="grid grid-cols-2 gap-x-3 gap-y-2.5 sm:gap-x-4 md:grid-cols-3">
                   {s.fields
                     .filter((k) => isRelevant(k, form))
-                    .map((k) => (
-                      // 👇 update-65: දිග අගයන් (උදා: විනෝදාංශ) "…" වෙලා කැපෙන්නේ නෑ — සම්පූර්ණ පළලට, පේළි කීපයකට
-                      <div key={k} className={`min-w-0 ${k === "hobbies" ? "col-span-2 md:col-span-3" : ""}`}>
-                        <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{fieldLabel(k, W, P, A.phone)}</dt>
-                        <dd className={`break-words text-sm font-semibold capitalize ${isFilled(form[k]) ? "" : "font-normal italic text-muted-foreground"}`}>
-                          {displayValue(k, form, tr) || W.notSet}
-                        </dd>
-                      </div>
-                    ))}
+                    .map((k) => {
+                      const long = k === "hobbies" || k.startsWith("about_me_") || k.endsWith("_info");
+                      const filled = isFilled(form[k]);
+                      return (
+                        <div key={k} className={`min-w-0 ${long ? "col-span-2 md:col-span-3" : ""}`}>
+                          <dt className="text-[10.5px] font-medium uppercase leading-4 tracking-wide text-muted-foreground">{fieldLabel(k, W, P, A.phone)}</dt>
+                          <dd className={`mt-0.5 break-words leading-snug ${long && filled ? "rounded-lg bg-muted/40 px-2.5 py-1.5 text-[13.5px] font-normal" : "text-[14.5px] font-semibold"} ${long ? "" : "capitalize"} ${filled ? "" : "!bg-transparent !px-0 !py-0 text-[13.5px] !font-normal italic text-muted-foreground"}`}>
+                            {displayValue(k, form, tr) || W.notSet}
+                          </dd>
+                        </div>
+                      );
+                    })}
                 </dl>
               </div>
             ))}

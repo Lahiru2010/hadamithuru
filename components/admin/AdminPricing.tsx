@@ -125,8 +125,24 @@ export default function AdminPricing() {
                             <span className="bg-muted px-3 py-3 text-sm font-bold text-muted-foreground">LKR</span>
                             <input type="number" min={0} value={plan.priceLkr} onChange={(e) => setPlan(i, { priceLkr: Number(e.target.value) })} className="min-w-0 flex-1 bg-transparent px-3 py-2 text-2xl font-extrabold outline-none" />
                           </div>
-                          {/* 🗓️ update-65: මිල = මාසයක මිල. මාස 2 / 3 / 6 / 12 මිල + අඩු කිරීම් යට "Durations" කොටසෙන් */}
-                          <p className="text-xs text-muted-foreground">Price for <b className="text-foreground">1 month</b> — longer periods &amp; discounts are set in <b className="text-foreground">Durations</b> below.</p>
+                          {/* 🗓️ update-66: මිල = මාසයක මිල. කාලය admin තෝරනවා (members ට පේන්නේ මේ එක කාලයයි) */}
+                          <p className="-mt-2 text-xs text-muted-foreground">Price per month</p>
+                          <div>
+                            <p className="mb-1.5 text-xs font-semibold uppercase text-muted-foreground">Duration</p>
+                            <div className="inline-flex flex-wrap gap-1 rounded-xl border border-border p-1">
+                              {[1, 2, 3, 6, 12].map((m) => <button key={m} type="button" onClick={() => setPlan(i, { months: m })} className={seg(plan.months === m)}>{m === 1 ? "1 month" : `${m} months`}</button>)}
+                            </div>
+                          </div>
+                          {(() => {
+                            const d = pricing.durations.find((x) => x.months === (plan.months ?? 1));
+                            const pr = periodPrice(plan.priceLkr, d ?? { months: plan.months ?? 1, discountPct: 0, enabled: true });
+                            return (
+                              <p className="text-xs text-muted-foreground">
+                                Members see <b className="text-foreground">LKR {pr.total.toLocaleString()} {plan.months === 1 ? P.perMonth : P.perMonths.replace("{n}", String(plan.months))}</b>
+                                {d && d.discountPct > 0 && <> · <span className="line-through">LKR {pr.full.toLocaleString()}</span> <b className="text-green-600">{d.discountPct}% off</b></>}
+                              </p>
+                            );
+                          })()}
                           <button type="button" onClick={() => setPricing((p) => p && { ...p, plans: p.plans.map((x, k) => ({ ...x, popular: k === i ? !x.popular : false })) })} className={`flex w-fit items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${plan.popular ? "bg-primary text-white" : "border border-border text-muted-foreground hover:border-primary/40"}`}><Star className={`h-3.5 w-3.5 ${plan.popular ? "fill-current" : ""}`} /> Most popular</button>
                         </>
                       )}
@@ -152,23 +168,18 @@ export default function AdminPricing() {
             {/* 🗓️ update-65: Durations — මාස 1 / 2 / 3 / 6 / 12 + එක එකට අඩු කිරීම (%) */}
             <div className="mt-6 overflow-hidden rounded-3xl border border-border">
               <div className="border-b border-border bg-muted/40 px-5 py-4">
-                <p className="text-lg font-extrabold">🗓️ Durations &amp; discounts</p>
-                <p className="text-xs text-muted-foreground">Members choose how many months to buy on the Plans page. Turn a period on/off and set its discount.</p>
+                <p className="text-lg font-extrabold">🗓️ Discounts by duration</p>
+                <p className="text-xs text-muted-foreground">When a plan&apos;s duration (above) is 2 months or more, this discount is applied automatically on the Plans page.</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[34rem] text-sm">
                   <thead className="text-left text-xs uppercase text-muted-foreground">
-                    <tr><th className="px-5 py-3">Period</th><th className="px-3 py-3">Show</th><th className="px-3 py-3">Discount</th>{pricing.plans.filter((p) => p.id !== "free").map((p) => <th key={p.id} className="px-3 py-3">{P[`${p.id}Name` as const]} total</th>)}</tr>
+                    <tr><th className="px-5 py-3">Period</th><th className="px-3 py-3">Discount</th>{pricing.plans.filter((p) => p.id !== "free").map((p) => <th key={p.id} className="px-3 py-3">{P[`${p.id}Name` as const]} (if chosen)</th>)}</tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {pricing.durations.map((d, k) => (
-                      <tr key={d.months} className={d.enabled ? "" : "opacity-50"}>
+                      <tr key={d.months}>
                         <td className="px-5 py-3 font-bold">{d.months === 1 ? "1 month" : `${d.months} months`}</td>
-                        <td className="px-3 py-3">
-                          <button type="button" role="switch" aria-checked={d.enabled} disabled={d.months === 1} onClick={() => setPricing({ ...pricing, durations: pricing.durations.map((x, j) => (j === k ? { ...x, enabled: !x.enabled } : x)) })} className={`relative inline-flex h-6 w-11 items-center rounded-full transition disabled:cursor-not-allowed ${d.enabled ? "bg-primary" : "bg-muted-foreground/30"}`}>
-                            <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition ${d.enabled ? "translate-x-6" : "translate-x-1"}`} />
-                          </button>
-                        </td>
                         <td className="px-3 py-3">
                           <div className="inline-flex items-center overflow-hidden rounded-xl border border-border focus-within:border-primary">
                             <input type="number" min={0} max={90} value={d.discountPct} disabled={d.months === 1} onChange={(e) => setPricing({ ...pricing, durations: pricing.durations.map((x, j) => (j === k ? { ...x, discountPct: Number(e.target.value) } : x)) })} className="w-16 bg-transparent px-3 py-1.5 text-sm font-bold outline-none disabled:text-muted-foreground" aria-label={`Discount for ${d.months} months`} />

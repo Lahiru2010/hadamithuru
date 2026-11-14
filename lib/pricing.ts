@@ -4,7 +4,8 @@ import { PLANS, type PlanId } from "@/lib/plans";
 
 export type Plan = { id: PlanId; priceLkr: number; months: number | null; popular?: boolean; enabled?: boolean; features: string[] };
 export type BoostConfig = { priceLkr: number; days: number; enabled: boolean };
-// 🗓️ update-65: ගෙවන පැකේජ (Gold / Platinum) — මාස 1 / 2 / 3 / 6 / 12. priceLkr = **මාසයක** මිල, discountPct = එම කාලයට අඩු කරන %
+// 🗓️ update-66: ගෙවන පැකේජයක කාලය admin තෝරනවා (මාස 1 / 2 / 3 / 6 / 12) — user ට පේන්නේ ඒ එක කාලයයි (කලින් වගේ).
+//   priceLkr = **මාසයක** මිල · discountPct = ඒ කාලයට අඩු කරන % (default: මාස 2+ → 20%) · enabled = (දැන් පාවිච්චි නෑ)
 export type Duration = { months: number; discountPct: number; enabled: boolean };
 export type Pricing = { plans: Plan[]; boost: BoostConfig; durations: Duration[] };
 
@@ -48,9 +49,9 @@ export function normalizePricing(raw: unknown): Pricing {
       .filter((p) => p && ["free", "gold", "platinum"].includes(p.id))
       .map((p) => ({
         id: p.id,
-        // 👇 update-65: පරණ settings එකේ මාස කීපයකට මිලක් තිබ්බොත් මාසයක මිලට හරවනවා
-        priceLkr: Math.max(0, Math.round((Number(p.priceLkr) || 0) / (p.months && Number(p.months) > 1 ? Number(p.months) : 1))),
-        months: p.months == null || p.id === "free" ? null : 1,
+        priceLkr: Math.max(0, Math.round(Number(p.priceLkr) || 0)), // 👈 මාසයක මිල
+        // 👇 update-66: admin තෝරන කාලය — 1 / 2 / 3 / 6 / 12 විතරයි
+        months: p.id === "free" || p.months == null ? null : ((DURATION_MONTHS as readonly number[]).includes(Number(p.months)) ? Number(p.months) : 1),
         popular: !!p.popular,
         enabled: p.enabled !== false,
         features: (Array.isArray(p.features) ? p.features : []).filter((f) => (FEATURE_KEYS as readonly string[]).includes(f)),
