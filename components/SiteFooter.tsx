@@ -131,7 +131,7 @@ export default function SiteFooter() {
           <div>
             {/* 💗 update-48: logo එක — තද පසුබිමේ (wine / red) සුදු අකුරු */}
             <Link href="/" aria-label={t.brand} className="inline-flex">
-              <BrandLogo height={36} variant={FOOTER_STYLE === "classic" ? "auto" : "white"} className="h-9 w-auto" />
+              <BrandLogo height={32} variant={FOOTER_STYLE === "classic" ? "auto" : "white"} className="h-8 w-auto" />
             </Link>
             <p className={S.about}>{F.about}</p>
             <ul className="mt-5 space-y-2 text-base">
