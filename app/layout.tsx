@@ -12,7 +12,7 @@ import FaviconBadge from "@/components/FaviconBadge";
 import CookieConsent from "@/components/CookieConsent";
 import OnboardingTour from "@/components/OnboardingTour";
 import ReferralCapture from "@/components/ReferralCapture";
-import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { IS_INDEXABLE, SITE_ALT_NAMES, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL, SOCIAL_URLS } from "@/lib/site";
 
 const jakarta = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
@@ -28,10 +28,13 @@ const cormorant = Cormorant_Garamond({
 // 🔎 SEO — Google search results, Facebook / WhatsApp share, browser tab
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: SITE_TITLE, template: `%s | ${SITE_NAME} – Sri Lanka Marriage Proposals` },
+  // 👇 update-47: "%s | Hadamithuru" — කලින් "… – Sri Lanka marriage proposals | Hadamithuru – Sri Lanka Marriage Proposals" වගේ දෙපාරක් ආවා
+  title: { default: SITE_TITLE, template: `%s | ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
   keywords: SITE_KEYWORDS,
   applicationName: SITE_NAME,
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   category: "Matrimony",
   openGraph: {
     type: "website",
@@ -43,7 +46,10 @@ export const metadata: Metadata = {
     alternateLocale: ["en_LK", "ta_LK"],
   },
   twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  // 👇 update-47: Staging (develop) එකේ noindex — Live (main) එකේ විතරක් Google search එකට
+  robots: IS_INDEXABLE
+    ? { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } }
+    : { index: false, follow: false },
   // 👇 Google Search Console එකේ "HTML tag" verification code එක (.env එකේ NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION)
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } : undefined,
   formatDetection: { telephone: false },
@@ -61,13 +67,18 @@ const SITE_JSON_LD = {
       logo: `${SITE_URL}/apple-icon.png`,
       areaServed: { "@type": "Country", name: "Sri Lanka" },
       email: "support@hadamithuru.lk",
+      alternateName: SITE_ALT_NAMES,
+      description: SITE_DESCRIPTION,
+      // 👇 update-47: Social media pages — Google search එකේ brand panel එකට
+      ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
+      contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: "support@hadamithuru.lk", areaServed: "LK", availableLanguage: ["Sinhala", "English", "Tamil"] },
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
       name: SITE_NAME,
-      alternateName: ["Hadamithuru Matrimony", "Hadamithuru Sri Lanka Marriage Proposals", "හදමිතුරු මංගල යෝජනා"],
+      alternateName: [...SITE_ALT_NAMES, "Hadamithuru Sri Lanka Marriage Proposals", "හදමිතුරු මංගල යෝජනා"],
       inLanguage: ["si", "en", "ta"],
       publisher: { "@id": `${SITE_URL}/#organization` },
     },
