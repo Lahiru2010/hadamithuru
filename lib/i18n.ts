@@ -16,6 +16,14 @@ export const translations = {
       interests: "ඇරයුම්",
       messages: "පණිවිඩ ගොණුව",
       logout: "ඉවත් වෙන්න",
+      // 📱 update-52: phone / tablet menu එක
+      menu: "මෙනුව",
+      closeMenu: "මෙනුව වසන්න",
+      account: "මගේ ගිණුම",
+      settings: "සැකසුම්",
+      language: "භාෂාව",
+      darkMode: "අඳුරු පෙනුම",
+      viewProfile: "මගේ පැතිකඩ බලන්න",
     },
     hero: {
       title: "ඔබේ ජීවිත සහකරු සොයාගන්න",
@@ -1113,6 +1121,14 @@ export const translations = {
       interests: "Interests",
       messages: "Messages",
       logout: "Logout",
+      // 📱 update-52: phone / tablet menu
+      menu: "Menu",
+      closeMenu: "Close menu",
+      account: "My account",
+      settings: "Settings",
+      language: "Language",
+      darkMode: "Dark mode",
+      viewProfile: "View my profile",
     },
     hero: {
       title: "Find Your Life Partner",
@@ -2210,6 +2226,14 @@ export const translations = {
       interests: "ஆர்வங்கள்",
       messages: "செய்திகள்",
       logout: "வெளியேறு",
+      // 📱 update-52: phone / tablet menu
+      menu: "மெனு",
+      closeMenu: "மெனுவை மூடு",
+      account: "என் கணக்கு",
+      settings: "அமைப்புகள்",
+      language: "மொழி",
+      darkMode: "இருண்ட தோற்றம்",
+      viewProfile: "என் சுயவிவரத்தைப் பார்",
     },
     hero: {
       title: "உங்கள் வாழ்க்கை துணையை கண்டுபிடியுங்கள்",
