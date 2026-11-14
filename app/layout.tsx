@@ -64,8 +64,7 @@ const SITE_JSON_LD = {
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/icon-512.png`, // 👈 update-48: අලුත් හදවත logo එක
-      image: `${SITE_URL}/logo.svg`,
+      logo: `${SITE_URL}/apple-icon.png`,
       areaServed: { "@type": "Country", name: "Sri Lanka" },
       email: "support@hadamithuru.lk",
       alternateName: SITE_ALT_NAMES,
