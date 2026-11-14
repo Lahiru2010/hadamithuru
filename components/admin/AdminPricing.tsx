@@ -192,7 +192,7 @@ export default function AdminPricing() {
           <p className="flex items-center gap-2 text-sm font-semibold"><span className="h-2 w-2 rounded-full bg-amber-500" /> You have unsaved changes</p>
           <div className="flex gap-2">
             <button onClick={() => setPricing(normalizePricing(JSON.parse(saved)))} className="rounded-xl px-4 py-2 text-sm font-semibold text-muted-foreground hover:bg-muted">Discard</button>
-            <button onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-5 py-2 text-sm font-bold text-white shadow-md disabled:opacity-60">{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save changes</button>
+            <button onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-2 text-sm font-bold text-white shadow-md disabled:opacity-60">{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save changes</button>
           </div>
         </div>
       )}

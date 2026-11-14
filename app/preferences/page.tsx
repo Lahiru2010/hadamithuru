@@ -89,7 +89,7 @@ export default function PreferencesPage() {
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="mb-8 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-foreground">{P.title}</h1>
             <p className="mt-1 max-w-2xl text-muted-foreground">{P.subtitle}</p>
@@ -125,7 +125,7 @@ export default function PreferencesPage() {
 
         <div className="sticky bottom-4 mt-8 flex items-center justify-end gap-3 rounded-2xl border border-border bg-background/90 p-3 shadow-xl backdrop-blur-md">
           <button type="button" onClick={() => setPrefs({})} className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"><RotateCcw className="h-4 w-4" /> {P.clear}</button>
-          <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">
+          <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {P.save}
           </button>
         </div>

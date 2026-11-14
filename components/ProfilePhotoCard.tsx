@@ -339,7 +339,7 @@ export default function ProfilePhotoCard({
                 value={zoom}
                 onChange={(e) => setZoom(Number(e.target.value))}
                 aria-label={T.zoom}
-                className="w-full accent-[#D61F55]"
+                className="w-full accent-[#D52047]"
               />
               <ZoomIn className="h-4 w-4 shrink-0 text-muted-foreground" />
             </div>
@@ -348,7 +348,7 @@ export default function ProfilePhotoCard({
               <button type="button" onClick={() => setCropSrc(null)} disabled={compressing} className="flex-1 rounded-xl border border-border py-3 text-sm font-semibold hover:bg-muted disabled:opacity-50">
                 {T.cancel}
               </button>
-              <button type="button" onClick={confirmCrop} disabled={compressing || !cropArea} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-3 text-sm font-semibold text-white disabled:opacity-60">
+              <button type="button" onClick={confirmCrop} disabled={compressing || !cropArea} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-3 text-sm font-semibold text-white disabled:opacity-60">
                 {compressing ? <><Loader2 className="h-4 w-4 animate-spin" /> {T.processing}</> : <><Check className="h-4 w-4" /> {T.save}</>}
               </button>
             </div>

@@ -3,8 +3,9 @@
 // මැද ඉන්න යුවළගේ ආදර කතාව (review) යටින්. Auto යනවා, ඒ වගේම ← → buttons / dots වලින් මාරු කරන්නත් පුළුවන්.
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Heart, MapPin, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, Quote } from "lucide-react";
 import CoupleImage from "@/components/CoupleImage";
 
 export type CoupleStory = { name: string; place: string; quote: string; year: number; img: string };
@@ -93,7 +94,8 @@ export default function CoupleSlider({ stories, marriedLabel, prevLabel, nextLab
                   <span key={index} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pb-6 pt-20 text-white animate-in fade-in slide-in-from-bottom-2 duration-700">
                     <span className="flex items-center gap-2.5 text-xl font-bold tracking-tight drop-shadow sm:text-2xl">
                       <span>{a}</span>
-                      {b && <Heart className="h-7 w-7 shrink-0 fill-[#D61F55] text-[#D61F55] drop-shadow sm:h-8 sm:w-8" />}
+                      {/* 💗 update-53: නම් දෙක මැද Hadamithuru logo එකේ හදවත */}
+                      {b && <Image src="/logo-mark.svg" alt="" aria-hidden width={36} height={36} className="h-8 w-8 shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)] sm:h-9 sm:w-9" />}
                       {b && <span>{b}</span>}
                     </span>
                     <span className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-white/85 sm:text-sm">

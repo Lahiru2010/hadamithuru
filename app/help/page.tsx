@@ -66,7 +66,7 @@ export default function HelpPage() {
           <div className="rounded-[2rem] border border-border/60 bg-background p-7 shadow-sm">
             <h2 className="flex items-center gap-2 text-xl font-bold text-foreground"><Mail className="h-5 w-5 text-primary" /> {H.contactTitle}</h2>
             <p className="mt-2 text-muted-foreground">{H.contactText}</p>
-            <a href={`mailto:${email}`} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-5 py-3 font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
+            <a href={`mailto:${email}`} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-3 font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
               <Mail className="h-4 w-4" /> {H.emailUs}
             </a>
             <p className="mt-3 text-sm text-muted-foreground">{email}</p>

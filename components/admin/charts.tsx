@@ -5,9 +5,9 @@
 import { useEffect, useRef, useState } from "react";
 
 export const CHART_COLORS = {
-  primary: "#D61F55",
-  coral: "#F0544F",
-  wine: "#8E1238",
+  primary: "#D52047",
+  coral: "#F05160",
+  wine: "#8E0B26",
   blue: "#3B82F6",
   green: "#16A34A",
   amber: "#F59E0B",

@@ -54,7 +54,7 @@ export default function SafetyPage() {
       <div className="mx-auto max-w-5xl px-4 py-16">
         {/* Hero */}
         <div className="mb-12 text-center">
-          <span className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><ShieldCheck className="h-8 w-8" /></span>
+          <span className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><ShieldCheck className="h-8 w-8" /></span>
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{S.title}</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{S.subtitle}</p>
         </div>
@@ -107,14 +107,14 @@ export default function SafetyPage() {
               ))}
             </ol>
           </section>
-          <section className="rounded-3xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] p-6 text-white shadow-xl shadow-primary/20">
+          <section className="rounded-3xl bg-gradient-to-br from-[#D52047] to-[#AD032A] p-6 text-white shadow-xl shadow-primary/20">
             <h2 className="mb-4 flex items-center gap-2 text-xl font-bold"><ShieldCheck className="h-5 w-5" /> {S.promiseTitle}</h2>
             <ul className="space-y-3">
               {promise.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex gap-3 text-sm leading-relaxed text-white/95"><Icon className="mt-0.5 h-4 w-4 shrink-0" /> {text}</li>
               ))}
             </ul>
-            <a href={`mailto:${email}`} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#B5123F] shadow-md transition hover:-translate-y-0.5"><Mail className="h-4 w-4" /> {S.contact}</a>
+            <a href={`mailto:${email}`} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#AD032A] shadow-md transition hover:-translate-y-0.5"><Mail className="h-4 w-4" /> {S.contact}</a>
           </section>
         </div>
 

@@ -84,7 +84,7 @@ export default function PricingPage() {
                 }`}
               >
                 {featured && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-gradient-to-r from-[#D61F55] to-[#F0544F] px-4 py-1 text-xs font-bold text-white shadow-lg">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-gradient-to-r from-[#D52047] to-[#F05160] px-4 py-1 text-xs font-bold text-white shadow-lg">
                     <Sparkles className="h-3.5 w-3.5" /> {P.popular}
                   </span>
                 )}
@@ -107,7 +107,7 @@ export default function PricingPage() {
                   <button
                     type="button"
                     onClick={() => showAlert({ title: P.comingTitle, message: P.comingMsg })}
-                    className={`mt-8 rounded-xl py-3 font-semibold transition ${featured ? "bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/20 hover:opacity-90" : "border border-primary/40 text-primary hover:bg-primary/5"}`}
+                    className={`mt-8 rounded-xl py-3 font-semibold transition ${featured ? "bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/20 hover:opacity-90" : "border border-primary/40 text-primary hover:bg-primary/5"}`}
                   >
                     {P.choose}
                   </button>

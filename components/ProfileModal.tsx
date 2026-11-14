@@ -375,7 +375,7 @@ export function ProfileModal({
               <span className="text-xs font-medium opacity-80">{L.pendingHint}</span>
             </div>
           ) : profile.interestStatus === "received" ? (
-            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] flex items-center justify-center gap-2">
+            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] flex items-center justify-center gap-2">
               <Heart className="h-5 w-5 fill-white" /> {L.likesYou} · {L.respond}
             </button>
           ) : profile.interestStatus === "accepted" ? (
@@ -410,7 +410,7 @@ export function ProfileModal({
                     if (result?.message) setSendError(result.message);
                   }
                 }}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait flex items-center justify-center gap-2"
               >
                 {sendState === "sending"
                   ? <><Loader2 className="h-5 w-5 animate-spin" /> {L.sending}</>

@@ -246,7 +246,7 @@ const ProfileGrid = React.memo(({ profiles, visibleCount, onSelectProfile, handl
                 <Clock className="h-3.5 w-3.5" /> {t.profile.interestSent}
               </button>
             ) : interestStatus === "received" ? (
-              <button onClick={(e) => { e.stopPropagation(); handleSendInterest(profile.id); }} className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white py-2 text-sm font-bold shadow-md shadow-primary/20 transition hover:opacity-90 active:scale-95 cursor-pointer">
+              <button onClick={(e) => { e.stopPropagation(); handleSendInterest(profile.id); }} className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white py-2 text-sm font-bold shadow-md shadow-primary/20 transition hover:opacity-90 active:scale-95 cursor-pointer">
                 <Heart className="h-3.5 w-3.5 fill-current" /> {t.profile.respond}
               </button>
             ) : interestStatus === "accepted" ? (
@@ -788,14 +788,14 @@ export default function BrowseClient({ initialProfiles, currentUser, acceptedUse
       <div className="flex-1">
         {/* 👀 Login නැති අයට — join වෙන්න කියන banner එක */}
         {!currentUser && (
-          <section className="mb-6 flex flex-col gap-4 overflow-hidden rounded-3xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] p-5 text-white shadow-lg shadow-primary/20 sm:flex-row sm:items-center">
+          <section className="mb-6 flex flex-col gap-4 overflow-hidden rounded-3xl bg-gradient-to-r from-[#D52047] to-[#AD032A] p-5 text-white shadow-lg shadow-primary/20 sm:flex-row sm:items-center">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20"><Heart className="h-6 w-6 fill-white" /></span>
             <div className="min-w-0 flex-1">
               <p className="font-bold">{t.extra.guestBannerTitle}</p>
               <p className="text-sm text-white/85">{t.extra.guestBannerText}</p>
             </div>
             <div className="flex shrink-0 gap-2">
-              <Link href="/register" className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#B5123F] shadow-md">{t.hero.cta}</Link>
+              <Link href="/register" className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#AD032A] shadow-md">{t.hero.cta}</Link>
               <Link href="/login?next=/browse" className="rounded-full border border-white/50 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10">{t.nav.login}</Link>
             </div>
           </section>

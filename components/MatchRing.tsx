@@ -5,7 +5,7 @@
 import { useLang } from "@/components/providers";
 import { matchTier } from "@/lib/match";
 
-const COLOR = { great: "#16a34a", good: "#D61F55", fair: "#f59e0b" };
+const COLOR = { great: "#16a34a", good: "#D52047", fair: "#f59e0b" };
 
 export default function MatchRing({ percent }: { percent: number }) {
   const { t } = useLang();

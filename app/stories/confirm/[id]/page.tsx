@@ -34,7 +34,7 @@ export default function ConfirmStoryPage({ params }: { params: Promise<{ id: str
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl px-4 py-12">
         <div className="mb-6 text-center">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
           <h1 className="mt-4 text-3xl font-extrabold">{S.confirmTitle}</h1>
           <p className="mx-auto mt-2 max-w-lg text-muted-foreground">{S.confirmText.replace("{name}", story.from_name)}</p>
         </div>
@@ -53,7 +53,7 @@ export default function ConfirmStoryPage({ params }: { params: Promise<{ id: str
           ) : (
             <div className="flex gap-3">
               <button disabled={busy} onClick={() => answer(false)} className="flex flex-1 items-center justify-center gap-2 rounded-2xl border border-border py-4 font-semibold text-muted-foreground hover:border-red-500/40 hover:text-red-500"><X className="h-5 w-5" /> {S.confirmNo}</button>
-              <button disabled={busy} onClick={() => answer(true)} className="flex flex-[2] items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-4 font-bold text-white shadow-lg shadow-primary/25">{busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Check className="h-5 w-5" />} {S.confirmYes}</button>
+              <button disabled={busy} onClick={() => answer(true)} className="flex flex-[2] items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-4 font-bold text-white shadow-lg shadow-primary/25">{busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Check className="h-5 w-5" />} {S.confirmYes}</button>
             </div>
           )}
         </div>

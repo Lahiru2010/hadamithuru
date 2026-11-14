@@ -53,7 +53,7 @@ export default function CookieConsent() {
           <button type="button" onClick={() => choose(false)} className="flex-1 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary">
             {C.necessaryOnly}
           </button>
-          <button type="button" onClick={() => choose(true)} className="flex-1 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-3 py-2.5 text-sm font-bold text-white shadow-md shadow-primary/20 transition hover:opacity-90">
+          <button type="button" onClick={() => choose(true)} className="flex-1 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-3 py-2.5 text-sm font-bold text-white shadow-md shadow-primary/20 transition hover:opacity-90">
             {C.acceptAll}
           </button>
         </div>

@@ -50,4 +50,4 @@ export const authInputClass =
 
 /** Primary (රෝස gradient) button එකේ style එක */
 export const authButtonClass =
-  "w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-3 font-semibold text-white hover:opacity-90 shadow-lg shadow-primary/20 disabled:opacity-50 transition-all";
+  "w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-3 font-semibold text-white hover:opacity-90 shadow-lg shadow-primary/20 disabled:opacity-50 transition-all";

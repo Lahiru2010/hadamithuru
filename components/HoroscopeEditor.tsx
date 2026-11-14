@@ -81,7 +81,7 @@ export default function HoroscopeEditor({ embedded }: { embedded?: { date: strin
   return (
     <div>
         {!embedded && <div className="mb-8 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><Sparkles className="h-7 w-7" /></span>
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><Sparkles className="h-7 w-7" /></span>
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight">{H.title}</h1>
             <p className="mt-1 max-w-2xl text-muted-foreground">{H.subtitle}</p>
@@ -92,7 +92,7 @@ export default function HoroscopeEditor({ embedded }: { embedded?: { date: strin
         {embedded ? (
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-muted-foreground">{H.embeddedHint}</p>
-            <button type="button" onClick={generate} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-5 py-2.5 text-sm font-bold text-white shadow-md hover:opacity-90">{horo ? <RefreshCw className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />} {horo ? H.regenerate : H.generate}</button>
+            <button type="button" onClick={generate} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-2.5 text-sm font-bold text-white shadow-md hover:opacity-90">{horo ? <RefreshCw className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />} {horo ? H.regenerate : H.generate}</button>
           </div>
         ) : <section className="rounded-3xl border border-border bg-background p-6 shadow-sm">
           <div className="grid gap-4 md:grid-cols-[1fr_1fr_1.3fr_auto] md:items-end">
@@ -100,7 +100,7 @@ export default function HoroscopeEditor({ embedded }: { embedded?: { date: strin
             <div className="text-sm font-semibold">{H.date}<div className="mt-1.5"><DatePicker value={birth.date} onChange={(v) => setBirth({ ...birth, date: v })} /></div></div>
             <div className="text-sm font-semibold">{H.time}<div className="mt-1.5"><TimePicker value={birth.time} onChange={(v) => setBirth({ ...birth, time: v })} /></div></div>
             <div className="text-sm font-semibold">{H.place}<div className="mt-1.5"><Dropdown value={birth.district} onChange={(v) => setBirth({ ...birth, district: v })} ariaLabel={H.place} fullWidth options={DISTRICT_OPTIONS.map((d) => ({ value: d, label: String(tr(d)) }))} /></div></div>
-            <button type="button" onClick={generate} className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:opacity-90">
+            <button type="button" onClick={generate} className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:opacity-90">
               {horo ? <RefreshCw className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />} {horo ? H.regenerate : H.generate}
             </button>
           </div>
@@ -156,7 +156,7 @@ export default function HoroscopeEditor({ embedded }: { embedded?: { date: strin
 
               <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 sm:flex-row sm:items-center">
                 <p className="flex items-center gap-2 text-xs text-muted-foreground"><Lock className="h-3.5 w-3.5" /> {H.private}</p>
-                <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 disabled:opacity-60">
+                <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 disabled:opacity-60">
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {H.save}
                 </button>
               </div>

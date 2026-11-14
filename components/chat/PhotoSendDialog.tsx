@@ -60,7 +60,7 @@ export default function PhotoSendDialog({
         {error && <p className="px-4 pt-3 text-sm text-red-500">{error}</p>}
         <div className="flex gap-3 p-4">
           <button type="button" onClick={onCancel} disabled={sending} className="flex-1 rounded-xl border border-border py-3 text-sm font-semibold hover:bg-muted disabled:opacity-50">{C.cancel}</button>
-          <button type="button" onClick={send} disabled={sending} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#E3324F] to-[#F0544F] py-3 text-sm font-semibold text-white disabled:opacity-70">
+          <button type="button" onClick={send} disabled={sending} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#DD2F4F] to-[#F05160] py-3 text-sm font-semibold text-white disabled:opacity-70">
             {sending ? <><Loader2 className="h-4 w-4 animate-spin" /> {C.sending}</> : <><Send className="h-4 w-4" /> {C.send}</>}
           </button>
         </div>

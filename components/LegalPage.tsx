@@ -16,7 +16,7 @@ export default function LegalPage({ kind }: { kind: "terms" | "privacy" }) {
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-16">
         <header>
-          <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#F0544F] text-white shadow-lg shadow-primary/25"><Icon className="h-7 w-7" /></span>
+          <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#F05160] text-white shadow-lg shadow-primary/25"><Icon className="h-7 w-7" /></span>
           <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-foreground">{kind === "terms" ? E.terms : E.privacy}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{E.lastUpdated.replace("{date}", LEGAL_UPDATED)}</p>
         </header>

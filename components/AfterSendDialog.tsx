@@ -42,7 +42,7 @@ export default function AfterSendDialog({ name, profiles, matchOf, onSend, onVie
     <div className="fixed inset-0 z-[210] flex items-end justify-center bg-black/55 p-0 backdrop-blur-sm animate-modal-backdrop sm:items-center sm:p-4" onClick={onClose}>
       <div role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} className="max-h-[92dvh] w-full max-w-3xl overflow-y-auto rounded-t-[2rem] bg-background shadow-2xl animate-modal-content sm:rounded-[2rem]">
         {/* 🎉 Header */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#D61F55] to-[#B5123F] px-6 pb-8 pt-7 text-center text-white">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#D52047] to-[#AD032A] px-6 pb-8 pt-7 text-center text-white">
           <div aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
           <button onClick={onClose} aria-label="Close" className="absolute right-4 top-4 rounded-full bg-white/15 p-2 transition hover:bg-white/25"><X className="h-5 w-5" /></button>
           <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/20 ring-4 ring-white/10 motion-safe:animate-[float_3s_ease-in-out_infinite]"><Heart className="h-8 w-8 fill-white" /></span>
@@ -68,7 +68,7 @@ export default function AfterSendDialog({ name, profiles, matchOf, onSend, onVie
                     type="button"
                     onClick={() => send(p.id)}
                     disabled={!!st}
-                    className={`mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2 text-sm font-bold transition ${st === "sent" ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white shadow-sm hover:opacity-90"}`}
+                    className={`mt-3 flex items-center justify-center gap-1.5 rounded-xl py-2 text-sm font-bold transition ${st === "sent" ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white shadow-sm hover:opacity-90"}`}
                   >
                     {st === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : st === "sent" ? <Check className="h-4 w-4" /> : <Heart className="h-4 w-4" />}
                     {st === "sent" ? L.interestSent : L.sendInterest}

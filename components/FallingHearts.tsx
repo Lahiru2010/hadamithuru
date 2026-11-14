@@ -59,7 +59,7 @@ export default function FallingHearts({ fall = "95vh", className = "" }: { fall?
         <svg
           key={i}
           viewBox="0 0 24 24"
-          className="absolute top-0 text-[#D61F55]/50 dark:text-[#D61F55]/40"
+          className="absolute top-0 text-[#D52047]/50 dark:text-[#D52047]/40"
           style={{
             left: `${h.left}%`,
             width: h.size,

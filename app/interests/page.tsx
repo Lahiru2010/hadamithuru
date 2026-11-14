@@ -319,7 +319,7 @@ export default function InterestsPage() {
       <div className="mx-auto max-w-5xl px-4 py-12 relative z-10">
         {/* 👇 Header — වම් පැත්තට, අනිත් pages වගේ */}
         <div className="mb-8 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><Heart className="h-7 w-7 fill-current" /></span>
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><Heart className="h-7 w-7 fill-current" /></span>
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">{IT.title}</h1>
             <p className="mt-1 text-muted-foreground">{IT.subtitle}</p>
@@ -340,7 +340,7 @@ export default function InterestsPage() {
                 key={id}
                 onClick={() => { setActiveTab(id); setPage(1); }}
                 aria-pressed={active}
-                className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${active ? "border-transparent bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25" : "border-border bg-background text-foreground shadow-sm hover:-translate-y-0.5 hover:border-primary/40"}`}
+                className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${active ? "border-transparent bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25" : "border-border bg-background text-foreground shadow-sm hover:-translate-y-0.5 hover:border-primary/40"}`}
               >
                 <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${active ? "bg-white/20" : "bg-primary/10 text-primary"}`}><Icon className="h-5 w-5" /></span>
                 <span className="min-w-0">
@@ -532,7 +532,7 @@ export default function InterestsPage() {
                     <button
                       onClick={() => respond("accept")}
                       disabled={!!responding}
-                      className="flex flex-[2] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-4 text-base font-bold text-white shadow-lg shadow-primary/25 transition hover:opacity-90 disabled:opacity-60"
+                      className="flex flex-[2] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-4 text-base font-bold text-white shadow-lg shadow-primary/25 transition hover:opacity-90 disabled:opacity-60"
                     >
                       {responding === "accept" ? <Loader2 className="h-5 w-5 animate-spin" /> : <Check className="h-5 w-5" />} {L.accept}
                     </button>
@@ -613,14 +613,14 @@ function InterestCard({ data, type, isNew = false, onView, onAccept, onReject, o
       <div className="mt-auto flex items-center gap-2 border-t border-border bg-muted/30 px-4 py-3" onClick={(e) => e.stopPropagation()}>
         {status === "accepted" ? (
           <>
-            <a href={profile ? `/chat?userId=${profile.id}` : "#"} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/20 transition hover:opacity-90"><MessageCircle className="h-4 w-4" /> {labels.chat}</a>
+            <a href={profile ? `/chat?userId=${profile.id}` : "#"} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/20 transition hover:opacity-90"><MessageCircle className="h-4 w-4" /> {labels.chat}</a>
             <button onClick={onRemove} className="flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-muted-foreground transition hover:border-red-500/40 hover:text-red-500"><Trash2 className="h-4 w-4" /> {labels.remove}</button>
           </>
         ) : type === "received" ? (
           // 👇 කෙලින්ම Accept / Reject කරන්නත් පුළුවන්, "විස්තර" එකෙන් සම්පූර්ණ profile එක බලලා popup එකේ ඉඳන් කරන්නත් පුළුවන්
           <>
             <button onClick={onView} className="flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-semibold text-foreground transition hover:border-primary/50 hover:text-primary"><Eye className="h-4 w-4" /> <span className="hidden sm:inline">{labels.details}</span></button>
-            <button onClick={() => act("accept")} disabled={!!busy} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">{busy === "accept" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {labels.accept}</button>
+            <button onClick={() => act("accept")} disabled={!!busy} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">{busy === "accept" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {labels.accept}</button>
             <button onClick={() => act("reject")} disabled={!!busy} aria-label={labels.reject} title={labels.reject} className="flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 py-2.5 text-sm font-semibold text-muted-foreground transition hover:border-red-500/40 hover:text-red-500 disabled:opacity-60">{busy === "reject" ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}</button>
           </>
         ) : (

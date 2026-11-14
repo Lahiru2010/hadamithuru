@@ -3,7 +3,7 @@
 
 import { matchTier } from "@/lib/match";
 
-export const MATCH_COLOR = { great: "#16a34a", good: "#D61F55", fair: "#f59e0b" };
+export const MATCH_COLOR = { great: "#16a34a", good: "#D52047", fair: "#f59e0b" };
 
 export default function MiniMatchRing({ percent, title, size = 44, onDark = false }: { percent: number; title?: string; size?: number; onDark?: boolean }) {
   const color = MATCH_COLOR[matchTier(percent)];

@@ -139,7 +139,7 @@ export default function VerifyPage() {
             </div>
             <p className="mt-5 flex items-start gap-2 text-xs text-muted-foreground"><Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-500" /> {X.idPrivate}</p>
             {error && <p className="mt-3 flex items-center gap-2 text-sm text-red-500"><XIcon className="h-4 w-4" /> {error}</p>}
-            <button type="button" onClick={submit} disabled={!ready || sending} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-3.5 font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-50">
+            <button type="button" onClick={submit} disabled={!ready || sending} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-3.5 font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-50">
               {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShieldCheck className="h-5 w-5" />} {X.submitVerify}
             </button>
           </section>

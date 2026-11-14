@@ -157,7 +157,7 @@ export default function VoiceRecorder({ onSend, onActiveChange, disabled = false
           <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.min(100, (seconds / MAX_SECONDS) * 100)}%` }} />
         </div>
       </div>
-      <button type="button" onClick={() => stop(true)} disabled={state === "sending"} aria-label={C.voiceSend} title={C.voiceSend} className="shrink-0 rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] p-3 text-white hover:opacity-90 disabled:opacity-60">
+      <button type="button" onClick={() => stop(true)} disabled={state === "sending"} aria-label={C.voiceSend} title={C.voiceSend} className="shrink-0 rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] p-3 text-white hover:opacity-90 disabled:opacity-60">
         {state === "sending" ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
       </button>
     </div>

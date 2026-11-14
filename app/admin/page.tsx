@@ -125,7 +125,7 @@ export default function AdminPage() {
         {/* 👇 Header */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-border bg-background p-5 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><ShieldAlert className="h-6 w-6" /></div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><ShieldAlert className="h-6 w-6" /></div>
             <div>
               <h1 className="text-2xl font-extrabold text-foreground">Admin Dashboard</h1>
               <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} · {users.length} members</p>
@@ -144,7 +144,7 @@ export default function AdminPage() {
             <aside className="lg:sticky lg:top-6 lg:self-start">
               <nav className="flex gap-1.5 overflow-x-auto rounded-3xl border border-border bg-background p-2 shadow-sm custom-scrollbar lg:flex-col lg:overflow-visible">
                 {NAV.map(({ id, label, icon: Icon, count }) => (
-                  <button key={id} onClick={() => setTab(id)} className={`flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${tab === id ? "bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white shadow-md shadow-primary/20" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
+                  <button key={id} onClick={() => setTab(id)} className={`flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${tab === id ? "bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white shadow-md shadow-primary/20" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
                     <Icon className="h-[18px] w-[18px] shrink-0" />
                     <span className="flex-1 whitespace-nowrap">{label}</span>
                     {count > 0 && <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${tab === id ? "bg-white/25" : "bg-red-500 text-white"}`}>{count}</span>}

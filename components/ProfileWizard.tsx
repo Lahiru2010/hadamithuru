@@ -971,7 +971,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
             {/* 👇 Publish කරන්න කලින් එකඟතාවය (අලුත් profiles වලට විතරයි) */}
             {!isPublished && (
               <label ref={agreeRef} className={`flex cursor-pointer items-start gap-3 rounded-2xl border-2 p-4 text-sm leading-relaxed text-foreground transition ${agreeError && !agreeTrue ? "animate-pulse border-red-500 bg-red-500/10" : "border-primary/30 bg-primary/5"}`}>
-                <input type="checkbox" checked={agreeTrue} onChange={(e) => { setAgreeTrue(e.target.checked); setAgreeError(false); }} className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#D61F55]" />
+                <input type="checkbox" checked={agreeTrue} onChange={(e) => { setAgreeTrue(e.target.checked); setAgreeError(false); }} className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#D52047]" />
                 <span>
                   {t.extra.confirmTrue}{" "}
                   <a href="/terms" target="_blank" className="font-semibold text-primary hover:underline">{t.extra.termsLink}</a>
@@ -1055,7 +1055,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
         <span className="text-primary">{W.complete.replace("{p}", String(percent))}</span>
       </div>
       <div className="mb-4 h-2 overflow-hidden rounded-full bg-muted">
-        <div className="h-full rounded-full bg-gradient-to-r from-[#D61F55] to-[#B5123F] transition-all duration-500" style={{ width: `${percent}%` }} />
+        <div className="h-full rounded-full bg-gradient-to-r from-[#D52047] to-[#AD032A] transition-all duration-500" style={{ width: `${percent}%` }} />
       </div>
 
       {/* 👇 100% කරන්න පොළඹවනවා + ඉතුරු පියවර click කරලා කෙලින්ම යන්න */}
@@ -1094,7 +1094,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
         <div className="absolute top-[18px] h-0.5 rounded-full bg-border" style={{ left: `${50 / STEPS.length}%`, right: `${50 / STEPS.length}%` }} />
         {/* දැනට ඉන්න පියවර දක්වා පිරෙන ඉර */}
         <div
-          className="absolute top-[18px] h-0.5 rounded-full bg-gradient-to-r from-[#D61F55] to-[#B5123F] transition-all duration-500"
+          className="absolute top-[18px] h-0.5 rounded-full bg-gradient-to-r from-[#D52047] to-[#AD032A] transition-all duration-500"
           style={{
             left: `${50 / STEPS.length}%`,
             width: `${(step / (STEPS.length - 1)) * (100 - 100 / STEPS.length)}%`,
@@ -1186,7 +1186,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
               onClick={() => (isLast ? (isPublished ? finish() : publish()) : goTo(step + 1))}
               disabled={saving || publishing || photoBusy || finishState !== "idle"}
               className={`flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 disabled:cursor-wait ${
-                finishState === "done" ? "bg-green-600 shadow-green-600/20" : "bg-gradient-to-r from-[#D61F55] to-[#B5123F] shadow-primary/20 disabled:opacity-60"
+                finishState === "done" ? "bg-green-600 shadow-green-600/20" : "bg-gradient-to-r from-[#D52047] to-[#AD032A] shadow-primary/20 disabled:opacity-60"
               }`}
             >
               {finishState === "done" ? (

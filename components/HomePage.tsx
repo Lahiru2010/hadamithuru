@@ -76,14 +76,14 @@ export default function HomePage() {
             <ShieldCheck className="h-4 w-4" /> {H.badge}
           </span>
           <h1 className="mt-6 text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E3324F] via-[#F0544F] to-[#E3324F]">{t.hero.title}</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#DD2F4F] via-[#F05160] to-[#DD2F4F]">{t.hero.title}</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground font-medium">{t.hero.subtitle}</p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             {/* 👇 Login වෙලා නම් register / login වෙනුවට "සොයන්න" + "මගේ පැතිකඩ" */}
             {loggedIn ? (
               <>
-                <Link href="/browse" className="rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-10 py-4 font-bold text-white hover:opacity-90 shadow-xl shadow-[#E3324F]/20 transition-all hover:-translate-y-1 w-full sm:w-auto flex items-center justify-center gap-2">
+                <Link href="/browse" className="rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] px-10 py-4 font-bold text-white hover:opacity-90 shadow-xl shadow-[#DD2F4F]/20 transition-all hover:-translate-y-1 w-full sm:w-auto flex items-center justify-center gap-2">
                   {H.findMatch} <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link href="/profile" className="rounded-full bg-background border border-border px-10 py-4 font-bold text-foreground hover:bg-muted shadow-sm transition-all w-full sm:w-auto flex items-center justify-center">
@@ -92,7 +92,7 @@ export default function HomePage() {
               </>
             ) : (
               <>
-                <Link href="/register" className="rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-10 py-4 font-bold text-white hover:opacity-90 shadow-xl shadow-[#E3324F]/20 transition-all hover:-translate-y-1 w-full sm:w-auto flex items-center justify-center gap-2">
+                <Link href="/register" className="rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] px-10 py-4 font-bold text-white hover:opacity-90 shadow-xl shadow-[#DD2F4F]/20 transition-all hover:-translate-y-1 w-full sm:w-auto flex items-center justify-center gap-2">
                   {t.hero.cta} <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link href="/login" className="rounded-full bg-background border border-border px-10 py-4 font-bold text-foreground hover:bg-muted shadow-sm transition-all w-full sm:w-auto flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function HomePage() {
             {/* 💍 Hadamithuru හරහා හමුවුණ අයට — ලස්සන ආරාධනා card එකක් */}
             {loggedIn && (
               <Link href="/stories/new" className="group relative z-40 mx-auto mt-10 flex max-w-2xl flex-col items-center gap-4 overflow-hidden rounded-3xl border border-primary/20 bg-background/90 p-5 text-left shadow-lg shadow-primary/10 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-xl sm:flex-row">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-2xl shadow-md">💍</span>
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-2xl shadow-md">💍</span>
                 <span className="min-w-0 flex-1 text-center sm:text-left">
                   <span className="block font-bold text-foreground">{t.stories.homeInviteTitle}</span>
                   <span className="mt-0.5 block text-sm text-muted-foreground">{t.stories.homeInviteText}</span>
@@ -146,7 +146,7 @@ export default function HomePage() {
             <span aria-hidden className="absolute left-[16.6%] right-[16.6%] top-12 hidden h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 md:block" />
             {steps.map((s, i) => (
               <li key={s.title} className="group relative flex flex-col items-center text-center">
-                <span className="relative flex h-24 w-24 items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-xl shadow-primary/25 transition duration-300 group-hover:-translate-y-1 group-hover:rotate-3">
+                <span className="relative flex h-24 w-24 items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-xl shadow-primary/25 transition duration-300 group-hover:-translate-y-1 group-hover:rotate-3">
                   <s.icon className="h-10 w-10" />
                   <span className="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-full bg-background text-sm font-extrabold text-primary shadow-md ring-2 ring-primary/20">{i + 1}</span>
                 </span>
@@ -169,11 +169,11 @@ export default function HomePage() {
             <div className="lg:sticky lg:top-8 lg:self-start">
               <h2 className="text-3xl md:text-5xl font-bold leading-tight text-foreground">{H.faqTitle}</h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{X.faqSideText}</p>
-              <div className="mt-8 overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#D61F55] to-[#F0544F] p-7 text-white shadow-xl shadow-primary/20">
+              <div className="mt-8 overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#D52047] to-[#F05160] p-7 text-white shadow-xl shadow-primary/20">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20"><Headset className="h-6 w-6" /></span>
                 <h3 className="mt-4 text-xl font-bold">{X.faqSideTitle}</h3>
                 <p className="mt-1.5 text-white/90">{X.faqSideText}</p>
-                <Link href="/help" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 font-semibold text-[#B5123F] shadow transition hover:-translate-y-0.5">
+                <Link href="/help" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 font-semibold text-[#AD032A] shadow transition hover:-translate-y-0.5">
                   {X.faqHelp} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -197,10 +197,10 @@ export default function HomePage() {
 
         {/* ---------- CTA (login වෙලා නැත්නම් විතරයි) ---------- */}
         {!loggedIn && <section className="mx-auto max-w-[1600px] px-4 pb-24">
-          <div className="rounded-[2.5rem] bg-gradient-to-r from-[#D61F55] to-[#F0544F] p-10 md:p-14 text-center text-white shadow-2xl shadow-primary/20">
+          <div className="rounded-[2.5rem] bg-gradient-to-r from-[#D52047] to-[#F05160] p-10 md:p-14 text-center text-white shadow-2xl shadow-primary/20">
             <h2 className="text-3xl md:text-4xl font-extrabold">{H.ctaTitle}</h2>
             <p className="mx-auto mt-3 max-w-xl text-white/90">{H.ctaText}</p>
-            <Link href="/register" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-[#B5123F] shadow-lg transition hover:-translate-y-0.5">
+            <Link href="/register" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-[#AD032A] shadow-lg transition hover:-translate-y-0.5">
               {H.ctaButton} <ArrowRight className="h-5 w-5" />
             </Link>
           </div>

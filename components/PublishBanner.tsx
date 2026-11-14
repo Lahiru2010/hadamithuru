@@ -22,7 +22,7 @@ export default function PublishBanner() {
       </div>
       <Link
         href="/profile"
-        className="flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition hover:opacity-90"
+        className="flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition hover:opacity-90"
       >
         {PB.browseBannerCta} <ArrowRight className="h-4 w-4" />
       </Link>

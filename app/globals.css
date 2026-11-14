@@ -13,22 +13,22 @@
           පරණ පාට: muted #F5EDF1, muted-fg #5E5058, border #E8D8E1, page #FAF5F8 */
     --background: #FFFFFF;
     --foreground: #1E1A1D;
-    --muted: #F6E3EA;
-    --muted-foreground: #574550;
-    --border: #EBCFD9;
-    --page: #F9EEF2;
-    --primary: #D61F55;
+    --muted: #F9E4E6;
+    --muted-foreground: #574347;
+    --border: #EFD0D4;
+    --page: #FBEFF0;
+    --primary: #D52047;
     --primary-foreground: #FFFFFF;
   }
 
   .dark {
     /* Dark Theme Colors */
-    --background: #1A000C;
-    --foreground: #FFF8FD;
-    --muted: #3A011B;
+    --background: #1A0407;
+    --foreground: #FFF8F8;
+    --muted: #3A0612;
     --muted-foreground: #B89A9A;
-    --border: #4A0A22;
-    --primary: #D61F55;
+    --border: #4A0C18;
+    --primary: #D52047;
     --primary-foreground: #FFFFFF;
   }
 }
@@ -132,9 +132,9 @@ html:not(.dark) main.bg-background {
 
 /* ═══════════ 🌐 Browser compatibility (Safari / Firefox) ═══════════ */
 /* Safari එකේ gradient එක පේන්නේ නැති වුණොත් (පරණ versions) — brand buttons වලට solid පාටක් fallback එකක් විදිහට */
-[class*="from-[#D61F55]"],
-[class*="from-[#E3324F]"] {
-  background-color: #D61F55;
+[class*="from-[#D52047]"],
+[class*="from-[#DD2F4F]"] {
+  background-color: #D52047;
 }
 /* iOS Safari එකේ inputs focus කළාම page එක zoom වෙන එක නවත්තන්න (අකුරු 16px) */
 @supports (-webkit-touch-callout: none) {

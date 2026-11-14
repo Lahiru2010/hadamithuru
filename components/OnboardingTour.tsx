@@ -102,7 +102,7 @@ export default function OnboardingTour() {
 
       <div style={cardStyle} className="rounded-3xl border border-border bg-background p-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-start justify-between gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white">{last ? <BadgeCheck className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}</span>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white">{last ? <BadgeCheck className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}</span>
           <button onClick={finish} aria-label={T.skip} className="rounded-full p-1.5 text-muted-foreground hover:bg-muted"><X className="h-4 w-4" /></button>
         </div>
         <h3 className="mt-3 text-lg font-extrabold">{step.title}</h3>
@@ -110,7 +110,7 @@ export default function OnboardingTour() {
 
         {last && (
           <div className="mt-4 grid gap-2">
-            <Link href="/profile" onClick={finish} className="rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] py-2.5 text-center text-sm font-bold text-white">{T.ctaProfile}</Link>
+            <Link href="/profile" onClick={finish} className="rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] py-2.5 text-center text-sm font-bold text-white">{T.ctaProfile}</Link>
             <Link href="/verify" onClick={finish} className="rounded-xl border border-border py-2.5 text-center text-sm font-semibold hover:border-primary/40 hover:text-primary">{T.ctaVerify}</Link>
           </div>
         )}

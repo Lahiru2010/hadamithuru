@@ -38,7 +38,7 @@ export default function InvitePage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-12">
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#D61F55] to-[#B5123F] p-8 text-white shadow-xl shadow-primary/20 md:p-12">
+        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#D52047] to-[#AD032A] p-8 text-white shadow-xl shadow-primary/20 md:p-12">
           <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
           <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20"><Gift className="h-7 w-7" /></span>
           <h1 className="relative mt-5 text-3xl font-extrabold md:text-4xl">{I.title}</h1>

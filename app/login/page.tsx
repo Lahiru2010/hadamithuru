@@ -86,7 +86,7 @@ function LoginContent() {
         </div>
         {/* 👇 මාව මතක තබාගන්න */}
         <label className="ml-1 flex cursor-pointer select-none items-center gap-2.5 text-sm font-medium text-foreground">
-          <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="h-4 w-4 cursor-pointer rounded accent-[#D61F55]" />
+          <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="h-4 w-4 cursor-pointer rounded accent-[#D52047]" />
           {A.rememberMe}
         </label>
 

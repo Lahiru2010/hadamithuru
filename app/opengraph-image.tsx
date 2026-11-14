@@ -14,7 +14,7 @@ export default async function OgImage() {
   const logoSrc = `data:image/svg+xml;base64,${logo.toString("base64")}`;
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", background: "linear-gradient(135deg, #D61F55 0%, #B5123F 60%, #330B18 100%)", color: "white", fontFamily: "sans-serif" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", background: "linear-gradient(135deg, #D52047 0%, #AD032A 60%, #33070F 100%)", color: "white", fontFamily: "sans-serif" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <div style={{ display: "flex", padding: "18px 30px", borderRadius: 28, background: "white" }}>
             <img src={logoSrc} width={365} height={90} alt="" />

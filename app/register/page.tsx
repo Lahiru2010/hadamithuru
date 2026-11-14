@@ -178,7 +178,7 @@ function RegisterContent() {
             {/* 👇 භාවිත නියමයන් + පෞද්ගලිකත්ව ප්‍රතිපත්තියට එකඟතාවය (අනිවාර්යයි) */}
             <div>
               <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-muted/20 p-3 text-sm leading-relaxed">
-                <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#D61F55]" />
+                <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#D52047]" />
                 <span>
                   {t.extra.agreeTerms.split(/(\{terms\}|\{privacy\})/).map((part, i) =>
                     part === "{terms}" ? <Link key={i} href="/terms" target="_blank" className="font-semibold text-primary hover:underline">{t.extra.termsLink}</Link>

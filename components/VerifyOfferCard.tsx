@@ -32,7 +32,7 @@ export default function VerifyOfferCard({ showCta = false, className = "" }: { s
           )}
         </div>
         {showCta && (
-          <Link href="/verify" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5">
+          <Link href="/verify" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5">
             {O.cta} <ArrowRight className="h-4 w-4" />
           </Link>
         )}

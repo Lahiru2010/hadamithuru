@@ -413,7 +413,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               mounted && (
                 <div className="ml-1 flex items-center gap-2">
                   <Link href="/login" className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium hover:bg-muted transition">{t.nav.login}</Link>
-                  <Link href="/register" className="whitespace-nowrap rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 shadow-md shadow-primary/20 transition">{t.nav.register}</Link>
+                  <Link href="/register" className="whitespace-nowrap rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] px-4 py-2 text-sm font-semibold text-white hover:opacity-90 shadow-md shadow-primary/20 transition">{t.nav.register}</Link>
                 </div>
               )
             )}
@@ -422,7 +422,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
           {/* 📱 Phone / tablet (lg ට අඩු): ☰ menu button එක (login නම් photo එකත් එක්ක) */}
           <div className="flex items-center gap-2 lg:hidden">
             {!user && authChecked && mounted && !isActive("/register") && (
-              <Link href="/register" className="inline-flex whitespace-nowrap rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-3.5 py-2 text-[13px] font-semibold text-white shadow-md shadow-primary/20 sm:px-4 sm:text-sm">{t.nav.register}</Link>
+              <Link href="/register" className="inline-flex whitespace-nowrap rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] px-3.5 py-2 text-[13px] font-semibold text-white shadow-md shadow-primary/20 sm:px-4 sm:text-sm">{t.nav.register}</Link>
             )}
             <button
               type="button"
@@ -553,7 +553,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   <Link href="/login" onClick={closeMenu} className="flex min-h-12 items-center justify-center rounded-xl border border-border text-[15px] font-semibold hover:bg-muted">{t.nav.login}</Link>
-                  <Link href="/register" onClick={closeMenu} className="flex min-h-12 items-center justify-center rounded-xl bg-gradient-to-r from-[#E3324F] to-[#F0544F] px-2 text-center text-[15px] font-semibold text-white shadow-md shadow-primary/20">{t.nav.register}</Link>
+                  <Link href="/register" onClick={closeMenu} className="flex min-h-12 items-center justify-center rounded-xl bg-gradient-to-r from-[#DD2F4F] to-[#F05160] px-2 text-center text-[15px] font-semibold text-white shadow-md shadow-primary/20">{t.nav.register}</Link>
                 </div>
               )}
             </div>

@@ -130,7 +130,7 @@ export default function VerifyMessageDialog({ target, onClose, onSent }: { targe
           </div>
 
           <label className="flex cursor-pointer items-center gap-2 text-sm">
-            <input type="checkbox" checked={sendChat} onChange={(e) => setSendChat(e.target.checked)} className="h-4 w-4 accent-[#D61F55]" />
+            <input type="checkbox" checked={sendChat} onChange={(e) => setSendChat(e.target.checked)} className="h-4 w-4 accent-[#D52047]" />
             Also send in the user&apos;s 🎧 support chat (they can reply)
           </label>
 

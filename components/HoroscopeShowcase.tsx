@@ -18,10 +18,10 @@ export default function HoroscopeShowcase({ loggedIn }: { loggedIn: boolean }) {
   const rows: [string, boolean][] = [[R.q_nakath, true], [R.q_gana, true], [R.q_yoni, true], [R.q_rasi, false], [R.q_nadi, true], [R.d_kuja, true]];
   return (
     <section className="mx-auto max-w-[1600px] px-4 py-20">
-      <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#330B18] via-[#5A1027] to-[#B5123F] p-8 text-white shadow-2xl shadow-primary/20 md:p-14">
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#33070F] via-[#6B0B1F] to-[#AD032A] p-8 text-white shadow-2xl shadow-primary/20 md:p-14">
         {/* ✨ පසුබිම: තරු pattern + glow */}
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:26px_26px]" />
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[#F0544F]/30 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[#F05160]/30 blur-3xl" />
         <div className="relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-semibold backdrop-blur"><Sparkles className="h-4 w-4 text-amber-300" /> {H.horoBadge}</span>
@@ -29,11 +29,11 @@ export default function HoroscopeShowcase({ loggedIn }: { loggedIn: boolean }) {
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{H.horoSub}</p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {points.map((p) => (
-                <li key={p} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5 text-sm leading-snug backdrop-blur"><span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#B5123F]"><Check className="h-4 w-4" /></span> {p}</li>
+                <li key={p} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5 text-sm leading-snug backdrop-blur"><span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#AD032A]"><Check className="h-4 w-4" /></span> {p}</li>
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href={loggedIn ? "/horoscope" : "/register"} className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-[#B5123F] shadow-xl transition hover:-translate-y-0.5">{loggedIn ? R.generate : H.horoCtaGuest} <ArrowRight className="h-5 w-5" /></Link>
+              <Link href={loggedIn ? "/horoscope" : "/register"} className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-[#AD032A] shadow-xl transition hover:-translate-y-0.5">{loggedIn ? R.generate : H.horoCtaGuest} <ArrowRight className="h-5 w-5" /></Link>
               <span className="flex items-center gap-1.5 text-xs text-white/70"><Lock className="h-3.5 w-3.5" /> {R.private}</span>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function HoroscopeShowcase({ loggedIn }: { loggedIn: boolean }) {
           <div className="relative mx-auto h-[30rem] w-full max-w-lg">
             <div className="absolute left-0 top-0 w-[62%] -rotate-6 rounded-3xl bg-background p-3 shadow-2xl"><HoroscopeChart lagna={SAMPLE_A.lagna} planets={SAMPLE_A.planets} lang={lang} title={R.lagna} /></div>
             <div className="absolute right-0 top-16 w-[62%] rotate-6 rounded-3xl bg-background p-3 shadow-2xl"><HoroscopeChart lagna={SAMPLE_B.lagna} planets={SAMPLE_B.planets} lang={lang} title={R.lagna} /></div>
-            <span className="absolute left-1/2 top-[38%] z-10 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-[#D61F55] to-[#B5123F] shadow-xl ring-4 ring-white motion-safe:animate-[float_3s_ease-in-out_infinite]"><Heart className="h-7 w-7 fill-white text-white" /></span>
+            <span className="absolute left-1/2 top-[38%] z-10 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-[#D52047] to-[#AD032A] shadow-xl ring-4 ring-white motion-safe:animate-[float_3s_ease-in-out_infinite]"><Heart className="h-7 w-7 fill-white text-white" /></span>
             <div className="absolute bottom-0 left-1/2 z-20 w-64 -translate-x-1/2 rounded-2xl bg-white p-4 text-foreground shadow-2xl dark:bg-[#1a0b11]">
               <p className="mb-2 flex items-center justify-between text-xs font-bold uppercase text-muted-foreground">{R.tableTitle} <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] text-white">85%</span></p>
               <ul className="space-y-1.5 text-sm">

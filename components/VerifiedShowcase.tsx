@@ -12,7 +12,7 @@ import VerifiedBadge from "@/components/VerifiedBadge";
 const CARD_STYLES = [
   { pos: "left-0 top-16 -rotate-[8deg]", grad: "from-amber-200 via-rose-200 to-rose-300" },
   { pos: "right-0 top-12 rotate-[7deg]", grad: "from-sky-200 via-indigo-200 to-violet-300" },
-  { pos: "left-1/2 top-0 -translate-x-1/2 z-10", grad: "from-rose-200 via-rose-300 to-[#F0544F]" },
+  { pos: "left-1/2 top-0 -translate-x-1/2 z-10", grad: "from-rose-200 via-rose-300 to-[#F05160]" },
 ];
 
 export default function VerifiedShowcase({ loggedIn }: { loggedIn: boolean }) {
@@ -84,7 +84,7 @@ export default function VerifiedShowcase({ loggedIn }: { loggedIn: boolean }) {
               return (
                 <div key={i} className={`absolute w-56 overflow-hidden rounded-3xl bg-white text-foreground shadow-2xl transition-transform duration-500 hover:-translate-y-2 dark:bg-[#111a2e] ${c.pos} ${front ? "w-60" : "opacity-90"}`}>
                   <div className={`relative flex h-40 items-center justify-center bg-gradient-to-br ${c.grad}`}>
-                    <span className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-4xl font-extrabold text-[#B5123F] shadow-inner">{name.charAt(0)}</span>
+                    <span className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-4xl font-extrabold text-[#AD032A] shadow-inner">{name.charAt(0)}</span>
                     <VerifiedBadge variant="pill" className="absolute bottom-2.5 left-2.5" />
                   </div>
                   <div className="p-4">
@@ -98,7 +98,7 @@ export default function VerifiedShowcase({ loggedIn }: { loggedIn: boolean }) {
               <ScanFace className="h-4 w-4 text-[#1D9BF0]" /> {H.verChip1}
             </span>
             <span className="absolute -right-2 bottom-24 z-20 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0E3470] shadow-xl motion-safe:animate-[float_7s_ease-in-out_infinite_1s]">
-              <Lock className="h-4 w-4 text-[#D61F55]" /> {H.verChip2}
+              <Lock className="h-4 w-4 text-[#D52047]" /> {H.verChip2}
             </span>
           </div>
         </div>

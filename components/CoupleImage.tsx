@@ -14,7 +14,7 @@ export default function CoupleImage({ src, alt, className = "", sizes = "(max-wi
   if (failed) {
     return (
       <div className={`flex items-center justify-center bg-gradient-to-br from-rose-200 via-pink-100 to-orange-100 dark:from-rose-900/60 dark:via-pink-900/40 dark:to-orange-900/40 ${className}`} role="img" aria-label={alt}>
-        <HeartHandshake className="h-1/3 w-1/3 max-h-16 max-w-16 text-[#D61F55]/70" />
+        <HeartHandshake className="h-1/3 w-1/3 max-h-16 max-w-16 text-[#D52047]/70" />
       </div>
     );
   }

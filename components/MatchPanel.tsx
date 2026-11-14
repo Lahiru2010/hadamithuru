@@ -6,7 +6,7 @@ import { HeartHandshake, Info } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { matchTier, type MatchResult } from "@/lib/match";
 
-const RING = { great: "#16a34a", good: "#D61F55", fair: "#9ca3af" };
+const RING = { great: "#16a34a", good: "#D52047", fair: "#9ca3af" };
 
 export default function MatchPanel({ result }: { result: MatchResult }) {
   const { t } = useLang();

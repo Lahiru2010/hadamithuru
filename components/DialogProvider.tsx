@@ -49,7 +49,7 @@ const TONES: Record<Tone, { icon: React.ReactNode; iconBox: string; button: stri
   default: {
     icon: <HelpCircle className="h-7 w-7" />,
     iconBox: "bg-primary/10 text-primary",
-    button: "bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/20 hover:opacity-90",
+    button: "bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/20 hover:opacity-90",
   },
   danger: {
     icon: <AlertTriangle className="h-7 w-7" />,
@@ -59,7 +59,7 @@ const TONES: Record<Tone, { icon: React.ReactNode; iconBox: string; button: stri
   success: {
     icon: <CheckCircle2 className="h-7 w-7" />,
     iconBox: "bg-green-500/10 text-green-500",
-    button: "bg-gradient-to-r from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/20 hover:opacity-90",
+    button: "bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/20 hover:opacity-90",
   },
   error: {
     icon: <XCircle className="h-7 w-7" />,

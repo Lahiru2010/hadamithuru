@@ -79,9 +79,9 @@ export default function AboutPage() {
         </section>
 
         {/* CTA — login නැති අයට විතරයි (login වුණ අයට "පටන් ගන්න සූදානම්ද?" ඕන නෑ) */}
-        {loggedIn === false && <section className="mt-16 rounded-[2.5rem] bg-gradient-to-r from-[#D61F55] to-[#F0544F] p-10 text-center text-white shadow-2xl shadow-primary/20">
+        {loggedIn === false && <section className="mt-16 rounded-[2.5rem] bg-gradient-to-r from-[#D52047] to-[#F05160] p-10 text-center text-white shadow-2xl shadow-primary/20">
           <h2 className="text-3xl font-extrabold">{A.ctaTitle}</h2>
-          <Link href="/register" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-[#B5123F] shadow-lg transition hover:-translate-y-0.5">
+          <Link href="/register" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-[#AD032A] shadow-lg transition hover:-translate-y-0.5">
             {A.ctaButton} <ArrowRight className="h-5 w-5" />
           </Link>
         </section>}

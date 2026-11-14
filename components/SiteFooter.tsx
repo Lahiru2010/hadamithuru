@@ -45,7 +45,7 @@ function SocialIcon({ name }: { name: (typeof SOCIAL_LINKS)[number]["key"] }) {
 
 // 🎨 Footer එකේ පෙනුම — light mode එකට විතරයි (dark mode එක හැම වෙලේම පරණ විදිහටම)
 //   "wine"    → තද වයින් / maroon පසුබිම + උඩින් theme රතු ඉරක් + රතු accents (default — update-23)
-//   "red"     → theme එකේ තද රතු පසුබිම (#D61F55 → #B5123F) + සුදු අකුරු (update-22)
+//   "red"     → theme එකේ තද රතු පසුබිම (#D52047 → #AD032A) + සුදු අකුරු (update-22)
 //   "classic" → පරණ විදිහ (ලා රෝස පසුබිම + අඳුරු අකුරු)
 // 👉 වෙනස් කරන්න ඕන මේ එක වචනය විතරයි — වෙන මුකුත් වෙනස් කරන්න ඕන නෑ.
 const FOOTER_STYLE: "wine" | "red" | "classic" = "wine";
@@ -70,9 +70,9 @@ const STYLES = {
     social: "flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition hover:bg-primary hover:text-white",
   },
   // 👇 Light mode එකේ රතු — dark: classes වලින් dark mode එක classic විදිහටම තියෙනවා
-  //    (bg-[linear-gradient(...)] පාවිච්චි කළේ globals.css එකේ "from-[#D61F55]" fallback එක dark mode එකටත් අල්ලගන්න නිසා)
+  //    (bg-[linear-gradient(...)] පාවිච්චි කළේ globals.css එකේ "from-[#D52047]" fallback එක dark mode එකටත් අල්ලගන්න නිසා)
   red: {
-    footer: "relative z-10 border-t border-[#B5123F] bg-[#C8174A] bg-[linear-gradient(135deg,#D61F55_0%,#B5123F_100%)] text-white dark:border-border dark:bg-muted/20 dark:bg-none dark:text-foreground",
+    footer: "relative z-10 border-t border-[#AD032A] bg-[#C1122F] bg-[linear-gradient(135deg,#D52047_0%,#AD032A_100%)] text-white dark:border-border dark:bg-muted/20 dark:bg-none dark:text-foreground",
     brand: "text-2xl font-bold text-white dark:text-primary",
     about: "mt-3 max-w-sm text-base leading-relaxed text-white/90 dark:text-muted-foreground",
     trust: "flex items-center gap-2 text-white dark:text-foreground/80",
@@ -86,25 +86,25 @@ const STYLES = {
     bottomBar: "border-t border-white/25 dark:border-border",
     bottomText: "mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-white/90 sm:flex-row dark:text-muted-foreground",
     heart: "h-3.5 w-3.5 fill-white text-white dark:fill-primary dark:text-primary",
-    social: "flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white hover:text-[#B5123F] dark:bg-primary/10 dark:text-primary dark:hover:bg-primary dark:hover:text-white",
+    social: "flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white hover:text-[#AD032A] dark:bg-primary/10 dark:text-primary dark:hover:bg-primary dark:hover:text-white",
   },
   // 👇 තද වයින් පසුබිම — ලොකු රතු ප්‍රදේශයක් නැති නිසා ඇසට මෘදුයි, රතු CTA buttons තවත් කැපී පේනවා
   wine: {
-    footer: "relative z-10 border-t border-transparent bg-[#2A0913] bg-[linear-gradient(180deg,#330B18_0%,#22070F_100%)] text-white dark:border-border dark:bg-muted/20 dark:bg-none dark:text-foreground",
+    footer: "relative z-10 border-t border-transparent bg-[#2B060E] bg-[linear-gradient(180deg,#33070F_0%,#220409_100%)] text-white dark:border-border dark:bg-muted/20 dark:bg-none dark:text-foreground",
     brand: "text-2xl font-bold text-white dark:text-primary",
     about: "mt-3 max-w-sm text-base leading-relaxed text-white/75 dark:text-muted-foreground",
     trust: "flex items-center gap-2 text-white/90 dark:text-foreground/80",
-    trustIcon: "h-4 w-4 shrink-0 text-[#FF6F8E] dark:text-primary",
+    trustIcon: "h-4 w-4 shrink-0 text-[#FE6A6C] dark:text-primary",
     heading: "text-base font-bold text-white dark:text-foreground",
-    link: "text-base text-white/70 transition hover:text-[#FF8FA8] dark:text-muted-foreground dark:hover:text-primary",
+    link: "text-base text-white/70 transition hover:text-[#FF8A8C] dark:text-muted-foreground dark:hover:text-primary",
     tipBox: "mt-10 flex items-start gap-3 rounded-2xl border border-white/15 bg-white/[0.06] p-4 dark:border-amber-500/25 dark:bg-amber-500/5",
     tipIcon: "mt-0.5 h-5 w-5 shrink-0 text-amber-300 dark:text-amber-400",
     tipText: "text-base text-white/75 dark:text-muted-foreground",
     tipTitle: "font-semibold text-white dark:text-foreground",
     bottomBar: "border-t border-white/10 dark:border-border",
     bottomText: "mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-white/60 sm:flex-row dark:text-muted-foreground",
-    heart: "h-3.5 w-3.5 fill-[#FF6F8E] text-[#FF6F8E] dark:fill-primary dark:text-primary",
-    social: "flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#D61F55] hover:text-white dark:bg-primary/10 dark:text-primary dark:hover:bg-primary dark:hover:text-white",
+    heart: "h-3.5 w-3.5 fill-[#FE6A6C] text-[#FE6A6C] dark:fill-primary dark:text-primary",
+    social: "flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#D52047] hover:text-white dark:bg-primary/10 dark:text-primary dark:hover:bg-primary dark:hover:text-white",
   },
 } as const;
 
@@ -124,7 +124,7 @@ export default function SiteFooter() {
   return (
     <footer className={S.footer}>
       {/* 👇 Wine style එකේ උඩින් theme රතු ඉර (dark mode එකේ නෑ) */}
-      {FOOTER_STYLE === "wine" && <div aria-hidden className="h-1 w-full bg-[linear-gradient(90deg,#B5123F,#D61F55_40%,#F0544F)] dark:hidden" />}
+      {FOOTER_STYLE === "wine" && <div aria-hidden className="h-1 w-full bg-[linear-gradient(90deg,#AD032A,#D52047_40%,#F05160)] dark:hidden" />}
       <div className="mx-auto max-w-[1600px] px-4 py-14">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand + trust */}

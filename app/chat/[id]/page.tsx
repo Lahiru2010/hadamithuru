@@ -229,7 +229,7 @@ export default function ChatPage() {
                       isDeleted 
                         ? "bg-muted/50 border border-border text-muted-foreground italic text-xs"
                         : isMe 
-                          ? "bg-gradient-to-r from-[#E3324F] to-[#F0544F] text-white rounded-br-sm shadow-md" 
+                          ? "bg-gradient-to-r from-[#DD2F4F] to-[#F05160] text-white rounded-br-sm shadow-md" 
                           : "bg-muted text-foreground rounded-bl-sm"
                     }`}>
                       <p className={isDeleted ? "text-xs" : "text-sm"}>
@@ -286,7 +286,7 @@ export default function ChatPage() {
           />
           <button 
             type="submit" 
-            className="rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] p-3 text-white hover:opacity-90 shadow-md transition-all active:scale-95"
+            className="rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] p-3 text-white hover:opacity-90 shadow-md transition-all active:scale-95"
           >
             <Send className="h-5 w-5" />
           </button>

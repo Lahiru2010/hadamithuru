@@ -81,7 +81,7 @@ export default function NewStoryPage() {
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="mb-6 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><HeartHandshake className="h-7 w-7" /></span>
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight">{S.title}</h1>
             <p className="mt-1 max-w-2xl text-muted-foreground">{S.subtitle}</p>
@@ -171,7 +171,7 @@ export default function NewStoryPage() {
                   </article>
                   {[["married", S.married], ["consent", S.consent]].map(([k, label]) => (
                     <label key={k} className="flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-muted/30 p-4 text-sm">
-                      <input type="checkbox" checked={form[k as "married" | "consent"]} onChange={(e) => setForm({ ...form, [k]: e.target.checked })} className="mt-0.5 h-5 w-5 shrink-0 accent-[#D61F55]" /> {label}
+                      <input type="checkbox" checked={form[k as "married" | "consent"]} onChange={(e) => setForm({ ...form, [k]: e.target.checked })} className="mt-0.5 h-5 w-5 shrink-0 accent-[#D52047]" /> {label}
                     </label>
                   ))}
                 </div>
@@ -182,9 +182,9 @@ export default function NewStoryPage() {
             <div className="flex items-center justify-between gap-3 border-t border-border p-5">
               <button type="button" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0} className="flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-muted disabled:invisible"><ArrowLeft className="h-4 w-4" /> {S.back}</button>
               {step < 3 ? (
-                <button type="button" onClick={() => setStep((s) => s + 1)} disabled={!canNext} className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-2.5 text-sm font-bold text-white shadow-md disabled:opacity-40">{S.next} <ArrowRight className="h-4 w-4" /></button>
+                <button type="button" onClick={() => setStep((s) => s + 1)} disabled={!canNext} className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-md disabled:opacity-40">{S.next} <ArrowRight className="h-4 w-4" /></button>
               ) : (
-                <button type="button" onClick={submit} disabled={!canNext || sending} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D61F55] to-[#B5123F] px-6 py-2.5 text-sm font-bold text-white shadow-md disabled:opacity-40">{sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />} {S.submit}</button>
+                <button type="button" onClick={submit} disabled={!canNext || sending} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-md disabled:opacity-40">{sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />} {S.submit}</button>
               )}
             </div>
           </section>
@@ -192,7 +192,7 @@ export default function NewStoryPage() {
           {/* ℹ️ වැඩ කරන විදිහ + මම එවපු කතා */}
           <aside className="space-y-6">
             {/* 🎁 තෑග්ග — කැපී පේන්න */}
-            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#D61F55] to-[#B5123F] p-6 text-white shadow-xl shadow-primary/20">
+            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#D52047] to-[#AD032A] p-6 text-white shadow-xl shadow-primary/20">
               <div aria-hidden className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-white/15 blur-2xl" />
               <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl motion-safe:animate-[float_4s_ease-in-out_infinite]">🎁</span>
               <h2 className="relative mt-4 text-xl font-extrabold leading-snug">{S.giftTitle}</h2>

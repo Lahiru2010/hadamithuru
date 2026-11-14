@@ -444,7 +444,7 @@ function ChatDashboardContent() {
                         </div>
                       )}
                       <div className={`group flex flex-col ${isMe ? "items-end" : "items-start"} max-w-[75%]`}>
-                        <div className={`px-4 py-2 rounded-2xl ${isDeleted ? "bg-muted/50 border border-border text-muted-foreground italic text-xs" : isMe ? "bg-gradient-to-r from-[#E3324F] to-[#F0544F] text-white rounded-br-sm shadow-md" : "bg-background border border-border text-foreground rounded-bl-sm shadow-sm"}`}>
+                        <div className={`px-4 py-2 rounded-2xl ${isDeleted ? "bg-muted/50 border border-border text-muted-foreground italic text-xs" : isMe ? "bg-gradient-to-r from-[#DD2F4F] to-[#F05160] text-white rounded-br-sm shadow-md" : "bg-background border border-border text-foreground rounded-bl-sm shadow-sm"}`}>
                           {/* 👇 ඡායාරූපයක් නම් ChatPhoto, හඬ පණිවිඩයක් නම් VoicePlayer, නැත්නම් text */}
                           {!isDeleted && msg.image_path
                             ? <ChatPhoto msg={msg} isMe={isMe} />
@@ -489,7 +489,7 @@ function ChatDashboardContent() {
                 {/* 👇 🎤 හඬ පණිවිඩය — text එකක් type කරලා නැත්නම් / පටිගත කරනකොට */}
                 {(voiceActive || !newMessage.trim()) && <VoiceRecorder onSend={sendVoice} onActiveChange={setVoiceActive} />}
                 {!voiceActive && newMessage.trim() && (
-                  <button type="submit" className="rounded-full bg-gradient-to-r from-[#E3324F] to-[#F0544F] p-3 text-white hover:opacity-90 cursor-pointer"><Send className="h-5 w-5" /></button>
+                  <button type="submit" className="rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] p-3 text-white hover:opacity-90 cursor-pointer"><Send className="h-5 w-5" /></button>
                 )}
               </form>
             </>

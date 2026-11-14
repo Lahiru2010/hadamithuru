@@ -82,7 +82,7 @@ export default function VoicePlayer({ msgId, duration, isMe, localUrl }: { msgId
         onTimeUpdate={(e) => setPos(e.currentTarget.currentTime)}
         onError={() => setFailed(true)}
       />
-      <button type="button" onClick={toggle} aria-label={playing ? C.voicePause : C.voicePlay} className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:scale-95 ${isMe ? "bg-white text-[#D61F55]" : "bg-primary text-white"}`}>
+      <button type="button" onClick={toggle} aria-label={playing ? C.voicePause : C.voicePlay} className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:scale-95 ${isMe ? "bg-white text-[#D52047]" : "bg-primary text-white"}`}>
         {playing ? <Pause className="h-4 w-4 fill-current" /> : <Play className="ml-0.5 h-4 w-4 fill-current" />}
       </button>
       <div className="min-w-0 flex-1">
