@@ -32,14 +32,15 @@ export default function OnboardingTour() {
 
   const steps: Step[] = [
     { title: T.s0t, text: T.s0d },
+    // 🧭 update-68: navbar එකේ වම් සිට දකුණට පිළිවෙළින් (Browse → කැමැත්ත → පණිවිඩ → පැකේජ → 🔔 → භාෂාව → theme → ගිණුම → සහාය)
     { targets: ["browse", "menu"], title: T.s1t, text: T.s1d },
     { targets: ["interests", "menu"], title: T.s2t, text: T.s2d },
     { targets: ["messages", "menu"], title: T.s3t, text: T.s3d },
+    { targets: ["pricing", "menu"], title: T.pricingT, text: T.pricingD }, // 👑 update-64
     { targets: ["bell"], title: T.s4t, text: T.s4d },
-    { targets: ["profile", "menu"], title: T.s5t, text: verified ? T.s5dVerified : T.s5d },
     { targets: ["lang", "menu"], title: T.langT, text: T.langD },        // 🌐 update-64
     { targets: ["theme", "menu"], title: T.themeT, text: T.themeD },     // 🌙 update-64
-    { targets: ["pricing", "menu"], title: T.pricingT, text: T.pricingD }, // 👑 update-64
+    { targets: ["profile", "menu"], title: T.s5t, text: verified ? T.s5dVerified : T.s5d },
     { targets: ["support"], title: T.s6t, text: T.s6d },
     { title: T.s7t, text: verified ? T.s7dVerified : T.s7d },
   ];

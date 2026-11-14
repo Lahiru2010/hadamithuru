@@ -123,9 +123,10 @@ export default function PreferencesPage() {
           <div className="md:col-span-2">{card({ title: P.districts, children: chips("districts", DISTRICT_OPTIONS) })}</div>
         </div>
 
-        <div className="sticky bottom-4 mt-8 flex items-center justify-end gap-3 rounded-2xl border border-border bg-background/90 p-3 shadow-xl backdrop-blur-md">
-          <button type="button" onClick={() => setPrefs({})} className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"><RotateCcw className="h-4 w-4" /> {P.clear}</button>
-          <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">
+        {/* 📱 update-68: දකුණු පැත්තේ යට support chat button එකට ඉඩ (mr) — ලොකු screen වල ඕනේ නෑ */}
+        <div className="sticky bottom-4 mr-[4.5rem] mt-8 flex items-center justify-between gap-2 rounded-2xl border border-border bg-background/90 p-2.5 shadow-xl backdrop-blur-md sm:justify-end sm:gap-3 sm:p-3 min-[1200px]:mr-0">
+          <button type="button" onClick={() => setPrefs({})} className="flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground sm:px-4"><RotateCcw className="h-4 w-4" /> {P.clear}</button>
+          <button type="button" onClick={save} disabled={saving} className="flex items-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-2.5 sm:px-6 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:opacity-60">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} {P.save}
           </button>
         </div>

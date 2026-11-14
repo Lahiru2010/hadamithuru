@@ -3,7 +3,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, Crown, Gem, Heart, Loader2, Lock, Sparkles } from "lucide-react";
+import { Check, Crown, Gem, Heart, Loader2, Lock, Sparkles, Tag } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { useDialog } from "@/components/DialogProvider";
 import { usePricing } from "@/lib/usePricing";
@@ -140,16 +140,22 @@ export default function PricingPage() {
                   const dur = durOf(plan.months);
                   const pr = periodPrice(plan.priceLkr, dur);
                   return (
+                    // 🏷️ update-68: අඩු කිරීම පැහැදිලිව — උඩින් "% අඩුවෙන් · LKR x ඉතුරුයි", මැද ලොකු මිල, යටින් කපපු මිල + මාසයකට
                     <div className="mt-3">
-                      <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
-                        <span className="text-4xl font-extrabold text-foreground">LKR {pr.total.toLocaleString()}</span>
-                        <span className="text-sm text-muted-foreground">{dur.months === 1 ? P.perMonth : P.perMonths.replace("{n}", String(dur.months))}</span>
+                      {dur.discountPct > 0 && (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-green-500/15 px-2.5 py-1 text-xs font-bold text-green-700 ring-1 ring-green-500/25 dark:text-green-400">
+                          <Tag className="h-3.5 w-3.5" /> {P.off.replace("{p}", String(dur.discountPct))} · {P.save.replace("{x}", (pr.full - pr.total).toLocaleString())}
+                        </span>
+                      )}
+                      <p className={`flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${dur.discountPct > 0 ? "mt-2.5" : ""}`}>
+                        <span className="text-4xl font-extrabold tracking-tight text-foreground">LKR {pr.total.toLocaleString()}</span>
+                        <span className="text-sm font-medium text-muted-foreground">{dur.months === 1 ? P.perMonth : P.perMonths.replace("{n}", String(dur.months))}</span>
                       </p>
                       {dur.discountPct > 0 && (
-                        <p className="mt-1.5 flex flex-wrap items-center gap-2 text-sm">
-                          <span className="text-muted-foreground line-through">LKR {pr.full.toLocaleString()}</span>
-                          <span className="rounded-full bg-green-500/15 px-2 py-0.5 text-xs font-bold text-green-700 dark:text-green-400">{P.off.replace("{p}", String(dur.discountPct))}</span>
-                          <span className="text-xs text-muted-foreground">{P.perMonthApprox.replace("{x}", pr.perMonth.toLocaleString())}</span>
+                        <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm text-muted-foreground">
+                          <span className="line-through decoration-red-500/70">LKR {pr.full.toLocaleString()}</span>
+                          <span aria-hidden className="text-border">•</span>
+                          <span>{P.perMonthApprox.replace("{x}", pr.perMonth.toLocaleString())}</span>
                         </p>
                       )}
                     </div>

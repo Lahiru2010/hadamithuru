@@ -15,6 +15,7 @@ import { createClient } from "@/lib/client";
 import { useLang } from "@/components/providers";
 import { timeAgo } from "@/lib/last-seen";
 import { playChime, openAdminTab } from "@/lib/chime";
+import { setFaviconBadge } from "@/lib/favicon-badge";
 
 type Notif = { id: string; type: string; title?: string | null; body: string | null; link: string | null; read_at: string | null; created_at: string };
 const REMINDER_SEEN_KEY = "seneha_verify_reminder_seen"; // 👈 එක පාරක් බැලුවම රතු තිත අයින් වෙනවා (list එකේ තියෙනවා)
@@ -116,6 +117,11 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
   }, [open]);
 
   const unread = items.filter((n) => !n.read_at).length + (showReminder && !reminderSeen ? 1 : 0) + (isAdmin ? (admin.pendingVerifications > 0 ? 1 : 0) + (admin.unreadSupport > 0 ? 1 : 0) + (admin.openReports > 0 ? 1 : 0) : 0);
+  // 🔵 update-68: browser tab එකේ favicon එකට තිතක් + title එකට (n)
+  useEffect(() => {
+    setFaviconBadge("bell", unread);
+    return () => setFaviconBadge("bell", 0);
+  }, [unread]);
 
   const markAllRead = async () => {
     const now = new Date().toISOString();

@@ -26,6 +26,7 @@ import { DEFAULT_PHONE_COUNTRY, formatPhone, normalizePhone, parsePhone } from "
 import PhoneInput from "@/components/PhoneInput";
 import HoroscopeEditor from "@/components/HoroscopeEditor";
 import HoroscopeSummary from "@/components/HoroscopeSummary";
+import PartnerPrefsSummary from "@/components/PartnerPrefsSummary";
 import DatePicker from "@/components/form/DatePicker";
 import TimePicker from "@/components/form/TimePicker";
 import TownCombobox from "@/components/form/TownCombobox";
@@ -885,7 +886,9 @@ export default function ProfileWizard({ userId }: { userId: string }) {
             <PhotoGalleryManager userId={userId} onBusyChange={setGalleryBusy} />
           </>
         );
-      case "review":
+      case "review": {
+        // 🌐 update-68: "මා ගැන" පෙන්නන භාෂාව — මුලින්ම ලිව්ව එක (English → සිංහල → දෙමළ)
+        const aboutSrc: FieldKey = ((["en", "si", "ta"] as const).map((l) => `about_me_${l}` as FieldKey).find((k) => String(form[k] ?? "").trim()) ?? "about_me_en");
         return (
           <div className="space-y-4">
             {/* 👇 Publish කරන්න පොළඹවන කොටස (publish කරලා නැත්නම්) */}
@@ -915,12 +918,14 @@ export default function ProfileWizard({ userId }: { userId: string }) {
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-2.5 sm:gap-x-4 md:grid-cols-3">
                   {s.fields
                     .filter((k) => isRelevant(k, form))
+                    // 🌐 update-68: "මා ගැන" — user ලිව්ව භාෂාවෙන් එක විතරයි (English ලිව්වොත් ඒක; නැත්නම් සිංහල / දෙමළ)
+                    .filter((k) => !k.startsWith("about_me_") || k === aboutSrc)
                     .map((k) => {
                       const long = k === "hobbies" || k.startsWith("about_me_") || k.endsWith("_info");
                       const filled = isFilled(form[k]);
                       return (
                         <div key={k} className={`min-w-0 ${long ? "col-span-2 md:col-span-3" : ""}`}>
-                          <dt className="text-[10.5px] font-medium uppercase leading-4 tracking-wide text-muted-foreground">{fieldLabel(k, W, P, A.phone)}</dt>
+                          <dt className="text-[10.5px] font-medium uppercase leading-4 tracking-wide text-muted-foreground">{k.startsWith("about_me_") ? W.aboutTitle : fieldLabel(k, W, P, A.phone)}</dt>
                           <dd className={`mt-0.5 break-words leading-snug ${long && filled ? "rounded-lg bg-muted/40 px-2.5 py-1.5 text-[13.5px] font-normal" : "text-[14.5px] font-semibold"} ${long ? "" : "capitalize"} ${filled ? "" : "!bg-transparent !px-0 !py-0 text-[13.5px] !font-normal italic text-muted-foreground"}`}>
                             {displayValue(k, form, tr) || W.notSet}
                           </dd>
@@ -933,6 +938,9 @@ export default function ProfileWizard({ userId }: { userId: string }) {
 
             {/* 🔮 කේන්දරය දාලා නම් සාරාංශයක් */}
             <HoroscopeSummary onEdit={() => goTo(STEPS.findIndex((x) => x.id === "religion"))} />
+
+            {/* 💞 update-68: මම කැමති සහකරු — දාපු දේවල් (නැත්නම් දාන්න කියලා) */}
+            <PartnerPrefsSummary userId={userId} editLabel={W.edit} />
 
             {/* 👇 ඡායාරූප — profile photo එක + අමතර photos පොඩියට */}
             <div className="rounded-2xl border border-border p-4">
@@ -999,6 +1007,7 @@ export default function ProfileWizard({ userId }: { userId: string }) {
             )}
           </div>
         );
+      }
     }
   };
 

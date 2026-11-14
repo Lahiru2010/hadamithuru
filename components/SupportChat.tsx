@@ -80,7 +80,12 @@ export default function SupportChat() {
     setSending(true);
     const { data, error } = await supabase.from("support_messages").insert({ user_id: userId, sender: "user", content }).select("id, sender, content, created_at").single();
     setSending(false);
-    if (!error && data) { setMsgs((m) => (m.some((x) => x.id === data.id) ? m : [...m, data as Msg])); setText(""); }
+    if (!error && data) {
+      setMsgs((m) => (m.some((x) => x.id === data.id) ? m : [...m, data as Msg]));
+      setText("");
+      // 📲 update-68: admin ගේ WhatsApp එකටත් (CallMeBot — Vercel env vars දාලා නම් විතරයි)
+      fetch("/api/support/notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: data.id }), keepalive: true }).catch(() => {});
+    }
   };
 
   return (

@@ -545,6 +545,8 @@ export const translations = {
       notifVerifyReward: "🎁 තහවුරු වුණාට තෑග්ගක් — Gold පැකේජය මාස {n}ක් නොමිලේ ලැබුණා.",
     },
     prefs: {
+      reviewEmpty: "ඔබ කැමති සහකරු ගැන තාම කියලා නෑ. කියලා තිබ්බොත් ගැලපීම් % සහ \"අද ඔබට ගැලපෙන 5 දෙනා\" ඔබටම ගැලපෙනවා.", // 👈 update-68
+      reviewCta: "දැන් දාන්න",
       title: "මම කැමති සහකරු",
       subtitle: "ඔබ සොයන්නේ කොහොම කෙනෙක්ද කියලා කියන්න — ඒ අනුව ගැලපීම් % සහ \"අද ඔබට ගැලපෙන 5 දෙනා\" ඔබටම ගැලපෙන්න වෙනස් වෙනවා. ඕනෑම දෙයක් හිස්ව තිබ්බොත් \"ඕනෑම\" ලෙස සලකනවා.",
       age: "වයස් පරාසය",
@@ -984,6 +986,7 @@ export const translations = {
       monthsN: "මාස {n}",
       off: "{p}% අඩුවෙන්",
       perMonthApprox: "≈ මාසයට LKR {x}",
+      save: "LKR {x} ඉතුරුයි",
       activeBadge: "සක්‍රියයි",
       planActive: "✓ ඔබේ පැකේජය සක්‍රියයි — {date} දක්වා",
       // 💳 update-67: PayHere online ගෙවීම්
@@ -1741,6 +1744,8 @@ export const translations = {
       notifVerifyReward: "🎁 A gift for getting verified — {n} month(s) of the Gold plan free.",
     },
     prefs: {
+      reviewEmpty: "You haven't told us about your ideal partner yet. Adding it makes match % and \"Your 5 for today\" fit you better.", // 👈 update-68
+      reviewCta: "Add now",
       title: "My partner preferences",
       subtitle: "Tell us what you're looking for — your match % and \"Today's top 5 for you\" will be personalised. Anything left empty counts as \"Any\".",
       age: "Age range",
@@ -2180,6 +2185,7 @@ export const translations = {
       monthsN: "{n} months",
       off: "{p}% OFF",
       perMonthApprox: "≈ LKR {x} / month",
+      save: "Save LKR {x}",
       activeBadge: "Active",
       planActive: "✓ Your plan is active — until {date}",
       // 💳 update-67: PayHere online payments
@@ -2943,6 +2949,8 @@ export const translations = {
       notifVerifyReward: "🎁 சரிபார்க்கப்பட்டதற்கான பரிசு — {n} மாத Gold திட்டம் இலவசம்.",
     },
     prefs: {
+      reviewEmpty: "உங்கள் விருப்பமான துணையைப் பற்றி இன்னும் சொல்லவில்லை. சேர்த்தால் பொருத்தம் % மற்றும் \"இன்றைய உங்கள் 5 பேர்\" உங்களுக்கு ஏற்றதாக இருக்கும்.", // 👈 update-68
+      reviewCta: "இப்போது சேர்க்கவும்",
       title: "நான் விரும்பும் துணை",
       subtitle: "நீங்கள் யாரைத் தேடுகிறீர்கள் என்று சொல்லுங்கள் — பொருத்தம் % மற்றும் \"இன்று உங்களுக்கான 5 பேர்\" உங்களுக்கேற்ப மாறும். காலியாக விட்டால் \"எதுவும்\" எனக் கொள்ளப்படும்.",
       age: "வயது வரம்பு",
@@ -3382,6 +3390,7 @@ export const translations = {
       monthsN: "{n} மாதங்கள்",
       off: "{p}% தள்ளுபடி",
       perMonthApprox: "≈ மாதம் LKR {x}",
+      save: "LKR {x} சேமிப்பு",
       activeBadge: "செயலில்",
       planActive: "✓ உங்கள் திட்டம் செயலில் உள்ளது — {date} வரை",
       // 💳 update-67: PayHere ஆன்லைன் கட்டணம்

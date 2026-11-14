@@ -23,13 +23,19 @@ import NotificationsBell from "@/components/NotificationsBell";
 import { joinPresence } from "@/lib/presence";
 import { isAdminEmail } from "@/lib/admin-emails";
 import { LAST_SEEN_INTERVAL_MS } from "@/lib/last-seen";
+import { setFaviconBadge } from "@/lib/favicon-badge";
 
 
 // 👇 initialUser / initialProfile එන්නේ server එකෙන් (app/layout.tsx).
 //    ඒ නිසා navbar එක පෙන්නන ගමන්ම නම සහ photo එක තියෙනවා.
 export function Navbar({ initialUser = null, initialProfile = null }: { initialUser?: NavUser | null; initialProfile?: NavProfile | null }) {
   const { t, lang, setLang } = useLang();
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme, systemTheme } = useTheme();
+  // 🌗 update-68: Dark ⇄ Light. Phone / computer එකේ theme එකටම ආපහු ආවොත් "system" (ඊට පස්සේ ඒක වෙනස් වුණාම site එකත් වෙනස් වෙනවා)
+  const toggleTheme = () => {
+    const next = resolvedTheme === "dark" ? "light" : "dark";
+    setTheme(next === systemTheme ? "system" : next);
+  };
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -314,11 +320,11 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
 
   const navLinkClass = (href: string) =>
-    `relative flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors xl:px-3 ${
+    `relative flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[14.5px] font-semibold transition-colors xl:px-3 ${
       isActive(href)
-        ? "bg-primary/10 text-primary font-semibold"
-        : "text-foreground/80 hover:text-primary hover:bg-muted/60"
-    }`;
+        ? "bg-primary/10 text-primary font-bold"
+        : "text-foreground/85 hover:text-primary hover:bg-muted/60"
+    }`; // 👈 update-68: අකුරු ටිකක් තද කළා
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -328,6 +334,10 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
 
   const langLabel = (l: string) => (l === "si" ? "සිංහල" : l === "en" ? "English" : "தமிழ்");
   const hasUnread = hasUnreadMessages || hasUnreadInterests;
+  // 🔵 update-68: කියවලා නැති කැමැත්ත තියෙනවා නම් favicon එකටත් තිත (messages ගණන FaviconBadge එකෙන්)
+  useEffect(() => {
+    setFaviconBadge("interests", hasUnreadInterests ? 1 : 0);
+  }, [hasUnreadInterests]);
   const closeMenu = () => setIsMenuOpen(false);
 
   // 👇 Navbar එක page එකත් එක්ක scroll වෙනවා (fixed / sticky නෑ)
@@ -343,8 +353,8 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
         <div className="hidden items-center gap-0.5 lg:flex xl:gap-1">
           <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navLinkClass("/")}>{t.nav.home}</Link>
           {/* 🔍 Browse — login නැති අයටත් */}
-          {/* 💍 update-64: "යෝජනා සොයන්න" — රතු, තද අකුරු විතරයි (පසුබිමක් නෑ — click කරලා වගේ පේන්නේ නෑ) */}
-          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={isActive("/browse") ? navLinkClass("/browse") : "relative flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-bold text-primary transition-colors hover:bg-primary/5 xl:px-3"}>
+          {/* 💍 update-68: "යෝජනා සොයන්න" — අනිත් links වගේමයි (highlight නෑ) */}
+          <Link data-tour="browse" href="/browse" aria-current={isActive("/browse") ? "page" : undefined} className={navLinkClass("/browse")}>
             <Search className={`h-4 w-4 ${isActive("/browse") ? "stroke-[2.5]" : ""}`} /> {t.nav.browse}
           </Link>
           {user && (
@@ -382,7 +392,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
             />
             </span>
             {mounted && (
-              <button data-tour="theme" onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")} aria-label={t.nav.darkMode} className="flex h-9 w-9 items-center justify-center rounded-xl border border-border hover:bg-muted transition">
+              <button data-tour="theme" onClick={toggleTheme} aria-label={t.nav.darkMode} className="flex h-9 w-9 items-center justify-center rounded-xl border border-border hover:bg-muted transition">
                 {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
             )}
@@ -561,7 +571,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                   type="button"
                   role="switch"
                   aria-checked={resolvedTheme === "dark"}
-                  onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                  onClick={toggleTheme}
                   className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-[15px] hover:bg-muted"
                 >
                   {resolvedTheme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}

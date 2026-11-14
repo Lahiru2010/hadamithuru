@@ -43,7 +43,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   // 👇 මෙතන තමයි අපි වෙනස් කළේ: ThemeProvider එක හැම වෙලාවෙම එළියේ තියෙන්න ඕනේ
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    // 🌗 update-68: Default = phone / computer එකේ theme එක (system). storageKey අලුත් කළා — කලින් save වුණ light/dark එක එක පාරක් reset වෙලා හැමෝටම system එකෙන් පටන් ගන්නවා
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="hm-theme">
       {mounted ? (
         <LangContext.Provider value={{ lang, setLang, t: translations[lang] }}>
           {/* 👇 Site එකේ ලස්සන confirm / alert popups */}
