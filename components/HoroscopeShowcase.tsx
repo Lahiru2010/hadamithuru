@@ -2,8 +2,9 @@
 // ⚠️ පෙන්නන කේන්දර දෙක නිදර්ශන පමණයි (ඇත්ත කිසිවෙකුගේ නෙවෙයි)
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Heart, Lock, Sparkles, Star, X } from "lucide-react";
+import { ArrowRight, Check, Lock, Sparkles, Star, X } from "lucide-react";
 import { useLang } from "@/components/providers";
 import HoroscopeChart from "@/components/HoroscopeChart";
 
@@ -42,7 +43,8 @@ export default function HoroscopeShowcase({ loggedIn }: { loggedIn: boolean }) {
           <div className="relative mx-auto h-[30rem] w-full max-w-lg">
             <div className="absolute left-0 top-0 w-[62%] -rotate-6 rounded-3xl bg-background p-3 shadow-2xl"><HoroscopeChart lagna={SAMPLE_A.lagna} planets={SAMPLE_A.planets} lang={lang} title={R.lagna} /></div>
             <div className="absolute right-0 top-16 w-[62%] rotate-6 rounded-3xl bg-background p-3 shadow-2xl"><HoroscopeChart lagna={SAMPLE_B.lagna} planets={SAMPLE_B.planets} lang={lang} title={R.lagna} /></div>
-            <span className="absolute left-1/2 top-[38%] z-10 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-[#D52047] to-[#AD032A] shadow-xl ring-4 ring-white motion-safe:animate-[float_3s_ease-in-out_infinite]"><Heart className="h-7 w-7 fill-white text-white" /></span>
+            {/* 💗 update-56: කේන්දර දෙක මැද logo හදවත — සුදු රවුමක් ඇතුළේ, උඩ පහළ පාවෙනවා */}
+            <span className="absolute left-1/2 top-[38%] z-10 flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-xl shadow-black/30 ring-4 ring-white/25 motion-safe:animate-[float_3s_ease-in-out_infinite]"><Image src="/logo-mark.svg" alt="" aria-hidden width={36} height={36} className="h-9 w-9" /></span>
             <div className="absolute bottom-0 left-1/2 z-20 w-64 -translate-x-1/2 rounded-2xl bg-white p-4 text-foreground shadow-2xl dark:bg-[#1a0b11]">
               <p className="mb-2 flex items-center justify-between text-xs font-bold uppercase text-muted-foreground">{R.tableTitle} <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] text-white">85%</span></p>
               <ul className="space-y-1.5 text-sm">

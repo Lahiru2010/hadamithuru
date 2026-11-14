@@ -2,8 +2,9 @@
 // අප ගැන — අලුත් අයට site එක ගැන (අරමුණ, කාටද, වටිනාකම්, පෞද්ගලිකත්වය, නියමයන්, සම්බන්ධ වෙන්න)
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, HeartHandshake, Lock, Mail, MessageCircleHeart, ScrollText, ShieldCheck, Globe2 } from "lucide-react";
+import { ArrowRight, Check, Lock, Mail, MessageCircleHeart, ScrollText, ShieldCheck, Globe2 } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { useLoggedIn } from "@/lib/useLoggedIn";
 
@@ -25,7 +26,8 @@ export default function AboutPage() {
       <div className="relative z-10 mx-auto max-w-5xl px-4 py-20">
         {/* Hero */}
         <header className="text-center">
-          <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary"><HeartHandshake className="h-8 w-8" /></span>
+          {/* 💗 update-56: "Hadamithuru ගැන" උඩින් logo හදවත */}
+          <span className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-primary/10 ring-1 ring-primary/15"><Image src="/logo-mark.svg" alt="" aria-hidden width={48} height={48} priority className="h-12 w-12" /></span>
           <h1 className="mt-6 text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">{brand(A.title)}</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{A.subtitle}</p>
         </header>
