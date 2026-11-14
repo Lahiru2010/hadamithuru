@@ -48,7 +48,7 @@ export default function EmojiPicker({ onPick, disabled = false }: { onPick: (emo
 
   return (
     <div ref={ref} className="relative shrink-0">
-      <button type="button" onClick={toggle} disabled={disabled} aria-label={t.chat.emoji} aria-expanded={open} title={t.chat.emoji} className={`rounded-full border p-3 transition disabled:opacity-50 ${open ? "border-primary/50 text-primary" : "border-border text-muted-foreground hover:border-primary/50 hover:text-primary"}`}>
+      <button type="button" onClick={toggle} disabled={disabled} aria-label={t.chat.emoji} aria-expanded={open} title={t.chat.emoji} className={`shrink-0 rounded-full border p-2.5 sm:p-3 transition disabled:opacity-50 ${open ? "border-primary/50 text-primary" : "border-border text-muted-foreground hover:border-primary/50 hover:text-primary"}`}>
         <Smile className="h-5 w-5" />
       </button>
       {open && (

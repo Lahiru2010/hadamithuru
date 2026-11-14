@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Bell, BadgeCheck, AlertCircle, ShieldCheck, Headset, X, Mail, MailOpen, Trash2, Crown, Gift, Heart, Zap, MessageCircle, HeartHandshake } from "lucide-react";
+import { Bell, BadgeCheck, AlertCircle, ShieldCheck, Headset, X, Mail, MailOpen, Trash2, Crown, Gift, Heart, Zap, MessageCircle, HeartHandshake, Phone } from "lucide-react";
 import { FOUNDING_MONTHS } from "@/lib/offer";
 import { useDialog } from "@/components/DialogProvider";
 import { createClient } from "@/lib/client";
@@ -32,7 +32,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
   const [admin, setAdmin] = useState({ pendingVerifications: 0, unreadSupport: 0, openReports: 0 });
   const ref = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ top: number; right: number } | null>(null);
+  const [pos, setPos] = useState<{ top: number; right: number; left?: number } | null>(null);
   const { showConfirm } = useDialog();
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
         } else {
           setItems((prev) => [n, ...prev]);
         }
-        if (n.type === "new_interest" || n.type === "new_message" || n.type === "interest_accepted") playChime(); // 🔔
+        if (n.type === "new_interest" || n.type === "new_message" || n.type === "interest_accepted" || n.type === "phone_shared") playChime(); // 🔔
       })
       // 💬 එකම කෙනාගෙන් තවත් message එකක් → ඒ notification එක උඩට (අලුත් එකක් නෙවෙයි)
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "notifications", filter: `user_id=eq.${userId}` }, (p) => {
@@ -177,6 +177,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
     : n.type === "story_confirm" ? t.stories.notifConfirm.replace("{names}", n.body ?? "")
     : n.type === "boost_active" ? t.boost.notifActive.replace("{date}", n.body ? new Date(n.body).toLocaleDateString() : "")
     : n.type === "report_reviewed" ? E.reportReviewed.replace("{name}", n.body ?? "")
+    : n.type === "phone_shared" ? t.phone.notifShared.replace("{name}", n.body ?? "") // 📞 update-60
     : n.body ?? "";
 
   return (
@@ -206,7 +207,9 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
         type="button"
         onClick={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
-          setPos({ top: r.bottom + 8, right: Math.max(8, document.documentElement.clientWidth - r.right) });
+          const vw = document.documentElement.clientWidth;
+          // 📱 update-62: phone එකේ (පළල 640ට අඩු) screen එකේ දෙපැත්තටම ගැලපෙන්න — කලින් වම් පැත්ත screen එකෙන් එළියට ගියා
+          setPos(vw < 640 ? { top: r.bottom + 8, left: 8, right: 8 } : { top: r.bottom + 8, right: Math.max(8, vw - r.right) });
           setOpen((o) => !o);
         }}
         aria-label={E.notifications}
@@ -217,7 +220,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
       </button>
 
       {open && pos && createPortal(
-        <div ref={panelRef} style={{ position: "fixed", top: pos.top, right: pos.right }} className="z-[200] w-96 max-w-[calc(100vw-1rem)] overflow-hidden rounded-2xl border border-border bg-background shadow-2xl animate-in fade-in slide-in-from-top-1 duration-150">
+        <div ref={panelRef} style={{ position: "fixed", top: pos.top, right: pos.right, left: pos.left }} className="z-[200] w-auto overflow-hidden sm:w-96 sm:max-w-[calc(100vw-1rem)] rounded-2xl border border-border bg-background shadow-2xl animate-in fade-in slide-in-from-top-1 duration-150">
           <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
             <p className="font-bold">{E.notifications}</p>
             <div className="flex items-center gap-3">
@@ -225,7 +228,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
               {items.length > 0 && <button onClick={clearAll} className="text-xs font-semibold text-muted-foreground hover:text-red-500 hover:underline">{E.notifClearAll}</button>}
             </div>
           </div>
-          <ul className="max-h-[28rem] divide-y divide-border overflow-y-auto custom-scrollbar">
+          <ul className="max-h-[min(28rem,calc(100dvh-10rem))] divide-y divide-border overflow-y-auto custom-scrollbar">
             {isAdmin && admin.pendingVerifications > 0 && (
               <li><Link href="/admin?tab=verify" onClick={() => { setOpen(false); openAdminTab("verify"); }} className="flex gap-3 p-4 hover:bg-muted/50"><BadgeCheck className="h-5 w-5 shrink-0 text-blue-500" /><span className="text-sm font-semibold">{E.notifAdminVerify.replace("{n}", String(admin.pendingVerifications))}</span></Link></li>
             )}
@@ -258,6 +261,7 @@ export default function NotificationsBell({ userId, isAdmin }: { userId: string;
                     : n.type === "new_message" ? <MessageCircle className="h-5 w-5 shrink-0 text-blue-500" />
                     : n.type === "interest_accepted" ? <HeartHandshake className="h-5 w-5 shrink-0 text-green-600" />
                     : n.type === "boost_active" ? <Zap className="h-5 w-5 shrink-0 fill-amber-400 text-amber-500" />
+                    : n.type === "phone_shared" ? <Phone className="h-5 w-5 shrink-0 text-green-600" />
                     : <AlertCircle className="h-5 w-5 shrink-0 text-amber-500" />}
                   <span className="min-w-0 flex-1">
                     <span className={`block text-sm ${n.read_at ? "" : "font-semibold"}`}>{text(n)}</span>

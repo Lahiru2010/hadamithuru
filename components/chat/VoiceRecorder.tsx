@@ -135,7 +135,7 @@ export default function VoiceRecorder({ onSend, onActiveChange, disabled = false
 
   if (state === "idle") {
     return (
-      <button type="button" onClick={start} disabled={disabled} aria-label={C.voiceRecord} title={C.voiceRecord} className="shrink-0 rounded-full border border-border p-3 text-muted-foreground transition hover:border-primary/50 hover:text-primary disabled:opacity-50">
+      <button type="button" onClick={start} disabled={disabled} aria-label={C.voiceRecord} title={C.voiceRecord} className="shrink-0 rounded-full border border-border p-2.5 sm:p-3 text-muted-foreground transition hover:border-primary/50 hover:text-primary disabled:opacity-50">
         <Mic className="h-5 w-5" />
       </button>
     );

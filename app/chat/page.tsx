@@ -399,10 +399,11 @@ function ChatDashboardContent() {
           </div>
         </div>
 
-        <div className={`flex-1 min-h-0 flex-col h-full bg-muted/10 ${activeUser ? 'flex' : 'hidden md:flex'}`}>
+        {/* 📱 update-62: min-w-0 — දිග message එකක් තිබ්බත් chat එක screen එකට වඩා පළල් වෙන්නේ නෑ (කලින් දකුණු පැත්ත කැපුණා) */}
+        <div className={`flex-1 min-w-0 min-h-0 flex-col h-full bg-muted/10 ${activeUser ? 'flex' : 'hidden md:flex'}`}>
           {activeUser ? (
             <>
-              <div className="shrink-0 flex items-center gap-3 p-4 border-b border-border bg-background shadow-sm">
+              <div className="shrink-0 flex items-center gap-2 p-3 sm:gap-3 sm:p-4 border-b border-border bg-background shadow-sm">
                 <button onClick={() => setActiveUser(null)} className="md:hidden p-2 hover:bg-muted rounded-full cursor-pointer"><ArrowLeft className="h-5 w-5" /></button>
                 {/* 👇 Photo / නම click කළාම සම්පූර්ණ profile එක */}
                 <button type="button" onClick={() => setShowProfile(true)} className="group flex min-w-0 flex-1 items-center gap-3 rounded-xl p-1 -m-1 text-left transition hover:bg-muted/50">
@@ -432,7 +433,7 @@ function ChatDashboardContent() {
               </div>
 
 
-              <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-1">
+              <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-3 sm:p-4 space-y-1">
                 {messages.map((msg, index) => {
                   const isMe = msg.sender_id === currentUser?.id;
                   const isDeleted = msg.is_deleted;
@@ -449,14 +450,14 @@ function ChatDashboardContent() {
                           {showAvatar ? <AvatarImage src={activeUser.avatar_url} alt={activeUser.full_name} className="w-8 h-8" /> : <div className="w-8 h-8" />}
                         </div>
                       )}
-                      <div className={`group flex flex-col ${isMe ? "items-end" : "items-start"} max-w-[75%]`}>
-                        <div className={`px-4 py-2 rounded-2xl ${isDeleted ? "bg-muted/50 border border-border text-muted-foreground italic text-xs" : isMe ? "bg-gradient-to-r from-[#DD2F4F] to-[#F05160] text-white rounded-br-sm shadow-md" : "bg-background border border-border text-foreground rounded-bl-sm shadow-sm"}`}>
+                      <div className={`group flex min-w-0 flex-col ${isMe ? "items-end" : "items-start"} max-w-[80%] sm:max-w-[75%]`}>
+                        <div className={`max-w-full px-4 py-2 rounded-2xl ${isDeleted ? "bg-muted/50 border border-border text-muted-foreground italic text-xs" : isMe ? "bg-gradient-to-r from-[#DD2F4F] to-[#F05160] text-white rounded-br-sm shadow-md" : "bg-background border border-border text-foreground rounded-bl-sm shadow-sm"}`}>
                           {/* 👇 ඡායාරූපයක් නම් ChatPhoto, හඬ පණිවිඩයක් නම් VoicePlayer, නැත්නම් text */}
                           {!isDeleted && msg.image_path
                             ? <ChatPhoto msg={msg} isMe={isMe} />
                             : !isDeleted && msg.audio_path
                               ? <VoicePlayer msgId={msg.id} duration={msg.audio_duration ?? 0} isMe={isMe} localUrl={msg._localAudio} />
-                              : <p className={isDeleted ? "text-xs" : "text-[17px] leading-relaxed"}>{isDeleted ? "This message was deleted" : msg.content}</p>}
+                              : <p className={`whitespace-pre-wrap break-words [overflow-wrap:anywhere] ${isDeleted ? "text-xs" : "text-[17px] leading-relaxed"}`}>{isDeleted ? "This message was deleted" : msg.content}</p>}
                         </div>
                         {!isDeleted && (
                           <div className={`flex items-center gap-1 mt-1 px-1 ${isMe ? "flex-row-reverse" : "flex-row"}`}>
@@ -479,23 +480,24 @@ function ChatDashboardContent() {
               </div>
               {/* 👇 දකුණු පැත්තේ ඉඩ — 🎧 support බොත්තම (bottom-5 right-5) send button එක වහන්නේ නැති වෙන්න.
                   Screen එක ගොඩක් පළල නම් (chat එක 1600px එකෙන් නවතිනවා) ඒ ඉඩ ඕන නෑ. */}
-              <form onSubmit={handleSend} className="shrink-0 p-4 pr-[5.5rem] min-[1760px]:pr-4 bg-background border-t border-border flex gap-2">
+              {/* 📱 update-62: phone එකේ support බොත්තම chat එක open වෙලා තියෙනකොට හැංගෙන නිසා දකුණේ ඉඩ ඕන නෑ — send button එක පේනවා */}
+              <form onSubmit={handleSend} className="shrink-0 flex items-center gap-1.5 border-t border-border bg-background p-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] sm:gap-2 sm:p-4 md:pr-[5.5rem] min-[1760px]:pr-4">
                 {/* 👇 📷 ඡායාරූපයක් යවන්න + text (හඬ පණිවිඩයක් පටිගත කරනකොට හංගනවා) */}
                 <input ref={photoInputRef} type="file" accept="image/*" className="sr-only" onChange={pickPhoto} />
                 {!voiceActive && (
                   <>
-                    <button type="button" onClick={() => photoInputRef.current?.click()} aria-label={t.chat.attachPhoto} title={t.chat.attachPhoto} className="shrink-0 rounded-full border border-border p-3 text-muted-foreground transition hover:border-primary/50 hover:text-primary">
+                    <button type="button" onClick={() => photoInputRef.current?.click()} aria-label={t.chat.attachPhoto} title={t.chat.attachPhoto} className="shrink-0 rounded-full border border-border p-2.5 text-muted-foreground transition hover:border-primary/50 hover:text-primary sm:p-3">
                       <ImagePlus className="h-5 w-5" />
                     </button>
                     {/* 😊 Emoji — cursor එක තියෙන තැනට දානවා */}
                     <EmojiPicker onPick={insertEmoji} />
-                    <input ref={messageInputRef} type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder={t.chat.typeMessage} className="min-w-0 flex-1 rounded-full border border-border bg-muted/50 px-6 py-3 outline-none focus:border-primary text-base" />
+                    <input ref={messageInputRef} type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder={t.chat.typeMessage} className="min-w-0 flex-1 rounded-full border border-border bg-muted/50 px-4 py-2.5 text-base outline-none focus:border-primary sm:px-6 sm:py-3" />
                   </>
                 )}
                 {/* 👇 🎤 හඬ පණිවිඩය — text එකක් type කරලා නැත්නම් / පටිගත කරනකොට */}
                 {(voiceActive || !newMessage.trim()) && <VoiceRecorder onSend={sendVoice} onActiveChange={setVoiceActive} />}
                 {!voiceActive && newMessage.trim() && (
-                  <button type="submit" className="rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] p-3 text-white hover:opacity-90 cursor-pointer"><Send className="h-5 w-5" /></button>
+                  <button type="submit" aria-label="Send" className="shrink-0 rounded-full bg-gradient-to-r from-[#DD2F4F] to-[#F05160] p-2.5 text-white hover:opacity-90 cursor-pointer sm:p-3"><Send className="h-5 w-5" /></button>
                 )}
               </form>
             </>

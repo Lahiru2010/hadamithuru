@@ -41,9 +41,10 @@ export default function DatePicker({
     return { y: base.getFullYear(), m: base.getMonth() };
   });
 
+  // 📅 update-62: සිංහලෙන් "දුරුතු, නවම්…" වෙනුවට හැමෝම දන්න "ජනවාරි, පෙබරවාරි…"
   const monthNames = useMemo(
-    () => Array.from({ length: 12 }, (_, i) => new Intl.DateTimeFormat(locale, { month: "long" }).format(new Date(2000, i, 1))),
-    [locale]
+    () => (lang === "si" ? SI_MONTHS : Array.from({ length: 12 }, (_, i) => new Intl.DateTimeFormat(locale, { month: "long" }).format(new Date(2000, i, 1)))),
+    [locale, lang]
   );
   // සඳුදා සිට ඉරිදා දක්වා
   const weekdays = useMemo(
@@ -67,7 +68,9 @@ export default function DatePicker({
   };
 
   const label = selected
-    ? new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(selected)
+    ? lang === "si"
+      ? `${selected.getFullYear()} ${SI_MONTHS[selected.getMonth()]} ${selected.getDate()}` // 👈 උදා: 1995 ජනවාරි 21
+      : new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(selected)
     : placeholder ?? W.pickDate;
 
   const selectClass = "appearance-none rounded-lg bg-muted/50 py-1.5 pl-2.5 pr-7 text-sm font-semibold outline-none hover:bg-muted cursor-pointer";
@@ -146,3 +149,6 @@ export default function DatePicker({
     </div>
   );
 }
+
+// 📅 සිංහල මාස නම් (browser එකේ si-LK එකෙන් එන්නේ පරණ "දුරුතු, නවම්…" නම් නිසා)
+const SI_MONTHS = ["ජනවාරි", "පෙබරවාරි", "මාර්තු", "අප්‍රේල්", "මැයි", "ජූනි", "ජූලි", "අගෝස්තු", "සැප්තැම්බර්", "ඔක්තෝබර්", "නොවැම්බර්", "දෙසැම්බර්"];
