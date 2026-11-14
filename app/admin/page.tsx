@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useDialog } from "@/components/DialogProvider";
 import AdminVerification from "@/components/admin/AdminVerification";
 import AdminSupport from "@/components/admin/AdminSupport";
+import AdminContact from "@/components/admin/AdminContact";
 import AdminReports from "@/components/admin/AdminReports";
 import AdminAdmins from "@/components/admin/AdminAdmins";
 import AdminOverview from "@/components/admin/AdminOverview";
@@ -33,15 +34,15 @@ export default function AdminPage() {
   const [userQuery, setUserQuery] = useState("");
   const [userSort, setUserSort] = useState<"newest" | "oldest" | "name" | "verified">("newest");
   // 👇 Default tab එක දැන් "Overview" (statistics + graphs)
-  const [tab, setTab] = useState<"overview" | "users" | "verify" | "support" | "reports" | "stories" | "pricing" | "admins">(() => {
+  const [tab, setTab] = useState<"overview" | "users" | "verify" | "support" | "contact" | "reports" | "stories" | "pricing" | "admins">(() => {
     if (typeof window === "undefined") return "overview";
     // වෙන page එකක notification එකකින් ආවොත් (sessionStorage) හෝ ?tab=...
     const stored = sessionStorage.getItem("seneha_admin_tab");
     sessionStorage.removeItem("seneha_admin_tab");
     const q = stored ?? new URLSearchParams(window.location.search).get("tab");
-    return q === "users" || q === "verify" || q === "support" || q === "reports" || q === "stories" || q === "pricing" || q === "admins" ? q : "overview";
+    return q === "users" || q === "verify" || q === "support" || q === "contact" || q === "reports" || q === "stories" || q === "pricing" || q === "admins" ? q : "overview";
   });
-  const [summary, setSummary] = useState<{ pendingVerifications: number; unreadSupport: number; openReports: number; pendingBoosts?: number; pendingStories?: number }>({ pendingVerifications: 0, unreadSupport: 0, openReports: 0, pendingBoosts: 0 });
+  const [summary, setSummary] = useState<{ pendingVerifications: number; unreadSupport: number; openReports: number; pendingBoosts?: number; pendingStories?: number; newContact?: number }>({ pendingVerifications: 0, unreadSupport: 0, openReports: 0, pendingBoosts: 0 });
   // Admin page එකේ ඉන්නකොට notification එකක් click කළොත් ඒ tab එකට මාරු වෙන්න
   useEffect(() => {
     const onTab = (e: Event) => setTab((e as CustomEvent).detail);
@@ -113,6 +114,7 @@ export default function AdminPage() {
     { id: "users" as const, label: "Users", icon: Users2, count: 0 },
     { id: "verify" as const, label: "Verification", icon: BadgeCheck, count: summary.pendingVerifications },
     { id: "support" as const, label: "Customer support", icon: Headset, count: summary.unreadSupport },
+    { id: "contact" as const, label: "Contact form", icon: Mail, count: summary.newContact ?? 0 }, // 📮 update-59
     { id: "reports" as const, label: "Reports", icon: Flag, count: summary.openReports },
     { id: "stories" as const, label: "Success stories", icon: Heart, count: summary.pendingStories ?? 0 },
     { id: "pricing" as const, label: "Pricing & boost", icon: Zap, count: summary.pendingBoosts ?? 0 },
@@ -158,6 +160,7 @@ export default function AdminPage() {
         {!loading && isAdmin && tab === "overview" && <AdminOverview onOpenTab={setTab} />}
         {!loading && isAdmin && tab === "verify" && <AdminVerification />}
         {!loading && isAdmin && tab === "support" && <AdminSupport />}
+        {!loading && isAdmin && tab === "contact" && <AdminContact />}
         {!loading && isAdmin && tab === "reports" && <AdminReports />}
         {!loading && isAdmin && tab === "stories" && <AdminStories />}
         {!loading && isAdmin && tab === "pricing" && <AdminPricing />}

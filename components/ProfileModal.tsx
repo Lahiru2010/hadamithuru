@@ -138,15 +138,23 @@ export function ProfileModal({
 
   // 👇 Popup එක document.body එකට portal කරනවා — කොහේ ඉඳන් open කළත් navbar එකටත් උඩින් පේනවා
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/30 backdrop-blur-md animate-modal-backdrop">
-      {/* 👇 Popup එකේ විස්තර වල අකුරු ටිකක් ලොකු කරනවා */}
+    // 📱 update-59: Phone එකේ පහළින් එන sheet එකක් (screen එකම වගේ), tablet / laptop එකේ මැද popup එක
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/30 backdrop-blur-md animate-modal-backdrop sm:items-center sm:p-4">
+      {/* 👇 Popup එකේ විස්තර වල අකුරු ටිකක් ලොකු කරනවා (tablet / laptop එකේ විතරයි — phone එකේ හිරවෙන්නේ නැති වෙන්න) */}
       <style href="profile-modal-text" precedence="default">
-        {`.profile-modal .text-sm{font-size:1rem;line-height:1.5rem}.profile-modal .text-xs{font-size:.875rem;line-height:1.25rem}`}
+        {`@media (min-width:640px){.profile-modal .text-sm{font-size:1rem;line-height:1.5rem}.profile-modal .text-xs{font-size:.875rem;line-height:1.25rem}}`}
       </style>
-      <div ref={modalRef} className="profile-modal relative w-full max-w-4xl max-h-[90vh] bg-background rounded-[2rem] shadow-2xl overflow-hidden flex flex-col animate-modal-content">
-        
+      <div ref={modalRef} className="profile-modal relative flex max-h-[94dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-[1.75rem] bg-background shadow-2xl animate-modal-content sm:max-h-[90vh] sm:rounded-[2rem]">
+
+        {/* ✕ වහන්න — photo එක scroll වෙලා ගියත් හැමවිටම උඩ දකුණේ */}
+        <button onClick={onClose} aria-label="Close" className="absolute right-3 top-3 z-40 rounded-full bg-black/50 p-2 text-white backdrop-blur-md transition hover:bg-black/80 active:scale-90 sm:right-4 sm:top-4">
+          <X className="h-5 w-5" />
+        </button>
+
+        {/* 📜 Photo එකයි විස්තරයි එකට scroll වෙනවා — phone එකේ photo එක ඉඩ අල්ලගෙන හිරවෙන්නේ නෑ */}
+        <div className="custom-scrollbar flex-1 overflow-y-auto overscroll-contain">
         {/* Header Image */}
-        <div className="relative h-80 w-full shrink-0 overflow-hidden bg-muted">
+        <div className="relative h-[92vw] max-h-[440px] w-full shrink-0 overflow-hidden bg-muted sm:h-80">
           {/* 👇 Photo එක load වෙනකම් ඒකේම පොඩි blur version එක පිටිපස්සෙන් පේනවා */}
           {profile.avatar_placeholder && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -167,7 +175,7 @@ export function ProfileModal({
           {/* අගුල පෙන්නන තැන එහෙමම තියෙනවා */}
           {/* 👇 ගැලපීමේ ප්‍රතිශතය — photo එකේ පහළ දකුණු කෙළවරේ */}
           {match && (
-            <div className="absolute bottom-5 right-5 z-20">
+            <div className="absolute bottom-4 right-4 z-20 origin-bottom-right scale-90 sm:bottom-5 sm:right-5 sm:scale-100">
               <MatchRing percent={match.percent} />
             </div>
           )}
@@ -195,7 +203,7 @@ export function ProfileModal({
           
           {/* 👇 🔖 සුරකින්න + ⋮ menu (වාර්තා කරන්න / Block — block ගැලපුණු අයට විතරයි) */}
           {canAct && (
-            <div className="absolute top-4 right-16 z-30 flex items-center gap-2">
+            <div className="absolute right-14 top-3 z-30 flex items-center gap-2 sm:right-16 sm:top-4">
               <button
                 type="button"
                 onClick={toggleBookmark}
@@ -226,13 +234,9 @@ export function ProfileModal({
             </div>
           )}
 
-          <button onClick={onClose} className="absolute top-4 right-4 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transition backdrop-blur-md active:scale-90 z-20">
-            <X className="h-5 w-5" />
-          </button>
-          
-          <div className={`absolute bottom-6 left-6 text-white w-full z-20 ${match ? "pr-36" : "pr-12"}`}>
+          <div className={`absolute inset-x-4 bottom-4 z-20 text-white sm:inset-x-6 sm:bottom-6 ${match ? "pr-24 sm:pr-32" : ""}`}>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-              <h2 className="text-3xl font-extrabold tracking-tight">{profile.full_name}</h2>
+              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{profile.full_name}</h2>
               {profile.id_verified === "Yes" && <VerifiedBadge variant="large" />}
               {profile.founding_member && <FoundingBadge variant="large" number={profile.founding_number} />}
             </div>
@@ -256,25 +260,25 @@ export function ProfileModal({
         </div>
 
         {/* Content Body */}
-        <div className="p-6 overflow-y-auto bg-muted/20 custom-scrollbar">
-          
-          <div className="grid grid-cols-3 gap-3 mb-8">
-            <div className="bg-background rounded-2xl p-3 text-center border border-border shadow-sm">
+        <div className="bg-muted/20 p-4 sm:p-6">
+
+          <div className="mb-6 grid grid-cols-3 gap-2 sm:mb-8 sm:gap-3">
+            <div className="rounded-2xl border border-border bg-background p-2.5 text-center shadow-sm sm:p-3">
               <p className="text-xs text-muted-foreground">{L.height}</p>
               <p className="font-bold text-lg text-primary flex items-center justify-center gap-1"><Ruler className="h-4 w-4"/>{profile.height || "-"}</p>
             </div>
-            <div className="bg-background rounded-2xl p-3 text-center border border-border shadow-sm">
+            <div className="rounded-2xl border border-border bg-background p-2.5 text-center shadow-sm sm:p-3">
               <p className="text-xs text-muted-foreground">{L.weight}</p>
               <p className="font-bold text-lg text-primary flex items-center justify-center gap-1"><Weight className="h-4 w-4"/>{profile.weight || "-"}</p>
             </div>
-            <div className="bg-background rounded-2xl p-3 text-center border border-border shadow-sm">
+            <div className="rounded-2xl border border-border bg-background p-2.5 text-center shadow-sm sm:p-3">
               <p className="text-xs text-muted-foreground">{L.status}</p>
-              <p className="font-bold text-sm text-primary truncate">{tr(profile.civil_status) || L.single}</p>
+              <p className="line-clamp-2 break-words text-sm font-bold leading-tight text-primary">{tr(profile.civil_status) || L.single}</p>
             </div>
           </div>
 
           {/* 👇 අමතර photos — accept කරපු අයට විතරයි, අනිත් අයට 🔒 */}
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <ProfileGallery
               key={`${profile.id}-${profile.interestStatus}`} /* 👈 accept කළ ගමන් අලුතින් load වෙනවා (🔒 → photos) */
               userId={profile.id}
@@ -297,14 +301,14 @@ export function ProfileModal({
 
           {/* 👇 මා ගැන */}
           {about && (
-            <div className="mb-8 rounded-2xl border border-border bg-background p-5 shadow-sm">
+            <div className="mb-6 rounded-2xl border border-border bg-background p-4 shadow-sm sm:mb-8 sm:p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground"><Quote className="h-4 w-4 text-primary" /> {L.aboutMe}</h3>
               <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{about}</p>
             </div>
           )}
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-6">
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+            <div className="space-y-4 sm:space-y-6">
               <Section title={L.basicDetails}>
                 <Detail icon={<User />} label={L.gender} value={tr(profile.gender)} />
                 <Detail icon={<Star />} label={L.religion} value={tr(profile.religion)} />
@@ -320,7 +324,7 @@ export function ProfileModal({
               </Section>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <Section title={L.familyDetails}>
                 {/* 👇 පියා / මව එක ළඟ */}
                 <ParentBlock
@@ -354,7 +358,7 @@ export function ProfileModal({
           </div>
 
           {hobbiesList.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-border">
+            <div className="mt-6 border-t border-border pt-5 sm:mt-8 sm:pt-6">
               <h3 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider">{L.hobbies}</h3>
               <div className="flex flex-wrap gap-2">
                 {hobbiesList.map((hobby: string, i: number) => (
@@ -368,18 +372,20 @@ export function ProfileModal({
           )}
         </div>
 
-        {!hideActions && <div className="p-4 border-t border-border bg-background">
+        </div>{/* 👆 scroll කොටසේ අවසානය */}
+
+        {!hideActions && <div className="border-t border-border bg-background p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:p-4">
           {footer ? footer : profile.interestStatus === "sent" ? (
             <div className="w-full py-3 rounded-xl border border-dashed border-amber-500/40 bg-amber-500/5 text-amber-600 dark:text-amber-400 flex flex-col items-center justify-center">
               <span className="flex items-center gap-2 font-bold text-lg"><Clock className="h-5 w-5" /> {L.interestSent}</span>
               <span className="text-xs font-medium opacity-80">{L.pendingHint}</span>
             </div>
           ) : profile.interestStatus === "received" ? (
-            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] flex items-center justify-center gap-2">
+            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-base sm:text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] flex items-center justify-center gap-2">
               <Heart className="h-5 w-5 fill-white" /> {L.likesYou} · {L.respond}
             </button>
           ) : profile.interestStatus === "accepted" ? (
-            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-4 rounded-xl bg-green-600 text-white font-bold text-lg hover:opacity-90 transition active:scale-[0.98] flex items-center justify-center gap-2">
+            <button onClick={() => { onSendInterest?.(profile.id); onClose(); }} className="w-full py-3.5 sm:py-4 rounded-xl bg-green-600 text-white font-bold text-base sm:text-lg hover:opacity-90 transition active:scale-[0.98] flex items-center justify-center gap-2">
               <MessageCircle className="h-5 w-5" /> {L.chat}
             </button>
           ) : sendState === "sent" ? (
@@ -410,7 +416,7 @@ export function ProfileModal({
                     if (result?.message) setSendError(result.message);
                   }
                 }}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait flex items-center justify-center gap-2"
+                className="w-full py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] text-white font-bold text-base sm:text-lg hover:opacity-90 shadow-lg shadow-primary/25 transition active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait flex items-center justify-center gap-2"
               >
                 {sendState === "sending"
                   ? <><Loader2 className="h-5 w-5 animate-spin" /> {L.sending}</>
@@ -429,9 +435,9 @@ export function ProfileModal({
 
 function Section({ title, children }: { title: string, children: React.ReactNode }) {
   return (
-    <div className="bg-background rounded-2xl p-5 border border-border shadow-sm">
-      <h3 className="text-sm font-bold text-primary mb-4 border-b border-border pb-2">{title}</h3>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+    <div className="rounded-2xl border border-border bg-background p-4 shadow-sm sm:p-5">
+      <h3 className="mb-3 border-b border-border pb-2 text-sm font-bold text-primary sm:mb-4">{title}</h3>
+      <div className="grid grid-cols-2 gap-x-3 gap-y-3.5 sm:gap-x-4 sm:gap-y-4">
         {children}
       </div>
     </div>
@@ -470,7 +476,8 @@ function Detail({ icon, label, value }: { icon: React.ReactNode, label: string, 
       <div className="text-muted-foreground mt-0.5 [&>svg]:w-4 [&>svg]:h-4 shrink-0">{icon}</div>
       <div className="min-w-0">
         <p className="text-[11px] text-muted-foreground uppercase tracking-wide">{label}</p>
-        <p className="text-sm font-semibold capitalize truncate">{value}</p>
+        {/* 👇 දිග වචන පේළි දෙකකට කැඩෙනවා ("…" වෙලා හැංගෙන්නේ නෑ) */}
+        <p className="text-sm font-semibold capitalize break-words">{value}</p>
       </div>
     </div>
   );

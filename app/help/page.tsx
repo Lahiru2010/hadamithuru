@@ -2,6 +2,7 @@
 // උදව් සහ සහාය — මාතෘකා අනුව FAQ, සහාය email එක, ආරක්ෂක ගැටලු වාර්තා කරන්න
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown, LifeBuoy, Mail, ShieldAlert, UserRound, Image as ImageIcon, HeartHandshake, Lock } from "lucide-react";
 import { useLang } from "@/components/providers";
@@ -69,6 +70,8 @@ export default function HelpPage() {
             <a href={`mailto:${email}`} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-3 font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
               <Mail className="h-4 w-4" /> {H.emailUs}
             </a>
+            {/* 📮 update-59: Contact form එක */}
+            <Link href="/contact" className="ml-3 mt-5 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 font-semibold transition hover:border-primary/50 hover:text-primary">{t.contactPage.title}</Link>
             <p className="mt-3 text-sm text-muted-foreground">{email}</p>
           </div>
           <div className="rounded-[2rem] border border-amber-500/30 bg-amber-500/5 p-7">

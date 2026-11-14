@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata: Metadata = pageMetadata({
   path: "/register",
   title: "Create your free profile – Sri Lanka marriage proposals",
-  description: "Create a free Hadamithuru profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ පැතිකඩක් සාදන්න.",
+  description: "Create a free Hadamithuru profile in minutes. Private until you publish, verified members, horoscope matching. නොමිලේ ගිණුමක් සාදන්න.",
 });
 
 export default function Layout({ children }: { children: React.ReactNode }) {

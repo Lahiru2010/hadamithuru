@@ -16,5 +16,7 @@ export async function GET() {
   // ⚡ Boost ඉල්ලීම් (table එක තාම නැත්නම් 0)
   const { count: boosts } = await admin.from("boost_requests").select("id", { count: "exact", head: true }).eq("status", "pending");
   const { count: stories } = await admin.from("success_stories").select("id", { count: "exact", head: true }).eq("status", "pending");
-  return NextResponse.json({ pendingVerifications: pending ?? 0, unreadSupport: unread ?? 0, openReports: reports ?? 0, pendingBoosts: boosts ?? 0, pendingStories: stories ?? 0 }, { headers: { "Cache-Control": "no-store" } });
+  // 📮 update-59: Contact form එකේ අලුත් පණිවිඩ (table එක තාම නැත්නම් 0)
+  const { count: contact } = await admin.from("contact_messages").select("id", { count: "exact", head: true }).eq("status", "new");
+  return NextResponse.json({ pendingVerifications: pending ?? 0, unreadSupport: unread ?? 0, openReports: reports ?? 0, pendingBoosts: boosts ?? 0, pendingStories: stories ?? 0, newContact: contact ?? 0 }, { headers: { "Cache-Control": "no-store" } });
 }

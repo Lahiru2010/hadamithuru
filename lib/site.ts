@@ -28,7 +28,7 @@ export const SOCIAL_URLS = SOCIAL_LINKS.map((s) => s.url).filter(Boolean);
 export const SITE_TITLE = "Hadamithuru – Sri Lanka Marriage Proposals | මංගල යෝජනා | திருமண வரன்கள்";
 export const SITE_DESCRIPTION =
   "Hadamithuru (හදමිතුරු) is a safe, private matrimony site for Sri Lankan families. Find verified Sinhala, Tamil and Muslim marriage proposals, horoscope matching and family-friendly search. " +
-  "ශ්‍රී ලාංකික පවුල් සඳහා ආරක්ෂිත මංගල යෝජනා සේවාව — තහවුරු කළ පැතිකඩ, කේන්දර ගැලපීම.";
+  "ශ්‍රී ලාංකික පවුල් සඳහා ආරක්ෂිත මංගල යෝජනා සේවාව — තහවුරු කළ ගිණුම්, කේන්දර ගැලපීම.";
 
 // 👇 ලංකාවේ අය search කරන වචන (meta keywords එක Google භාවිතා නොකළත් Bing / අනිත් ඒවාට උදව් වෙනවා)
 export const SITE_KEYWORDS = [
@@ -44,6 +44,7 @@ export const PUBLIC_PAGES: { path: string; priority: number; changeFrequency: "d
   { path: "/", priority: 1, changeFrequency: "daily" },
   { path: "/register", priority: 0.9, changeFrequency: "monthly" },
   { path: "/about", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/contact", priority: 0.6, changeFrequency: "yearly" }, // 👈 update-59
   { path: "/help", priority: 0.7, changeFrequency: "monthly" },
   { path: "/safety", priority: 0.7, changeFrequency: "monthly" },
   { path: "/pricing", priority: 0.6, changeFrequency: "monthly" },

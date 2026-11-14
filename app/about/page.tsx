@@ -76,7 +76,11 @@ export default function AboutPage() {
             <h2 className="flex items-center gap-2 text-xl font-bold text-foreground"><Mail className="h-5 w-5 text-primary" /> {A.contactTitle}</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">{A.contactText}</p>
             {/* ⚠️ ඔයාගේ ඇත්ත email එක lib/i18n.ts → aboutPage.contactEmail එකේ දාන්න */}
-            <a href={`mailto:${A.contactEmail}`} className="mt-4 inline-flex items-center gap-2 font-semibold text-primary hover:underline">{A.contactEmail}</a>
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              {/* 📮 update-59: Contact form page එකට */}
+              <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-5 py-2.5 font-semibold text-white shadow-md shadow-primary/20 transition hover:opacity-90">{t.contactPage.send} <ArrowRight className="h-4 w-4" /></Link>
+              <a href={`mailto:${A.contactEmail}`} className="inline-flex items-center gap-2 font-semibold text-primary hover:underline">{A.contactEmail}</a>
+            </div>
           </div>
         </section>
 

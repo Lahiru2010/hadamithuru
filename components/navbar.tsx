@@ -13,6 +13,8 @@ import { createClient } from "@/lib/client";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
+import VerifiedBadge from "@/components/VerifiedBadge";
+import { setVerifiedHint } from "@/lib/verified-hint";
 import type { NavUser, NavProfile } from "@/lib/nav-profile";
 import AvatarImage from "@/components/AvatarImage";
 import Dropdown from "@/components/ui/Dropdown";
@@ -95,6 +97,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
   }, [user?.id]);
   const headerRef = useRef<HTMLElement>(null);
   const [isVerified, setIsVerified] = useState(true);
+  const [verifiedBadge, setVerifiedBadge] = useState(false); // ✅ update-59: verify වෙලා නම් profile button එකේ ලකුණ
   // ⚡ මගේ boost එක සක්‍රියද (dropdown එකේ ඉතුරු කාලය පෙන්නන්න)
   const [myBoost, setMyBoost] = useState<{ until: string; startedAt: string | null } | null>(null);
   useEffect(() => {
@@ -112,11 +115,23 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
 
   // 👇 Admin ද (database එකේ admins table එකෙන්) + verify වෙලාද
   useEffect(() => {
-    if (!user?.id) { setIsVerified(true); return; }
+    if (!user?.id) {
+      setIsVerified(true); setVerifiedBadge(false);
+      if (authChecked) setVerifiedHint(null); // 👈 logout වුණාම මතක් කිරීම අයින් කරනවා
+      return;
+    }
     fetch("/api/admin/me", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).then((d) => setIsAdmin(!!d?.role)).catch(() => {});
-    supabase.from("profiles").select("id_verified").eq("id", user.id).maybeSingle().then(({ data }) => setIsVerified(data?.id_verified === "Yes"));
+    const loadVerified = () => supabase.from("profiles").select("id_verified").eq("id", user.id).maybeSingle().then(({ data }) => {
+      const v = data?.id_verified === "Yes";
+      setIsVerified(v);
+      setVerifiedBadge(v);           // ✅ update-59: profile button එකේ නිල් ✓ ලකුණ
+      if (data) setVerifiedHint(v);  // 👈 Pricing වගේ pages වලට ඉක්මනින් දැනගන්න
+    });
+    loadVerified();
+    window.addEventListener("profile-updated", loadVerified);
+    return () => window.removeEventListener("profile-updated", loadVerified);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [user?.id, authChecked]);
 
   // 👇 Navbar එකේ ඇත්ත උස CSS variable එකක් විදිහට (--nav-h) — Messages page එක screen එකට හරියටම ගැලපෙන්න
   useEffect(() => {
@@ -377,8 +392,12 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                   aria-expanded={isDropdownOpen}
                   className="flex items-center gap-2 rounded-xl border border-border pl-1 pr-2 py-1 hover:bg-muted transition group"
                 >
-                  <AvatarImage src={profile?.avatar_url} alt="Profile" shape="rounded-lg" className="w-8 h-8 border border-border group-hover:border-primary transition-colors" />
-                  <span className="hidden xl:block text-sm font-semibold max-w-[110px] truncate">{profile?.full_name || t.nav.profile}</span>
+                  <span className="relative">
+                    <AvatarImage src={profile?.avatar_url} alt="Profile" shape="rounded-lg" className={`w-8 h-8 border transition-colors ${verifiedBadge ? "border-[#1D9BF0] ring-2 ring-[#1D9BF0]/25" : "border-border group-hover:border-primary"}`} />
+                    {/* ✅ Verified නම් photo එකේ පහළ දකුණේ නිල් ලකුණ */}
+                    {verifiedBadge && <span className="absolute -bottom-1.5 -right-1.5 rounded-full bg-background p-[1px] text-[13px] leading-none"><VerifiedBadge /></span>}
+                  </span>
+                  <span className="hidden max-w-[110px] truncate text-sm font-semibold xl:block">{profile?.full_name || t.nav.profile}</span>
                   <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isDropdownOpen && menuPos && createPortal(
@@ -432,7 +451,12 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
               aria-expanded={isMenuOpen}
               className={`relative flex h-10 items-center gap-1.5 rounded-full border border-border bg-background transition active:scale-95 ${user ? "pl-1 pr-2.5" : "w-10 justify-center"}`}
             >
-              {user && <AvatarImage src={profile?.avatar_url} alt="" shape="rounded-full" className="h-8 w-8 border border-border" />}
+              {user && (
+                <span className="relative">
+                  <AvatarImage src={profile?.avatar_url} alt="" shape="rounded-full" className={`h-8 w-8 border ${verifiedBadge ? "border-[#1D9BF0] ring-2 ring-[#1D9BF0]/25" : "border-border"}`} />
+                  {verifiedBadge && <span className="absolute -bottom-1 -right-1 rounded-full bg-background p-[1px] text-[12px] leading-none"><VerifiedBadge /></span>}
+                </span>
+              )}
               <Menu className="h-5 w-5" />
               {hasUnread && <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-background bg-red-500" aria-hidden />}
             </button>
@@ -464,7 +488,7 @@ export function Navbar({ initialUser = null, initialProfile = null }: { initialU
                 <Link href="/profile" onClick={closeMenu} className="mb-3 flex items-center gap-3 rounded-2xl border border-border bg-muted/40 p-3 transition hover:bg-muted">
                   <AvatarImage src={profile?.avatar_url} alt="" shape="rounded-full" className="h-12 w-12 border border-border" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-bold">{profile?.full_name || t.nav.profile}</p>
+                    <p className="flex min-w-0 items-center gap-1.5 font-bold"><span className="truncate">{profile?.full_name || t.nav.profile}</span>{verifiedBadge && <VerifiedBadge />}</p>
                     <p className="text-sm text-primary">{t.nav.viewProfile}</p>
                   </div>
                   <ChevronRight className="h-4 w-4 text-muted-foreground" />

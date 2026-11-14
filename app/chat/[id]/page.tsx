@@ -20,6 +20,11 @@ export default function ChatPage() {
   const [newMessage, setNewMessage] = useState("");
   const [isTabActive, setIsTabActive] = useState(true); 
   const bottomRef = useRef<HTMLDivElement>(null);
+  // 💬 update-59: support 💬 button එක message යවන button එක උඩ වැටෙන්නේ නැති වෙන්න (globals.css)
+  useEffect(() => {
+    document.documentElement.dataset.chatOpen = "1";
+    return () => { delete document.documentElement.dataset.chatOpen; };
+  }, []);
 
   useEffect(() => {
     const handleFocus = () => setIsTabActive(true);

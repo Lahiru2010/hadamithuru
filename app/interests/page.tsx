@@ -316,18 +316,19 @@ export default function InterestsPage() {
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-rose-300/45 to-red-100/50 dark:from-rose-900/20 dark:to-orange-900/20 blur-[120px] rounded-full pointer-events-none" />
-      <div className="mx-auto max-w-5xl px-4 py-12 relative z-10">
+      {/* 📱 update-59: phone එකේ ඉඩ ඉතුරු වෙන්න padding / අකුරු ටිකක් පොඩියි */}
+      <div className="relative z-10 mx-auto max-w-5xl px-4 py-6 sm:py-12">
         {/* 👇 Header — වම් පැත්තට, අනිත් pages වගේ */}
-        <div className="mb-8 flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25"><Heart className="h-7 w-7 fill-current" /></span>
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">{IT.title}</h1>
-            <p className="mt-1 text-muted-foreground">{IT.subtitle}</p>
+        <div className="mb-5 flex items-center gap-3 sm:mb-8 sm:gap-4">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25 sm:h-14 sm:w-14"><Heart className="h-6 w-6 fill-current sm:h-7 sm:w-7" /></span>
+          <div className="min-w-0">
+            <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl md:text-4xl">{IT.title}</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground sm:mt-1 sm:text-base">{IT.subtitle}</p>
           </div>
         </div>
 
         {/* 👇 Tabs 4 — ගණන් එක්ක cards විදිහට (phone එකේ 2×2) */}
-        <div className="mb-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="mb-3 grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
           {([
             { id: "received", label: IT.received, icon: Inbox, count: receivedPending.length },
             { id: "sent", label: IT.sent, icon: Send, count: sentPending.length },
@@ -340,19 +341,20 @@ export default function InterestsPage() {
                 key={id}
                 onClick={() => { setActiveTab(id); setPage(1); }}
                 aria-pressed={active}
-                className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${active ? "border-transparent bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25" : "border-border bg-background text-foreground shadow-sm hover:-translate-y-0.5 hover:border-primary/40"}`}
+                className={`flex items-center gap-2.5 rounded-2xl border p-3 text-left transition-all duration-200 sm:gap-3 sm:p-4 ${active ? "border-transparent bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-lg shadow-primary/25" : "border-border bg-background text-foreground shadow-sm hover:-translate-y-0.5 hover:border-primary/40"}`}
               >
-                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${active ? "bg-white/20" : "bg-primary/10 text-primary"}`}><Icon className="h-5 w-5" /></span>
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10 ${active ? "bg-white/20" : "bg-primary/10 text-primary"}`}><Icon className="h-[18px] w-[18px] sm:h-5 sm:w-5" /></span>
                 <span className="min-w-0">
-                  <span className="block text-2xl font-extrabold leading-none">{count}</span>
-                  <span className={`mt-1 block truncate text-sm font-semibold ${active ? "text-white/90" : "text-muted-foreground"}`}>{label}</span>
+                  <span className="block text-xl font-extrabold leading-none sm:text-2xl">{count}</span>
+                  {/* 👇 phone එකේ නම "…" වෙන්නේ නැතුව පේළි දෙකකට */}
+                  <span className={`mt-1 line-clamp-2 block text-xs font-semibold leading-tight sm:truncate sm:text-sm ${active ? "text-white/90" : "text-muted-foreground"}`}>{label}</span>
                 </span>
               </button>
             );
           })}
         </div>
         {/* 👇 තෝරපු tab එකේ කෙටි පැහැදිලි කිරීම */}
-        <p className="mb-6 px-1 text-sm text-muted-foreground">
+        <p className="mb-5 px-1 text-sm text-muted-foreground sm:mb-6">
           {activeTab === "received" ? IT.hintReceived : activeTab === "sent" ? IT.hintSent : activeTab === "matches" ? IT.hintMatches : IT.hintBookmarks}
         </p>
         {/* 💍 ගැලපුණු tab එකේ: ආදර කතාව බෙදාගෙන තෑග්ගක් ගන්න */}
@@ -587,14 +589,14 @@ function InterestCard({ data, type, isNew = false, onView, onAccept, onReject, o
       onKeyDown={(e) => { if (e.key === "Enter") onView(); }}
       className={`group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border bg-background shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl ${isNew ? "border-primary ring-2 ring-primary/20" : "border-border"}`}
     >
-      <div className="flex gap-4 p-4">
+      <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
         <div className="relative shrink-0">
-          <AvatarImage src={photoSrc} alt={profile?.full_name ?? "avatar"} shape="rounded-2xl" className="h-24 w-24 shadow-sm ring-2 ring-primary/10 transition group-hover:ring-primary/30" />
+          <AvatarImage src={photoSrc} alt={profile?.full_name ?? "avatar"} shape="rounded-2xl" className="h-20 w-20 shadow-sm ring-2 ring-primary/10 transition group-hover:ring-primary/30 sm:h-24 sm:w-24" />
           {isNew && <span className="absolute -left-1.5 -top-1.5 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white shadow-md">NEW</span>}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="flex min-w-0 items-center gap-1.5 text-lg font-bold text-foreground transition-colors group-hover:text-primary">
+          <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
+            <h3 className="flex min-w-0 items-center gap-1.5 text-base font-bold text-foreground transition-colors group-hover:text-primary sm:text-lg">
               <span className="truncate">{profile?.full_name || "Unknown User"}</span>
               {profile?.id_verified === "Yes" && <VerifiedBadge />}
             </h3>
@@ -610,7 +612,7 @@ function InterestCard({ data, type, isNew = false, onView, onAccept, onReject, o
       </div>
 
       {/* 👇 Actions — වෙනම පේළියක (කෙළවරට හිරවෙන්නේ නෑ) */}
-      <div className="mt-auto flex items-center gap-2 border-t border-border bg-muted/30 px-4 py-3" onClick={(e) => e.stopPropagation()}>
+      <div className="mt-auto flex items-center gap-2 border-t border-border bg-muted/30 px-3 py-2.5 sm:px-4 sm:py-3" onClick={(e) => e.stopPropagation()}>
         {status === "accepted" ? (
           <>
             <a href={profile ? `/chat?userId=${profile.id}` : "#"} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D52047] to-[#AD032A] px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/20 transition hover:opacity-90"><MessageCircle className="h-4 w-4" /> {labels.chat}</a>

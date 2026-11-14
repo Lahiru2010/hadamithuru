@@ -35,6 +35,12 @@ function ChatDashboardContent() {
   const [lastText, setLastText] = useState<Record<string, string>>({}); // 👈 අන්තිම message එකේ කෙටි පෙරදසුන
   const [, setTick] = useState(0); // "විනාඩි 5කට පෙර" වගේ වෙලාවල් විනාඩියකට සැරයක් update වෙන්න
   const [activeUser, setActiveUser] = useState<any>(null);
+  // 💬 update-59: Chat එකක් open නම් <html data-chat-open> — support 💬 button එක message යවන button එක උඩ වැටෙන්නේ නැති වෙන්න (globals.css)
+  useEffect(() => {
+    const el = document.documentElement;
+    if (activeUser) el.dataset.chatOpen = "1"; else delete el.dataset.chatOpen;
+    return () => { delete el.dataset.chatOpen; };
+  }, [activeUser]);
   const [showProfile, setShowProfile] = useState(false); // 👈 Chat header එක click කළාම profile details
   const [photoMeta, setPhotoMeta] = useState<{ count: number; locked: boolean } | null>(null);
   // 👇 Messages page එකේ ඉන්නකොට විතරක් page scrollbar එක අයින් කරනවා, page එකෙන් යනකොට ආපහු දානවා.

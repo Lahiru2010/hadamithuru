@@ -11,6 +11,7 @@ import BoostCard from "@/components/BoostCard";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/client";
 import VerifyOfferCard from "@/components/VerifyOfferCard";
+import { setVerifiedHint, useVerifiedHint } from "@/lib/verified-hint";
 import FoundingBadge from "@/components/FoundingBadge";
 
 const ICONS = { free: Heart, gold: Crown, platinum: Gem };
@@ -28,10 +29,15 @@ export default function PricingPage() {
   // 👇 මගේ තත්ත්වය load වෙනකම් offer / Founding කොටස පෙන්නන්නේ නෑ
   //    (කලින් verify වුණ අයටත් offer එක මුලින් පෙනිලා, load වුණාම නැති වුණා)
   const [statusLoaded, setStatusLoaded] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  // ✅ update-59: Navbar එක කලින් දැනගත්ත "verify වෙලාද" තත්ත්වය — page එක එනකොටම offer එක පෙන්නන්න / හංගන්න
+  //    ("1" = verified → හංගනවා · නැත්නම් කෙලින්ම පෙන්නනවා; පෙනිලා අතුරුදහන් වෙන්නේ නෑ)
+  const verifiedHint = useVerifiedHint();
   useEffect(() => {
     const sb = createClient();
     sb.auth.getSession().then(async ({ data }) => {
       const uid = data.session?.user.id;
+      setLoggedIn(!!uid);
       if (uid) {
         const { data: p } = await sb.from("profiles").select("premium_until, founding_member, founding_number, id_verified").eq("id", uid).maybeSingle();
         if (p) {
@@ -39,6 +45,7 @@ export default function PricingPage() {
           setFounding(!!p.founding_member);
           setFoundingNumber(p.founding_number ?? null);
           setVerified(p.id_verified === "Yes");
+          setVerifiedHint(p.id_verified === "Yes");
         } else {
           // SQL එක තාම run කරලා නැත්නම් (columns නෑ) — verify තත්ත්වය විතරක් ගන්නවා
           const { data: v } = await sb.from("profiles").select("id_verified").eq("id", uid).maybeSingle();
@@ -59,15 +66,16 @@ export default function PricingPage() {
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{P.subtitle}</p>
         </header>
 
-        {/* 👇 Founding / Premium තත්ත්වය — නැත්නම් (verify වෙලා නැත්නම් විතරක්) offer එක. Load වෙනකම් හිස් ඉඩක් */}
+        {/* 👇 Founding / Premium තත්ත්වය — නැත්නම් (verify වෙලා නැත්නම් විතරක්) offer එක.
+             update-59: Load වෙනකම් ඉන්නේ නෑ — verify වෙලා නැති අයට (සහ login නැති අයට) page එක එනකොටම පේනවා */}
         <div className="mt-10 min-h-[1px]">
-          {!statusLoaded ? null : founding || premiumActive ? (
+          {!statusLoaded ? (verifiedHint !== "1" && <VerifyOfferCard showCta />) : founding || premiumActive ? (
             <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-3 rounded-2xl border border-amber-400/40 bg-amber-500/10 px-5 py-4 text-center font-semibold text-amber-800 animate-in fade-in dark:text-amber-300">
               {founding && <FoundingBadge variant="large" number={foundingNumber} />}
               {premiumActive && <span>{t.offer.premiumActive.replace("{date}", new Date(premiumUntil as string).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }))}</span>}
             </div>
           ) : (
-            !verified && <VerifyOfferCard showCta className="animate-in fade-in" />
+            !verified && <VerifyOfferCard showCta />
           )}
         </div>
 
@@ -102,7 +110,16 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 {plan.id === "free" ? (
-                  <Link href="/register" className="mt-8 rounded-xl border border-border py-3 text-center font-semibold transition hover:border-primary/50 hover:text-primary">{P.current}</Link>
+                  // 👤 update-59: Login වෙලා නම් "නොමිලේ පටන් ගන්න" වෙනුවට "ඔබ දැනට ඉන්නේ මෙම පැකේජයේ"
+                  loggedIn ? (
+                    !premiumActive && (
+                      <p className="mt-8 flex items-center justify-center gap-2 rounded-xl border border-green-500/30 bg-green-500/10 py-3 text-center font-semibold text-green-700 dark:text-green-400">
+                        <Check className="h-4 w-4" /> {P.yourPlan}
+                      </p>
+                    )
+                  ) : (
+                    <Link href="/register" className="mt-8 rounded-xl border border-border py-3 text-center font-semibold transition hover:border-primary/50 hover:text-primary">{P.current}</Link>
+                  )
                 ) : (
                   <button
                     type="button"

@@ -9,7 +9,7 @@ import FallingHearts from "@/components/FallingHearts";
 import VerifiedShowcase from "@/components/VerifiedShowcase";
 import HoroscopeShowcase from "@/components/HoroscopeShowcase";
 import { useLang } from "@/components/providers";
-import { ShieldCheck, Lock, EyeOff, MessageCircleHeart, UserPlus, Search, HeartHandshake, ChevronDown, ArrowRight, Headset } from "lucide-react";
+import { ShieldCheck, Lock, EyeOff, MessageCircleHeart, UserPlus, Search, HeartHandshake, ChevronDown, ArrowRight, Headset, Sparkles } from "lucide-react";
 
 export default function HomePage() {
   const { t } = useLang();
@@ -138,7 +138,8 @@ export default function HomePage() {
         {/* ---------- How it works ---------- (update-37: hero එකට පස්සේම — අලුත් කෙනෙකුට ඕන පළමු දේ) */}
         <section className="mx-auto max-w-[1600px] px-4 py-24">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">✨ 1 · 2 · 3</span>
+            {/* 🎨 update-59: emoji වෙනුවට icon එකක් — light mode එකෙත් පැහැදිලියි */}
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary ring-1 ring-primary/15"><Sparkles className="h-4 w-4" /> 1 · 2 · 3</span>
             <h2 className="mt-4 text-3xl font-bold text-foreground md:text-5xl">{H.howTitle}</h2>
           </div>
           {/* 👇 පියවර 3 — ඉරකින් සම්බන්ධ කරපු timeline එකක් (phone එකේ සිරස්ව) */}
@@ -146,9 +147,10 @@ export default function HomePage() {
             <span aria-hidden className="absolute left-[16.6%] right-[16.6%] top-12 hidden h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 md:block" />
             {steps.map((s, i) => (
               <li key={s.title} className="group relative flex flex-col items-center text-center">
-                <span className="relative flex h-24 w-24 items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-xl shadow-primary/25 transition duration-300 group-hover:-translate-y-1 group-hover:rotate-3">
+                <span className="relative flex h-24 w-24 items-center justify-center rounded-[1.75rem] bg-[#C1122F] bg-gradient-to-br from-[#D52047] to-[#AD032A] text-white shadow-xl shadow-primary/25 transition duration-300 group-hover:-translate-y-1 group-hover:rotate-3">
                   <s.icon className="h-10 w-10" />
-                  <span className="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-full bg-background text-sm font-extrabold text-primary shadow-md ring-2 ring-primary/20">{i + 1}</span>
+                  {/* 👇 update-59: phone එකේ (පරණ Safari) gradient එක නොපෙනුනත් රතු පසුබිම හැමවිටම — සුදු icon එක සුදු පසුබිමේ හැංගෙන්නේ නෑ */}
+                  <span className="absolute -right-2 -top-2 flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-extrabold text-[#C1122F] shadow-md ring-2 ring-primary/30 dark:bg-background dark:text-primary">{i + 1}</span>
                 </span>
                 <h3 className="mt-6 text-xl font-bold text-foreground">{s.title}</h3>
                 <p className="mt-2 max-w-xs text-base leading-relaxed text-muted-foreground">{s.desc}</p>

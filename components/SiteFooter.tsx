@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Heart, Lock, ShieldCheck, EyeOff, MessageCircleHeart } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { siteLinkGroups } from "@/lib/site-links";
+import { useLoggedIn } from "@/lib/useLoggedIn";
 import { SOCIAL_LINKS } from "@/lib/site";
 import BrandLogo from "@/components/BrandLogo";
 
@@ -114,12 +115,15 @@ export default function SiteFooter() {
   const pathname = usePathname();
   const F = t.siteFooter;
 
+  // 👤 update-59: Login වෙලා නම් footer එකේ "පිවිසෙන්න / ගිණුමක් සාදන්න / මුරපදය අමතකද" පෙන්වන්නේ නෑ
+  const loggedIn = useLoggedIn() === true;
+
   // Messages page එකේ chat එක screen එක පුරා තියෙන නිසා footer එක එපා (නැත්නම් chat එක උඩින් පේනවා)
   if (pathname?.startsWith("/chat")) return null;
   const H = t.home;
 
   // 🗺️ Footer එකේ links = site map එක (lib/site-links.ts — /site-map page එකත් ඒකමයි)
-  const columns = siteLinkGroups(t);
+  const columns = siteLinkGroups(t).map((g) => ({ ...g, links: g.links.filter((l) => !(loggedIn && l.guestOnly)) }));
 
   return (
     <footer className={S.footer}>

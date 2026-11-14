@@ -12,6 +12,7 @@ export async function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/register') ||
     request.nextUrl.pathname.startsWith('/pricing') || // 👈 පැකේජ page එක හැමෝටම
     request.nextUrl.pathname.startsWith('/about') ||
+    request.nextUrl.pathname.startsWith('/contact') || // 👈 update-59: අප අමතන්න form එක — හැමෝටම
     request.nextUrl.pathname.startsWith('/help') ||
     request.nextUrl.pathname.startsWith('/terms') ||
     request.nextUrl.pathname.startsWith('/privacy') ||

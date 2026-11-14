@@ -158,3 +158,12 @@ summary::-webkit-details-marker { display: none; }
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
+
+/* 💬 update-59: Messages page එකේ chat එකක් open කරලා ඉන්නකොට customer support 💬 button එක
+   message යවන button එක උඩ වැටෙන්නේ නෑ — phone එකේ හංගනවා (ආපහු list එකට ගියාම පේනවා), laptop එකේ ටිකක් උඩට */
+@media (max-width: 767px) {
+  html[data-chat-open] [data-tour="support"] { display: none; }
+}
+@media (min-width: 768px) {
+  html[data-chat-open] [data-tour="support"] { bottom: 6.5rem; }
+}
