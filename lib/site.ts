@@ -15,11 +15,11 @@ export const SITE_DOMAIN = "hadamithuru.lk";
 export const SITE_ALT_NAMES = ["Hada Mithuru", "Hadamithuru.lk", "හදමිතුරු", "හද මිතුරු", "Hadamithuru Matrimony"];
 
 // 📱 update-47: Social media pages — footer එකේ icons + Google structured data (sameAs)
-// ⚠️ ඔයාගේ ඇත්ත page links මෙතන දාන්න. Page එකක් තාම නැත්නම් ඒ පේළියේ url එක "" කරන්න — එතකොට footer එකේ ඒ icon එක පේන්නේ නෑ.
+// ✅ update-61: ඇත්ත page links. Page එකක් අයින් කරන්න ඕන නම් ඒ පේළියේ url එක "" කරන්න — එතකොට footer එකේ ඒ icon එක පේන්නේ නෑ.
 export const SOCIAL_LINKS: { key: "facebook" | "instagram" | "youtube" | "tiktok"; label: string; url: string }[] = [
-  { key: "facebook", label: "Facebook", url: "https://www.facebook.com/hadamithuru" },
-  { key: "instagram", label: "Instagram", url: "https://www.instagram.com/hadamithuru" },
-  { key: "youtube", label: "YouTube", url: "https://www.youtube.com/@hadamithuru" },
+  { key: "facebook", label: "Facebook", url: "https://www.facebook.com/hadamithuru/" },
+  { key: "instagram", label: "Instagram", url: "https://www.instagram.com/hadamithuru/" },
+  { key: "youtube", label: "YouTube", url: "https://www.youtube.com/@HadaMithuru" },
   { key: "tiktok", label: "TikTok", url: "https://www.tiktok.com/@hadamithuru" },
 ];
 export const SOCIAL_URLS = SOCIAL_LINKS.map((s) => s.url).filter(Boolean);
